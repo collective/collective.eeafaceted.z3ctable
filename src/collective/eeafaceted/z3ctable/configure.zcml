@@ -1,0 +1,37 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.eeafaceted.z3ctable">
+
+    <i18n:registerTranslations directory="locales" />
+
+    <!-- Zope2 initialization -->
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <!-- Include configuration for dependencies listed in setup.py -->
+    <includeDependencies package="." />
+
+    <!-- Include sub-packages that use their own configure.zcml files. -->
+    <include package=".browser" />
+    <include package=".content" />
+
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+        name="default"
+        title="collective.eeafaceted.z3ctable"
+        directory="profiles/default"
+        description="Extension profile for collective.eeafaceted.z3ctable."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:importStep
+        name="collective.eeafaceted.z3ctable-postInstall"
+        title="collective.eeafaceted.z3ctable post_install import step"
+        description="Post install import step from collective.eeafaceted.z3ctable"
+        handler=".setuphandlers.post_install">
+    </genericsetup:importStep>
+
+</configure>

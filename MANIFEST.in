@@ -1,0 +1,4 @@
+include *.cfg *.rst *.in *.txt
+graft src/collective/eeafaceted
+graft docs
+global-exclude *pyc

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+      name="collective.eeafaceted.z3ctable"
+      interface="collective.eeafaceted.z3ctable.interfaces.ICollectiveEeafacetedZ3ctableLayer"
+  />
+</layers>
