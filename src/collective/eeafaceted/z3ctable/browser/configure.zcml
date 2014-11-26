@@ -2,7 +2,6 @@
   xmlns="http://namespaces.zope.org/zope"
   xmlns:faceted="http://namespaces.zope.org/faceted"
   xmlns:browser="http://namespaces.zope.org/browser"
-  xmlns:grok="http://namespaces.zope.org/grok"
   i18n_domain="imio.facetednavigation">
 
 
@@ -22,13 +21,47 @@
     permission="zope2.View"
     />
 
-  <grok:grok package=".views" />
-
   <browser:page
     for="eea.facetednavigation.interfaces.IFacetedNavigable"
     name="default_collection_widgets.xml"
     template="default_collection.xml"
     permission="eea.faceted.configure"
     />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable
+          z3c.table.interfaces.IColumn"
+     factory=".columns.BaseColumnHeader"
+     provides="z3c.table.interfaces.IColumnHeader"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.TitleColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="titleColumn"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.AuthorColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="authorColumn"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.StateColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="stateColumn"
+  />
 
 </configure>
