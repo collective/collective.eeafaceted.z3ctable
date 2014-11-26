@@ -21,8 +21,7 @@ import collective.eeafaceted.z3ctable
 class CollectiveEeafacetedZ3ctableLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
-    products = ('collective.eeafaceted.z3ctable',
-               )
+    products = ('collective.eeafaceted.z3ctable', )
 
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
@@ -55,19 +54,19 @@ class CollectiveEeafacetedZ3ctableLayer(PloneSandboxLayer):
 
 FIXTURE = CollectiveEeafacetedZ3ctableLayer(
     name="FIXTURE"
-    )
+)
 
 
 INTEGRATION = IntegrationTesting(
     bases=(FIXTURE,),
     name="INTEGRATION"
-    )
+)
 
 
 FUNCTIONAL = FunctionalTesting(
     bases=(FIXTURE,),
     name="FUNCTIONAL"
-    )
+)
 
 
 ACCEPTANCE = FunctionalTesting(bases=(FIXTURE,

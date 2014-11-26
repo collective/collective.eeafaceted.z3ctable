@@ -6,23 +6,23 @@ API
 Miscellaneous
 =============
 
-.. automodule:: collective.z3ctable
+.. automodule:: collective.eeafaceted.z3ctable
     :members:
 
 ----
 
-.. automodule:: collective.z3ctable.interfaces
+.. automodule:: collective.eeafaceted.z3ctable.interfaces
     :members:
 
 
 Tests
 =====
 
-.. automodule:: collective.z3ctable.testing
+.. automodule:: collective.eeafaceted.z3ctable.testing
     :members:
 
 ----
 
-.. automodule:: collective.z3ctable.tests.test_setup
+.. automodule:: collective.eeafaceted.z3ctable.tests.test_setup
     :members:
 
