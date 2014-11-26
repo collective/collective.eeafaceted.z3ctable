@@ -9,11 +9,13 @@ install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libwebp-dev
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg --setuptools-version=7.0 --version=2.2.5
-  - bin/buildout -c travis.cfg -N -q -t 5
+  - bin/buildout -Nc travis.cfg
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-script: bin/$TARGET
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+script:
+  - bin/test
+  - bin/createcoverage
 after_success:
   - pip install coveralls
   - coveralls
