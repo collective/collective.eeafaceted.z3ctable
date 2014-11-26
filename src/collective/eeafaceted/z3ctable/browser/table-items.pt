@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="imio.facetednavigation">
+
+<body>
+  <metal:content-core fill-slot="content-core">
+    <metal:block define-macro="content-core">
+      <div tal:define="
+        table_view nocall:context/@@faceted-table-view;
+        batch folderContents;">
+
+        <div metal:use-macro="context/batch_macros/macros/navigation" />
+        <div class="eea-preview-items">
+          <span tal:replace="structure python:table_view.render_table(batch)" />
+        </div>
+
+        <div style="clear: both;"></div>
+        <div metal:use-macro="context/batch_macros/macros/navigation" />
+
+      </div>
+
+    </metal:block>
+  </metal:content-core>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<object name="default-widgets" meta_type="ATFolder">
+ <criteria>
+  <criterion name="c0">
+   <property name="widget">sorting</property>
+   <property name="title">Sort on</property>
+   <property name="position"></property>
+   <property name="section">default</property>
+   <property name="hidden">0</property>
+   <property name="vocabulary"></property>
+   <property name="default"></property>
+  </criterion>
+  <criterion name="c1">
+   <property name="widget">resultsperpage</property>
+   <property name="title">Results per page</property>
+   <property name="position">right</property>
+   <property name="section">default</property>
+   <property name="hidden">0</property>
+   <property name="start">0</property>
+   <property name="end">20</property>
+   <property name="step">5</property>
+   <property name="default">10</property>
+  </criterion>
+ </criteria>
+</object>
