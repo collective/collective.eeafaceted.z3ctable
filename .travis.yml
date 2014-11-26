@@ -7,7 +7,7 @@ install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libwebp-dev
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c buildout.d/travis.cfg
-  - bin/buildout -c buildout.d/travis.cfg -N -q -t 5
+  - bin/buildout -c travis.cfg -N -q -t 5
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
