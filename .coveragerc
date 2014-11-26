@@ -1,0 +1,9 @@
+[report]
+include =
+    src/collective/*
+omit =
+    */test*
+    src/collective/__init__.py
+    src/collective/eeafaceted/__init__.py
+    src/collective/eeafaceted/z3ctable/browser/__init__.py
+    src/collective/eeafaceted/z3ctable/content/__init__.py
