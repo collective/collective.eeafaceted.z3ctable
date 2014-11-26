@@ -17,9 +17,19 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 class FacetedTableView(BrowserView):
 
     def render_table(self, batch):
+        self.setSortingCriteriaNameInRequest()
         table = FacetedTable(self.context, self.request)
         table.update(batch)
         return table.render()
+
+    def setSortingCriteriaNameInRequest(self):
+        """Find the sorting criterion and store the name in the request so
+           it can be accessed by the z3c.table."""
+        config = self.context.restrictedTraverse('@@configure_faceted.html')
+        for criterion in config.get_criteria():
+            if criterion.widget == u'sorting':
+                self.request.set('sorting_criterion_name', criterion.__name__)
+                return
 
 
 class FacetedTable(SequenceTable):
@@ -36,12 +46,14 @@ class FacetedTable(SequenceTable):
         super(FacetedTable, self).sortRows()
 
     def update_sortOn(self):
-        sort_on = self.request.form.get('c0[]', '')
-        for c in self.columns:
-            key = c.sort_index or c.attrName
-            if key == sort_on:
-                return c.id
-        return self.columns[0].id
+        sort_on_name = self.request.get('sorting_criterion_name', '')
+        if sort_on_name:
+            sort_on = self.request.form.get('%s[]' % sort_on_name, '')
+            for c in self.columns:
+                key = c.sort_index or c.attrName
+                if key == sort_on:
+                    return c.id
+            return self.columns[0].id
 
     def getSortOrder(self):
         reverse = self.request.form.get('reversed[]', '')
@@ -77,7 +89,8 @@ class BaseColumnHeader(SortingColumnHeader, grok.MultiAdapter):
     grok.provides(IColumnHeader)
 
     def render(self):
-        if self.column.sort_index or self.column.attrName:
+        sort_on_name = self.request.get('sorting_criterion_name', '')
+        if sort_on_name and (self.column.sort_index or self.column.attrName):
             html = u'<a href="{0}#{1}" title="Sort">{2} {3}</a>'
             return html.format(self.faceted_url, self.query_string,
                                self.column.header, self.order_arrow)
@@ -94,14 +107,15 @@ class BaseColumnHeader(SortingColumnHeader, grok.MultiAdapter):
     @property
     def query_string(self):
         query = self.request_query
+        sort_on_name = self.request.get('sorting_criterion_name', '')
 
-        if (query.get('c0', '') == self.sort_on or
+        if (query.get(sort_on_name, '') == self.sort_on or
             self.table.sortOn == self.column.id) and \
            query.get('reversed', 'off') == 'off':
             query.update({'reversed': 'on'})
         elif 'reversed' in query:
             del query['reversed']
-        query.update({'c0': self.sort_on})
+        query.update({sort_on_name: self.sort_on})
         if 'version' in query:
             del query['version']
         return make_query(query)
@@ -113,8 +127,9 @@ class BaseColumnHeader(SortingColumnHeader, grok.MultiAdapter):
 
     @property
     def order_arrow(self):
+        sort_on_name = self.request.get('sorting_criterion_name', '')
         query = self.request_query
-        if query.get('c0', '') == self.sort_on or \
+        if query.get(sort_on_name, '') == self.sort_on or \
            self.table.sortOn == self.column.id:
             order = query.get('reversed')
             if order == 'on':
