@@ -1,3 +1,10 @@
+.. image:: https://travis-ci.org/IMIO/collective.eeafaceted.z3ctable.svg?branch=master
+   :target: https://travis-ci.org/IMIO/collective.eeafaceted.z3ctable
+
+.. image:: https://coveralls.io/repos/IMIO/collective.eeafaceted.z3ctable/badge.png?branch=master
+  :target: https://coveralls.io/r/IMIO/collective.eeafaceted.z3ctable?branch=master
+
+
 ====================
 collective.eeafaceted.z3ctable
 ====================
