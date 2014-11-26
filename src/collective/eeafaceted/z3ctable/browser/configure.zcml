@@ -1,13 +1,34 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="collective.eeafaceted.z3ctable">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:faceted="http://namespaces.zope.org/faceted"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:grok="http://namespaces.zope.org/grok"
+  i18n_domain="imio.facetednavigation">
 
-    <!-- Publish static files -->
-    <browser:resourceDirectory
-      name="collective.eeafaceted.z3ctable"
-      directory="static"
-      />
+
+  <faceted:view
+    name="faceted-table-items"
+    template="table-items.pt"
+    for="eea.facetednavigation.interfaces.IFacetedNavigable"
+    title="Faceted table items"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    for="*"
+    name="faceted-table-view"
+    class=".views.FacetedTableView"
+    template="table-items.pt"
+    permission="zope2.View"
+    />
+
+  <grok:grok package=".views" />
+
+  <browser:page
+    for="eea.facetednavigation.interfaces.IFacetedNavigable"
+    name="default_collection_widgets.xml"
+    template="default_collection.xml"
+    permission="eea.faceted.configure"
+    />
 
 </configure>

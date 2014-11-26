@@ -38,8 +38,11 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'eea.facetednavigation',
+        'five.grok',
         'plone.api',
         'setuptools',
+        'z3c.table',
     ],
     extras_require={
         'test': [
