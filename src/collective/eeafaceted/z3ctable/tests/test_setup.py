@@ -25,6 +25,6 @@ class TestInstall(IntegrationTestCase):
     # browserlayer.xml
     def test_browserlayer(self):
         """Test that ICollectiveZ3ctableLayer is registered."""
-        from collective.eeafaceted.z3ctable.interfaces import ICollectiveZ3ctableLayer
+        from collective.eeafaceted.z3ctable.interfaces import ICollectiveEeafacetedZ3ctableLayer
         from plone.browserlayer import utils
-        self.failUnless(ICollectiveZ3ctableLayer in utils.registered_layers())
+        self.failUnless(ICollectiveEeafacetedZ3ctableLayer in utils.registered_layers())
