@@ -2,6 +2,9 @@
 
 from Products.Five.browser import BrowserView
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
+from collective.eeafaceted.z3ctable.browser.columns import AuthorColumn
+from collective.eeafaceted.z3ctable.browser.columns import StateColumn
+from collective.eeafaceted.z3ctable.browser.columns import TitleColumn
 from z3c.table.table import SequenceTable
 from zope.interface import implements
 
@@ -33,6 +36,19 @@ class FacetedTable(SequenceTable):
     cssClassEven = u'odd'
     cssClassOdd = u'even'
     sortOn = 'table-number-0'
+
+    def setUpColumns(self):
+        columns = []
+        titleColumn = TitleColumn(self.context, self.request, self)
+        titleColumn.weight = 1
+        columns.append(titleColumn)
+        authorColumn = AuthorColumn(self.context, self.request, self)
+        authorColumn.weight = 1
+        columns.append(authorColumn)
+        stateColumn = StateColumn(self.context, self.request, self)
+        stateColumn.weight = 1
+        columns.append(stateColumn)
+        return columns
 
     def sortRows(self):
         self.sortOn = self.update_sortOn()

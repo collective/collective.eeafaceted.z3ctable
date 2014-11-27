@@ -38,31 +38,4 @@
      provides="z3c.table.interfaces.IColumnHeader"
   />
 
-  <adapter
-     for="zope.interface.Interface
-          zope.publisher.interfaces.browser.IBrowserRequest
-          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
-     factory=".columns.TitleColumn"
-     provides="z3c.table.interfaces.IColumn"
-     name="titleColumn"
-  />
-
-  <adapter
-     for="zope.interface.Interface
-          zope.publisher.interfaces.browser.IBrowserRequest
-          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
-     factory=".columns.AuthorColumn"
-     provides="z3c.table.interfaces.IColumn"
-     name="authorColumn"
-  />
-
-  <adapter
-     for="zope.interface.Interface
-          zope.publisher.interfaces.browser.IBrowserRequest
-          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
-     factory=".columns.StateColumn"
-     provides="z3c.table.interfaces.IColumn"
-     name="stateColumn"
-  />
-
 </configure>
