@@ -4,6 +4,7 @@
   xmlns:browser="http://namespaces.zope.org/browser"
   i18n_domain="imio.facetednavigation">
 
+  <faceted:widget factory=".overrides.SortingFormAwareAbstractWidget" />
 
   <faceted:view
     name="faceted-table-items"
