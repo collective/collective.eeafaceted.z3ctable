@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-import Missing
 from ZTUtils import make_query
 from Products.CMFCore.utils import getToolByName
 from z3c.table import column
@@ -127,8 +126,11 @@ class DateColumn(BaseColumn):
     time_only = False
 
     def renderCell(self, item):
+        value = self.getValue(item)
+        if not value or value == 'None':
+            return u'-'
         util = getToolByName(item, 'translation_service')
-        return util.ulocalized_time(self.getValue(item),
+        return util.ulocalized_time(value,
                                     long_format=self.long_format,
                                     time_only=self.time_only,
                                     context=item,
@@ -143,8 +145,8 @@ class I18nColumn(BaseColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if value == Missing.Value:
-            value = ''
+        if not value:
+            return u'-'
         return translate(value,
                          domain=self.i18n_domain,
                          context=self.request)
@@ -159,5 +161,7 @@ class TitleColumn(BaseColumn):
         return sortable_title(item)()
 
     def renderCell(self, item):
-        return u'<a href="{0}">{1}</a>'.format(item.getURL(),
-                                               item.Title.decode('utf8'))
+        value = self.getValue(item)
+        if not value:
+            value = u'-'
+        return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)

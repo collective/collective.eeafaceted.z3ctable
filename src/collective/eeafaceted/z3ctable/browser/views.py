@@ -44,7 +44,7 @@ class FacetedTable(SequenceTable):
 
     def _getViewFields(self):
         """Returns fields we want to show in the table."""
-        colNames = ['Title', 'created', 'Creator', 'review_state', 'getText']
+        colNames = ['Title', 'CreationDate', 'Creator', 'review_state', 'getText']
         # if context is a collection, use columns specified in the collection
         if self.context.portal_type == 'Collection':
             customViewFields = self.context.getCustomViewFields()
@@ -60,10 +60,18 @@ class FacetedTable(SequenceTable):
         # special column for Creator
         elif colName == 'Creator':
             return MemberIdColumn(self.context, self.request, self)
-        elif colName in ('CreationDate', 'ModificationDate'):
+        elif colName in ('CreationDate', 'ModificationDate', 'EffectiveDate', 'ExpirationDate'):
             # CreationDate and ModificationDate are handled manually
             # because index is created and modified...
-            return DateColumn(self.context, self.request, self)
+            column = DateColumn(self.context, self.request, self)
+            # Index is not the same as metadata... we have to map values
+            mapping = {'CreationDate': 'created',
+                       'ModificationDate': 'modified',
+                       'EffectiveDate': 'effective',
+                       'ExpirationDate': 'expired',
+                       }
+            column.sort_index = mapping[colName]
+            return column
         elif colName == 'getText':
             return AwakeObjectMethodColumn(self.context, self.request, self)
 
