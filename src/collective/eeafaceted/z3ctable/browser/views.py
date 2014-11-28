@@ -1,12 +1,17 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
+from zope.i18n import translate
+from zope.interface import implements
+from z3c.table.table import SequenceTable
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
-from collective.eeafaceted.z3ctable.browser.columns import AuthorColumn
-from collective.eeafaceted.z3ctable.browser.columns import StateColumn
+from collective.eeafaceted.z3ctable.browser.columns import AwakeObjectMethodColumn
+from collective.eeafaceted.z3ctable.browser.columns import BaseColumn
+from collective.eeafaceted.z3ctable.browser.columns import MemberIdColumn
+from collective.eeafaceted.z3ctable.browser.columns import DateColumn
+from collective.eeafaceted.z3ctable.browser.columns import I18nColumn
 from collective.eeafaceted.z3ctable.browser.columns import TitleColumn
-from z3c.table.table import SequenceTable
-from zope.interface import implements
 
 
 class FacetedTableView(BrowserView):
@@ -37,17 +42,58 @@ class FacetedTable(SequenceTable):
     cssClassOdd = u'even'
     sortOn = 'table-number-0'
 
+    def _getViewFields(self):
+        """Returns fields we want to show in the table."""
+        colNames = ['Title', 'created', 'Creator', 'review_state', 'getText']
+        # if context is a collection, use columns specified in the collection
+        if self.context.portal_type == 'Collection':
+            customViewFields = self.context.getCustomViewFields()
+            if customViewFields:
+                colNames = customViewFields
+        return colNames
+
+    def _getColumnFor(self, colName):
+        """ """
+        # special column for Title
+        if colName == 'Title':
+            return TitleColumn(self.context, self.request, self)
+        # special column for Creator
+        elif colName == 'Creator':
+            return MemberIdColumn(self.context, self.request, self)
+        elif colName in ('CreationDate', 'ModificationDate'):
+            # CreationDate and ModificationDate are handled manually
+            # because index is created and modified...
+            return DateColumn(self.context, self.request, self)
+        elif colName == 'getText':
+            return AwakeObjectMethodColumn(self.context, self.request, self)
+
+        # for other columns, try to get the corresponding index type
+        # in the portal_catalog and use relevant column type
+        catalog = getToolByName(self.context, 'portal_catalog')
+        if colName in catalog.indexes():
+            indexType = str(catalog.Indexes[colName])
+            if indexType.startswith('<DateIndex '):
+                return DateColumn(self.context, self.request, self)
+            elif indexType.startswith('<ZCTextIndex '):
+                return BaseColumn(self.context, self.request, self)
+        # in other cases, try to translate content
+        return I18nColumn(self.context, self.request, self)
+
     def setUpColumns(self):
+        # show some default columns
+        colNames = self._getViewFields()
         columns = []
-        titleColumn = TitleColumn(self.context, self.request, self)
-        titleColumn.weight = 1
-        columns.append(titleColumn)
-        authorColumn = AuthorColumn(self.context, self.request, self)
-        authorColumn.weight = 1
-        columns.append(authorColumn)
-        stateColumn = StateColumn(self.context, self.request, self)
-        stateColumn.weight = 1
-        columns.append(stateColumn)
+        for colName in colNames:
+            newColumn = self._getColumnFor(colName)
+            if not newColumn.header:
+                # the column header is translated, we build a msgid
+                # that is column name + '__header_title'
+                newColumn.header = translate(u'{0}__header_title'.format(colName),
+                                             domain='collective.eeafaceted.z3ctable',
+                                             context=self.request)
+            if not newColumn.attrName:
+                newColumn.attrName = colName
+            columns.append(newColumn)
         return columns
 
     def sortRows(self):

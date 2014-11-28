@@ -8,7 +8,7 @@
 
   <faceted:view
     name="faceted-table-items"
-    template="table-items.pt"
+    template="faceted-table-items.pt"
     for="eea.facetednavigation.interfaces.IFacetedNavigable"
     title="Faceted table items"
     permission="zope2.View"
@@ -18,7 +18,7 @@
     for="*"
     name="faceted-table-view"
     class=".views.FacetedTableView"
-    template="table-items.pt"
+    template="faceted-table-items.pt"
     permission="zope2.View"
     />
 

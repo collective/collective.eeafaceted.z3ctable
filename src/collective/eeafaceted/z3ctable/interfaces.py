@@ -9,5 +9,9 @@ class ICollectiveEeafacetedZ3ctableLayer(IDefaultPloneLayer):
     """Marker interface that defines a Zope 3 browser layer."""
 
 
+class IBaseTable(Interface):
+    """ """
+
+
 class IFacetedTable(Interface):
     """ """

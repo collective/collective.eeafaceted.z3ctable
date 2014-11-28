@@ -1,13 +1,18 @@
 # encoding: utf-8
 
+import Missing
 from ZTUtils import make_query
+from Products.CMFCore.utils import getToolByName
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
+from zope.i18n import translate
 
 
 class BaseColumn(column.GetAttrColumn):
 
     sort_index = None
+    # as we use setUpColumns, weight is 1 for every columns
+    weight = 1
 
     def getSortKey(self, item):
         attr = self.sort_index or self.attrName
@@ -22,11 +27,14 @@ class BaseColumn(column.GetAttrColumn):
 class BaseColumnHeader(SortingColumnHeader):
 
     def render(self):
-        sort_on_name = self.request.get('sorting_criterion_name', '')
-        if sort_on_name and (self.column.sort_index or self.column.attrName):
-            html = u'<a href="{0}#{1}" title="Sort">{2} {3}</a>'
-            return html.format(self.faceted_url, self.query_string,
-                               self.column.header, self.order_arrow)
+        # a column can specifically declare that it is not sortable
+        # by setting sort_index to -1
+        if not self.column.sort_index == -1:
+            sort_on_name = self.request.get('sorting_criterion_name', '')
+            if sort_on_name and (self.column.sort_index or self.column.attrName):
+                html = u'<a href="{0}#{1}" title="Sort">{2} {3}</a>'
+                return html.format(self.faceted_url, self.query_string,
+                                   self.column.header, self.order_arrow)
         return self.column.header
 
     @property
@@ -72,10 +80,78 @@ class BaseColumnHeader(SortingColumnHeader):
         return u''
 
 
-class TitleColumn(BaseColumn):
+class AwakeObjectGetAttrColumn(BaseColumn):
+    """Column that will wake the object then getattr attrName on it."""
+    # column not sortable
+    sort_index = -1
 
-    header = u'Titre'
-    weight = 0
+    def renderCell(self, item):
+        obj = item.getObject()
+        try:
+            return getattr(obj, self.attrName)
+        except AttributeError:
+            return u''
+
+
+class AwakeObjectMethodColumn(BaseColumn):
+    """Column that will wake the object then call attrName on it."""
+    # column not sortable
+    sort_index = -1
+
+    def renderCell(self, item):
+        obj = item.getObject()
+        try:
+            result = getattr(obj, self.attrName)()
+            if isinstance(result, str):
+                return unicode(result, 'utf-8')
+        except AttributeError:
+            return u''
+
+
+class MemberIdColumn(BaseColumn):
+    """ """
+    attrName = 'Creator'
+
+    def renderCell(self, item):
+        membershipTool = getToolByName(item, 'portal_membership')
+        member = membershipTool.getMemberById(self.getValue(item))
+        if not member:
+            return self.getValue(item)
+        else:
+            return membershipTool.getMemberInfo(member.getId())['fullname'] or self.getValue(item)
+
+
+class DateColumn(BaseColumn):
+    """ """
+    long_format = False
+    time_only = False
+
+    def renderCell(self, item):
+        util = getToolByName(item, 'translation_service')
+        return util.ulocalized_time(self.getValue(item),
+                                    long_format=self.long_format,
+                                    time_only=self.time_only,
+                                    context=item,
+                                    domain='plonelocales',
+                                    request=self.request)
+
+
+class I18nColumn(BaseColumn):
+    """GetAttrColumn which translates its content."""
+
+    i18n_domain = 'plone'
+
+    def renderCell(self, item):
+        value = self.getValue(item)
+        if value == Missing.Value:
+            value = ''
+        return translate(value,
+                         domain=self.i18n_domain,
+                         context=self.request)
+
+
+class TitleColumn(BaseColumn):
+    """ """
     sort_index = 'sortable_title'
 
     def getSortKey(self, item):
@@ -85,17 +161,3 @@ class TitleColumn(BaseColumn):
     def renderCell(self, item):
         return u'<a href="{0}">{1}</a>'.format(item.getURL(),
                                                item.Title.decode('utf8'))
-
-
-class AuthorColumn(BaseColumn):
-
-    header = u'Auteur'
-    attrName = 'Creator'
-    weight = 10
-
-
-class StateColumn(BaseColumn):
-
-    header = u'Etat'
-    attrName = 'review_state'
-    weight = 20
