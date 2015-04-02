@@ -164,4 +164,6 @@ class TitleColumn(BaseColumn):
         value = self.getValue(item)
         if not value:
             value = u'-'
+        if isinstance(value, str):
+            return unicode(value, 'utf-8')
         return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
