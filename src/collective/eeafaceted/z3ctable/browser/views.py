@@ -16,19 +16,24 @@ from collective.eeafaceted.z3ctable.browser.columns import TitleColumn
 
 class FacetedTableView(BrowserView):
 
+    def __init__(self, context, request):
+        ''' '''
+        super(FacetedTableView, self).__init__(context, request)
+        self.faceted_config = self.context.restrictedTraverse('@@configure_faceted.html')
+
     def render_table(self, batch):
         self.setSortingCriteriaNameInRequest()
         table = FacetedTable(self.context, self.request)
+        table.faceted_config = self.faceted_config
         table.update(batch)
         return table.render()
 
     def setSortingCriteriaNameInRequest(self):
         """Find the sorting criterion and store the name in the request so
            it can be accessed by the z3c.table."""
-        config = self.context.restrictedTraverse('@@configure_faceted.html')
-        for criterion in config.get_criteria():
+        for criterion in self.faceted_config.get_criteria():
             if criterion.widget == u'sorting':
-                self.request.set('sorting_criterion_name', criterion.__name__)
+                self.request.set('sorting_criterion_name', criterion.getId())
                 return
 
 
@@ -45,11 +50,19 @@ class FacetedTable(SequenceTable):
     def _getViewFields(self):
         """Returns fields we want to show in the table."""
         colNames = ['Title', 'CreationDate', 'Creator', 'review_state', 'getText']
-        # if context is a collection, use columns specified in the collection
-        if self.context.portal_type == 'Collection':
-            customViewFields = self.context.getCustomViewFields()
-            if customViewFields:
-                colNames = customViewFields
+        # if we can get the collection we are working with,
+        # use customViewFields defined on it if any
+        for criterion in self.faceted_config.get_criteria():
+            if criterion.widget in (u'collection-link', u'collection-radio'):
+                # value is stored in the request with ending [], like 'c4[]'
+                collectionUID = self.request.get('{0}[]'.format(criterion.getId()))
+                catalog = getToolByName(self.context, 'portal_catalog')
+                collection = catalog(UID=collectionUID)
+                if collection:
+                    collection = collection[0].getObject()
+                    customViewFields = collection.getCustomViewFields()
+                    if customViewFields:
+                        colNames = customViewFields
         return colNames
 
     def _getColumnFor(self, colName):
@@ -126,7 +139,7 @@ class FacetedTable(SequenceTable):
 
     @property
     def values(self):
-        return [brain for brain in self.batch]
+        return self.batch
 
     def update(self, batch):
         self.batch = batch
