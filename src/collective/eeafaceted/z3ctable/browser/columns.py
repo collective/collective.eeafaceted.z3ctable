@@ -165,5 +165,5 @@ class TitleColumn(BaseColumn):
         if not value:
             value = u'-'
         if isinstance(value, str):
-            return unicode(value, 'utf-8')
+            value = unicode(value, 'utf-8')
         return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
