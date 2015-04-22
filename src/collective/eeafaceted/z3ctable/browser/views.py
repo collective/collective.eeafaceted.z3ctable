@@ -92,10 +92,10 @@ class FacetedTable(SequenceTable):
         # in the portal_catalog and use relevant column type
         catalog = getToolByName(self.context, 'portal_catalog')
         if colName in catalog.indexes():
-            indexType = str(catalog.Indexes[colName])
-            if indexType.startswith('<DateIndex '):
+            indexType = catalog.Indexes[colName].getTagName()
+            if indexType == 'DateIndex':
                 return DateColumn(self.context, self.request, self)
-            elif indexType.startswith('<ZCTextIndex '):
+            elif indexType == 'ZCTextIndex':
                 return BaseColumn(self.context, self.request, self)
         # in other cases, try to translate content
         return I18nColumn(self.context, self.request, self)
