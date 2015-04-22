@@ -66,7 +66,18 @@ class FacetedTable(SequenceTable):
         return colNames
 
     def _getColumnFor(self, colName):
-        """ """
+        """This method returns column to use for given p_colName.
+           This is made to manage specific usecase that are not , then call _autoColumnFor
+           that will play it smart."""
+        column = self._manualColumnFor(colName)
+        if not column:
+            column = self._autoColumnFor(colName)
+        return column
+
+    def _manualColumnFor(self, colName):
+        """This method will get the column to use for given p_colName.
+           This is made to manage columns not linked to an index, so not
+           managed automatically by self._autoColumnFor."""
         # special column for Title
         if colName == 'Title':
             return TitleColumn(self.context, self.request, self)
@@ -88,6 +99,8 @@ class FacetedTable(SequenceTable):
         elif colName == 'getText':
             return AwakeObjectMethodColumn(self.context, self.request, self)
 
+    def _autoColumnFor(self, colName):
+        """This method will automatically get the relevant column to use for given p_colName."""
         # for other columns, try to get the corresponding index type
         # in the portal_catalog and use relevant column type
         catalog = getToolByName(self.context, 'portal_catalog')
@@ -106,6 +119,8 @@ class FacetedTable(SequenceTable):
         columns = []
         for colName in colNames:
             newColumn = self._getColumnFor(colName)
+            if not newColumn:
+                raise KeyError('No column could be found for "{0}"'.format(colName))
             if not newColumn.header:
                 # the column header is translated, we build a msgid
                 # that is column name + '__header_title'
