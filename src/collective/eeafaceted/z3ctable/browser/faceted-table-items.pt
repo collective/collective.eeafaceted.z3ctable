@@ -12,10 +12,7 @@
         Faceted.Options.FADE_SPEED=0;
         Faceted.Options.SHOW_SPINNER=false;
       </script>
-      <div tal:define="folderContents folderContents | python:context.getFolderContents();
-                       Batch python:modules['Products.CMFPlone'].Batch;
-                       b_start python:request.get('b_start', 0);
-                       batch python:isinstance(folderContents, Batch) and folderContents or Batch(folderContents, 5, int(b_start), orphan=2);">
+      <div tal:define="batch python: folderContents;">
 
         <div metal:use-macro="context/batch_macros/macros/navigation" />
         <div class="eea-preview-items" tal:define="table_view nocall:context/@@faceted-table-view;">
