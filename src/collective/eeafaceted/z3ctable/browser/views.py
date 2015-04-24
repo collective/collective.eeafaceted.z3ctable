@@ -6,27 +6,34 @@ from z3c.table.table import SequenceTable
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
-from collective.eeafaceted.z3ctable.browser.columns import AwakeObjectMethodColumn
-from collective.eeafaceted.z3ctable.browser.columns import BaseColumn
-from collective.eeafaceted.z3ctable.browser.columns import MemberIdColumn
-from collective.eeafaceted.z3ctable.browser.columns import DateColumn
-from collective.eeafaceted.z3ctable.browser.columns import I18nColumn
-from collective.eeafaceted.z3ctable.browser.columns import TitleColumn
+from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
+from collective.eeafaceted.z3ctable.columns import BaseColumn
+from collective.eeafaceted.z3ctable.columns import MemberIdColumn
+from collective.eeafaceted.z3ctable.columns import DateColumn
+from collective.eeafaceted.z3ctable.columns import I18nColumn
+from collective.eeafaceted.z3ctable.columns import TitleColumn
 
 
-class FacetedTableView(BrowserView):
+class FacetedTableView(BrowserView, SequenceTable):
+
+    implements(IFacetedTable)
+
+    # use class 'nosort' on table so Plone default CSS sorting is not applied
+    cssClasses = {'table': 'listing nosort'}
+
+    cssClassEven = u'odd'
+    cssClassOdd = u'even'
 
     def __init__(self, context, request):
         ''' '''
-        super(FacetedTableView, self).__init__(context, request)
+        BrowserView.__init__(self, context, request)
+        SequenceTable.__init__(self, context, request)
         self.faceted_config = self.context.restrictedTraverse('@@configure_faceted.html')
 
     def render_table(self, batch):
         self.setSortingCriteriaNameInRequest()
-        table = FacetedTable(self.context, self.request)
-        table.faceted_config = self.faceted_config
-        table.update(batch)
-        return table.render()
+        self.update(batch)
+        return self.render()
 
     def setSortingCriteriaNameInRequest(self):
         """Find the sorting criterion and store the name in the request so
@@ -35,17 +42,6 @@ class FacetedTableView(BrowserView):
             if criterion.widget == u'sorting':
                 self.request.set('sorting_criterion_name', criterion.getId())
                 return
-
-
-class FacetedTable(SequenceTable):
-    implements(IFacetedTable)
-
-    # use class 'nosort' on table so Plone default CSS sorting is not applied
-    cssClasses = {'table': 'listing nosort'}
-
-    cssClassEven = u'odd'
-    cssClassOdd = u'even'
-    sortOn = 'table-number-0'
 
     def _getViewFields(self):
         """Returns fields we want to show in the table."""
@@ -134,7 +130,7 @@ class FacetedTable(SequenceTable):
 
     def sortRows(self):
         self.sortOn = self.update_sortOn()
-        super(FacetedTable, self).sortRows()
+        super(FacetedTableView, self).sortRows()
 
     def update_sortOn(self):
         sort_on_name = self.request.get('sorting_criterion_name', '')
@@ -158,4 +154,4 @@ class FacetedTable(SequenceTable):
 
     def update(self, batch):
         self.batch = batch
-        super(FacetedTable, self).update()
+        super(FacetedTableView, self).update()

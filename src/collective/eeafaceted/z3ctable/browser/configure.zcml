@@ -14,11 +14,10 @@
     permission="zope2.View"
     />
 
-  <browser:page
+  <browser:view
     for="*"
     name="faceted-table-view"
     class=".views.FacetedTableView"
-    template="faceted-table-items.pt"
     permission="zope2.View"
     />
 
@@ -34,7 +33,7 @@
           zope.publisher.interfaces.browser.IBrowserRequest
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable
           z3c.table.interfaces.IColumn"
-     factory=".columns.BaseColumnHeader"
+     factory="collective.eeafaceted.z3ctable.columns.BaseColumnHeader"
      provides="z3c.table.interfaces.IColumnHeader"
   />
 
