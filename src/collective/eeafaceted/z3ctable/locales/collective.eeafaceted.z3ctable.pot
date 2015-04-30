@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-04-30 09:18+0000\n"
+"POT-Creation-Date: 2015-04-30 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,10 @@ msgstr ""
 msgid "Type__header_title"
 msgstr ""
 
+#. Default: "UID"
+msgid "UID__header_title"
+msgstr ""
+
 #. Default: "End"
 msgid "end__header_title"
 msgstr ""
@@ -71,6 +75,10 @@ msgstr ""
 
 #. Default: "Location"
 msgid "location__header_title"
+msgstr ""
+
+#. Default: "Type"
+msgid "portal_type__header_title"
 msgstr ""
 
 #. Default: "Review state"
