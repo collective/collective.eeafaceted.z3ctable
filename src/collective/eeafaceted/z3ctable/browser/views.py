@@ -5,6 +5,7 @@ from zope.interface import implements
 from z3c.table.table import SequenceTable
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
+from eea.facetednavigation.interfaces import ICriteria
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
@@ -28,7 +29,7 @@ class FacetedTableView(BrowserView, SequenceTable):
         ''' '''
         BrowserView.__init__(self, context, request)
         SequenceTable.__init__(self, context, request)
-        self.faceted_config = self.context.restrictedTraverse('@@configure_faceted.html')
+        self.criteria = ICriteria(self.context)
 
     def render_table(self, batch):
         self.setSortingCriteriaNameInRequest()
@@ -38,7 +39,7 @@ class FacetedTableView(BrowserView, SequenceTable):
     def setSortingCriteriaNameInRequest(self):
         """Find the sorting criterion and store the name in the request so
            it can be accessed by the z3c.table."""
-        for criterion in self.faceted_config.get_criteria():
+        for criterion in self.criteria.values():
             if criterion.widget == u'sorting':
                 self.request.set('sorting_criterion_name', criterion.getId())
                 return
@@ -48,7 +49,7 @@ class FacetedTableView(BrowserView, SequenceTable):
         colNames = ['Title', 'CreationDate', 'Creator', 'review_state', 'getText']
         # if we can get the collection we are working with,
         # use customViewFields defined on it if any
-        for criterion in self.faceted_config.get_criteria():
+        for criterion in self.criteria.values():
             if criterion.widget in (u'collection-link', u'collection-radio'):
                 # value is stored in the request with ending [], like 'c4[]'
                 collectionUID = self.request.get('{0}[]'.format(criterion.getId()))
