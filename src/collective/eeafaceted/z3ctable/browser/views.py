@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
 from z3c.table.table import SequenceTable
@@ -30,6 +31,8 @@ class FacetedTableView(BrowserView, SequenceTable):
         BrowserView.__init__(self, context, request)
         SequenceTable.__init__(self, context, request)
         self.criteria = ICriteria(self.context)
+        view = queryMultiAdapter((self.context, self.request), name=u'faceted_query')
+        self.query = view.criteria()
 
     def render_table(self, batch):
         self.setSortingCriteriaNameInRequest()
@@ -134,20 +137,17 @@ class FacetedTableView(BrowserView, SequenceTable):
         super(FacetedTableView, self).sortRows()
 
     def update_sortOn(self):
-        sort_on_name = self.request.get('sorting_criterion_name', '')
-        if sort_on_name:
-            sort_on = self.request.form.get('%s[]' % sort_on_name, '')
+        sort_on = self.query.get('sort_on', '')
+        if sort_on:
             for c in self.columns:
                 key = c.sort_index or c.attrName
                 if key == sort_on:
                     return c.id
+            # if sort is not found, order on first column
             return self.columns[0].id
 
     def getSortOrder(self):
-        reverse = self.request.form.get('reversed[]', '')
-        if reverse == 'on':
-            return u'descending'
-        return u'ascending'
+        return self.query.get('sort_order', 'ascending')
 
     @property
     def values(self):

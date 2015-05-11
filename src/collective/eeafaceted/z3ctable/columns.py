@@ -50,9 +50,9 @@ class BaseColumnHeader(SortingColumnHeader):
         query = self.request_query
         sort_on_name = self.request.get('sorting_criterion_name', '')
 
-        if (query.get(sort_on_name, '') == self.sort_on or
+        if (self.table.query.get('sort_on', '') == self.sort_on or
             self.table.sortOn == self.column.id) and \
-           query.get('reversed', 'off') == 'off':
+           self.table.query.get('sort_order', 'ascending') == 'ascending':
             query.update({'reversed': 'on'})
         elif 'reversed' in query:
             del query['reversed']
@@ -68,15 +68,14 @@ class BaseColumnHeader(SortingColumnHeader):
 
     @property
     def order_arrow(self):
-        sort_on_name = self.request.get('sorting_criterion_name', '')
-        query = self.request_query
-        if query.get(sort_on_name, '') == self.sort_on or \
+        sort_on = self.table.query.get('sort_on', '')
+        sort_order = self.table.query.get('sort_order', 'ascending')
+        if sort_on == self.sort_on or \
            self.table.sortOn == self.column.id:
-            order = query.get('reversed')
-            if order == 'on':
-                return u'▼'
-            else:
+            if sort_order == 'ascending':
                 return u'▲'
+            else:
+                return u'▼'
         return u''
 
 
