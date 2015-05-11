@@ -7,6 +7,7 @@ from z3c.table.table import SequenceTable
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from eea.facetednavigation.interfaces import ICriteria
+from collective.eeafaceted.collectionwidget.widgets.widget import CollectionWidget
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
@@ -53,7 +54,7 @@ class FacetedTableView(BrowserView, SequenceTable):
         # if we can get the collection we are working with,
         # use customViewFields defined on it if any
         for criterion in self.criteria.values():
-            if criterion.widget in (u'collection-link', u'collection-radio'):
+            if criterion.widget == CollectionWidget.widget_type:
                 # value is stored in the request with ending [], like 'c4[]'
                 collectionUID = self.request.get('{0}[]'.format(criterion.getId()))
                 catalog = getToolByName(self.context, 'portal_catalog')
@@ -67,8 +68,9 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     def _getColumnFor(self, colName):
         """This method returns column to use for given p_colName.
-           This is made to manage specific usecase that are not , then call _autoColumnFor
-           that will play it smart."""
+           This will :
+           - call _manualColumn;
+           - call _autoColumnFor."""
         column = self._manualColumnFor(colName)
         if not column:
             column = self._autoColumnFor(colName)
