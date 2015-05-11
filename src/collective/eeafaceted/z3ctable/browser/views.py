@@ -65,8 +65,9 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     def _getColumnFor(self, colName):
         """This method returns column to use for given p_colName.
-           This is made to manage specific usecase that are not , then call _autoColumnFor
-           that will play it smart."""
+           This will :
+           - call _manualColumn;
+           - call _autoColumnFor."""
         column = self._manualColumnFor(colName)
         if not column:
             column = self._autoColumnFor(colName)
