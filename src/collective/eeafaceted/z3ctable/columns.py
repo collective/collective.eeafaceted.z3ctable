@@ -118,7 +118,8 @@ class MemberIdColumn(BaseColumn):
         if not member:
             return self.getValue(item)
         else:
-            return membershipTool.getMemberInfo(member.getId())['fullname'] or self.getValue(item)
+            value = membershipTool.getMemberInfo(member.getId())['fullname'] or self.getValue(item)
+            return unicode(value, 'utf-8')
 
 
 class DateColumn(BaseColumn):
