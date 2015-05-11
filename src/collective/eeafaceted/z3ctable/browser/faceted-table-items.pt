@@ -29,7 +29,9 @@
              class="table_faceted_no_results" i18n:domain="plone" i18n:translate="description_no_results_found">No results were found.</div>
         <div style="clear: both;"></div>
 
-        <div class="eea-preview-items" tal:define="table_view nocall:context/@@faceted-table-view;">
+        <div class="eea-preview-items"
+             tal:condition="batch/sequence_length"
+             tal:define="table_view nocall:context/@@faceted-table-view;">
           <span tal:replace="structure python:table_view.render_table(batch)" />
         </div>
 
