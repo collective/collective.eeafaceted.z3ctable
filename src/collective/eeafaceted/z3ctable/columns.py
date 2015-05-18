@@ -23,6 +23,16 @@ class BaseColumn(column.GetAttrColumn):
     def renderCell(self, item):
         return getattr(item, self.attrName.decode('utf8'))
 
+    def _getObject(self, item):
+        """Caching for getObject."""
+        itemUID = item.UID
+        if not hasattr(self.table, '_v_cached_objects'):
+            self.table._v_cached_objects = {}
+        if not itemUID in self.table._v_cached_objects:
+            self.table._v_cached_objects[itemUID] = item.getObject()
+
+        return self.table._v_cached_objects[itemUID]
+
 
 class BaseColumnHeader(SortingColumnHeader):
 
@@ -85,7 +95,7 @@ class AwakeObjectGetAttrColumn(BaseColumn):
     sort_index = -1
 
     def renderCell(self, item):
-        obj = item.getObject()
+        obj = self._getObject(item)
         try:
             return getattr(obj, self.attrName)
         except AttributeError:
@@ -98,7 +108,7 @@ class AwakeObjectMethodColumn(BaseColumn):
     sort_index = -1
 
     def renderCell(self, item):
-        obj = item.getObject()
+        obj = self._getObject(item)
         try:
             result = getattr(obj, self.attrName)()
             if isinstance(result, str):
@@ -112,7 +122,7 @@ class MemberIdColumn(BaseColumn):
     attrName = 'Creator'
 
     def renderCell(self, item):
-        membershipTool = getToolByName(item, 'portal_membership')
+        membershipTool = getToolByName(self.context, 'portal_membership')
         member = membershipTool.getMemberById(self.getValue(item))
         if not member:
             return self.getValue(item)
