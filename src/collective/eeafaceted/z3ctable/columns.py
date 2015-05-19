@@ -14,6 +14,11 @@ class BaseColumn(column.GetAttrColumn):
     # as we use setUpColumns, weight is 1 for every columns
     weight = 1
 
+    @property
+    def cssClasses(self):
+        """Generate a CSS class for each <th> so we can skin it if necessary."""
+        return {'th': 'header_th_{0}'.format(self.attrName)}
+
     def getSortKey(self, item):
         attr = self.sort_index or self.attrName
         if attr is None:
