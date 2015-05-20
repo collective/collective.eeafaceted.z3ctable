@@ -45,7 +45,7 @@ class BaseColumnHeader(SortingColumnHeader):
         # a column can specifically declare that it is not sortable
         # by setting sort_index to -1
         if not self.column.sort_index == -1:
-            sort_on_name = self.request.get('sorting_criterion_name', '')
+            sort_on_name = self.table.sorting_criterion_name
             if sort_on_name and (self.column.sort_index or self.column.attrName):
                 html = u'<a href="{0}#{1}" title="Sort">{2} {3}</a>'
                 return html.format(self.faceted_url, self.query_string,
@@ -63,7 +63,7 @@ class BaseColumnHeader(SortingColumnHeader):
     @property
     def query_string(self):
         query = self.request_query
-        sort_on_name = self.request.get('sorting_criterion_name', '')
+        sort_on_name = self.table.sorting_criterion_name
 
         if (self.table.query.get('sort_on', '') == self.sort_on or
             self.table.sortOn == self.column.id) and \
