@@ -33,19 +33,18 @@ class FacetedTableView(BrowserView, SequenceTable):
         self.criteria = ICriteria(self.context)
         view = queryMultiAdapter((self.context, self.request), name=u'faceted_query')
         self.query = view.criteria()
+        self.sorting_criterion_name = self._sortingCriterionName()
 
     def render_table(self, batch):
-        self.setSortingCriteriaNameInRequest()
         self.update(batch)
         return self.render()
 
-    def setSortingCriteriaNameInRequest(self):
+    def _sortingCriterionName(self):
         """Find the sorting criterion and store the name in the request so
            it can be accessed by the z3c.table."""
         for criterion in self.criteria.values():
             if criterion.widget == u'sorting':
-                self.request.set('sorting_criterion_name', criterion.getId())
-                return
+                return criterion.getId()
 
     def _getViewFields(self):
         """Returns fields we want to show in the table."""
