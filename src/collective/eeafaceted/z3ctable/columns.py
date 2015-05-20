@@ -2,7 +2,9 @@
 
 from ZTUtils import make_query
 from zope.component import getMultiAdapter
+from zope.component import queryUtility
 from zope.i18n import translate
+from zope.schema.interfaces import IVocabularyFactory
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
 from Products.CMFCore.utils import getToolByName
@@ -195,5 +197,27 @@ class BrowserViewCallColumn(BaseColumn):
     def renderCell(self, item):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
-        obj = item.getObject()
+        obj = self._getObject(item)
         return getMultiAdapter((obj, self.request), name=self.view_name)(**self.params)
+
+
+class VocabularyColumn(BaseColumn):
+    """A column that is aware of a vocabulary and that will get value to display from it."""
+
+    # named utility
+    vocabulary = None
+
+    def renderCell(self, item):
+        if not self.vocabulary:
+            raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(self.attrName))
+        factory = queryUtility(IVocabularyFactory, self.vocabulary)
+        if not factory:
+            raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
+                                                                                               self.attrName))
+        vocab = factory(self.context)
+        value = self.getValue(item)
+        if not value:
+            return u'-'
+        else:
+            return vocab.getTerm(value).title
+
