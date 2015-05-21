@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from zope.component import queryMultiAdapter
-from zope.i18n import translate
 from zope.interface import implements
 from z3c.table.table import SequenceTable
 from Products.CMFCore.utils import getToolByName
@@ -20,11 +19,14 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     implements(IFacetedTable)
 
-    # use class 'nosort' on table so Plone default CSS sorting is not applied
-    cssClasses = {'table': 'listing nosort'}
-
     cssClassEven = u'odd'
     cssClassOdd = u'even'
+
+    @property
+    def cssClasses(self):
+        """Generate a CSS class for each <th> so we can skin it if necessary."""
+        # use class 'nosort' on table so Plone default CSS sorting is not applied
+        return {'table': 'faceted-table-results listing nosort'}
 
     def __init__(self, context, request):
         ''' '''
@@ -110,10 +112,8 @@ class FacetedTableView(BrowserView, SequenceTable):
                 raise KeyError('No column could be found for "{0}"'.format(colName))
             if not newColumn.header:
                 # the column header is translated, we build a msgid
-                # that is column name + '__header_title'
-                newColumn.header = translate(u'{0}__header_title'.format(colName),
-                                             domain='collective.eeafaceted.z3ctable',
-                                             context=self.request)
+                # that is 'header_' + column name
+                newColumn.header = u'header_{0}'.format(colName)
             if not newColumn.attrName:
                 newColumn.attrName = colName
             columns.append(newColumn)

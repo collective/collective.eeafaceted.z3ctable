@@ -15,77 +15,77 @@ msgstr ""
 "Domain: DOMAIN\n"
 
 #. Default: "Creation date"
-msgid "CreationDate__header_title"
+msgid "header_CreationDate"
 msgstr "Créé le"
 
 #. Default: "Creator"
-msgid "Creator__header_title"
+msgid "header_Creator"
 msgstr "Auteur"
 
 #. Default: "Description"
-msgid "Description__header_title"
+msgid "header_Description"
 msgstr "Description"
 
 #. Default: "Effective date"
-msgid "EffectiveDate__header_title"
+msgid "header_EffectiveDate"
 msgstr "Date d'activation"
 
 #. Default: "Expiration date"
-msgid "ExpirationDate__header_title"
+msgid "header_ExpirationDate"
 msgstr "Date d'expiration"
 
 #. Default: "Modification date"
-msgid "ModificationDate__header_title"
+msgid "header_ModificationDate"
 msgstr "Modifié le"
 
 #. Default: "Keywords"
-msgid "Subject__header_title"
+msgid "header_Subject"
 msgstr "Mots-clés"
 
 #. Default: "Title"
-msgid "Title__header_title"
+msgid "header_Title"
 msgstr "Titre"
 
 #. Default: "Type"
-msgid "Type__header_title"
+msgid "header_Type"
 msgstr "Type"
 
 #. Default: "UID"
-msgid "UID__header_title"
+msgid "header_UID"
 msgstr "UID"
 
 #. Default: "End"
-msgid "end__header_title"
+msgid "header_end"
 msgstr "Fin"
 
 #. Default: "Identifier"
-msgid "getId__header_title"
+msgid "header_getId"
 msgstr "Identifiant"
 
 #. Default: "Size"
-msgid "getObjSize__header_title"
+msgid "header_getObjSize"
 msgstr "Taille"
 
 #. Default: "Body"
-msgid "getText__header_title"
+msgid "header_getText"
 msgstr "Corps du texte"
 
 #. Default: "Location"
-msgid "location__header_title"
+msgid "header_location"
 msgstr "Localisation"
 
 #. Default: "Type"
-msgid "portal_type__header_title"
+msgid "header_portal_type"
 msgstr "Type"
 
 #. Default: "Review state"
-msgid "review_state__header_title"
+msgid "header_review_state"
 msgstr "Etat"
 
 #. Default: "Start"
-msgid "start__header_title"
+msgid "header_start"
 msgstr "Début"
 
 #. Default: "Total comments"
-msgid "total_comments__header_title"
+msgid "header_total_comments"
 msgstr "Nombre de commentaires"

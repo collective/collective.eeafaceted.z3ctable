@@ -18,78 +18,77 @@ msgstr ""
 "Domain: collective.eeafaceted.z3ctable\n"
 
 #. Default: "Creation date"
-msgid "CreationDate__header_title"
+msgid "header_CreationDate"
 msgstr ""
 
 #. Default: "Creator"
-msgid "Creator__header_title"
+msgid "header_Creator"
 msgstr ""
 
 #. Default: "Description"
-msgid "Description__header_title"
+msgid "header_Description"
 msgstr ""
 
 #. Default: "Effective date"
-msgid "EffectiveDate__header_title"
+msgid "header_EffectiveDate"
 msgstr ""
 
 #. Default: "Expiration date"
-msgid "ExpirationDate__header_title"
+msgid "header_ExpirationDate"
 msgstr ""
 
 #. Default: "Modification date"
-msgid "ModificationDate__header_title"
+msgid "header_ModificationDate"
 msgstr ""
 
 #. Default: "Keywords"
-msgid "Subject__header_title"
+msgid "header_Subject"
 msgstr ""
 
 #. Default: "Title"
-msgid "Title__header_title"
+msgid "header_Title"
 msgstr ""
 
 #. Default: "Type"
-msgid "Type__header_title"
+msgid "header_Type"
 msgstr ""
 
 #. Default: "UID"
-msgid "UID__header_title"
+msgid "header_UID"
 msgstr ""
 
 #. Default: "End"
-msgid "end__header_title"
+msgid "header_end"
 msgstr ""
 
 #. Default: "Identifier"
-msgid "getId__header_title"
+msgid "header_getId"
 msgstr ""
 
 #. Default: "Size"
-msgid "getObjSize__header_title"
+msgid "header_getObjSize"
 msgstr ""
 
 #. Default: "Body"
-msgid "getText__header_title"
+msgid "header_getText"
 msgstr ""
 
 #. Default: "Location"
-msgid "location__header_title"
+msgid "header_location"
 msgstr ""
 
 #. Default: "Type"
-msgid "portal_type__header_title"
+msgid "header_portal_type"
 msgstr ""
 
 #. Default: "Review state"
-msgid "review_state__header_title"
+msgid "header_review_state"
 msgstr ""
 
 #. Default: "Start"
-msgid "start__header_title"
+msgid "header_start"
 msgstr ""
 
 #. Default: "Total comments"
-msgid "total_comments__header_title"
+msgid "header_total_comments"
 msgstr ""
-

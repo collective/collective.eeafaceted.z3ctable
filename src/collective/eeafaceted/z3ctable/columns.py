@@ -19,7 +19,7 @@ class BaseColumn(column.GetAttrColumn):
     @property
     def cssClasses(self):
         """Generate a CSS class for each <th> so we can skin it if necessary."""
-        return {'th': 'header_th_{0}'.format(self.attrName)}
+        return {'th': 'th_{0}'.format(self.header)}
 
     def getSortKey(self, item):
         attr = self.sort_index or self.attrName
@@ -46,13 +46,16 @@ class BaseColumnHeader(SortingColumnHeader):
     def render(self):
         # a column can specifically declare that it is not sortable
         # by setting sort_index to -1
+        header = translate(self.column.header,
+                           domain='collective.eeafaceted.z3ctable',
+                           context=self.request)
         if not self.column.sort_index == -1:
             sort_on_name = self.table.sorting_criterion_name
             if sort_on_name and (self.column.sort_index or self.column.attrName):
                 html = u'<a href="{0}#{1}" title="Sort">{2} {3}</a>'
                 return html.format(self.faceted_url, self.query_string,
-                                   self.column.header, self.order_arrow)
-        return self.column.header
+                                   header, self.order_arrow)
+        return header
 
     @property
     def sort_on(self):
@@ -216,8 +219,7 @@ class VocabularyColumn(BaseColumn):
                                                                                                self.attrName))
         vocab = factory(self.context)
         value = self.getValue(item)
-        if not value:
+        if not value or not value in vocab:
             return u'-'
         else:
             return vocab.getTerm(value).title
-
