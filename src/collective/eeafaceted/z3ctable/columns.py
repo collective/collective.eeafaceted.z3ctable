@@ -116,11 +116,12 @@ class AwakeObjectMethodColumn(BaseColumn):
     """Column that will wake the object then call attrName on it."""
     # column not sortable
     sort_index = -1
+    params = {}
 
     def renderCell(self, item):
         obj = self._getObject(item)
         try:
-            result = getattr(obj, self.attrName)()
+            result = getattr(obj, self.attrName)(**self.params)
             if isinstance(result, str):
                 return unicode(result, 'utf-8')
         except AttributeError:
