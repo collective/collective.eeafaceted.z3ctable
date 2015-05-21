@@ -36,6 +36,8 @@ class FacetedTableView(BrowserView, SequenceTable):
         view = queryMultiAdapter((self.context, self.request), name=u'faceted_query')
         self.query = view.criteria()
         self.sorting_criterion_name = self._sortingCriterionName()
+        # convenience
+        self.portal_url = getToolByName(self.context, 'portal_url').getPortalObject().absolute_url()
 
     def render_table(self, batch):
         self.update(batch)
