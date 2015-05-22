@@ -17,6 +17,8 @@ class BaseColumn(column.GetAttrColumn):
     weight = 1
     # we can use a icon for header
     header_image = None
+    # we can inject some javascript in the header
+    header_js = None
 
     @property
     def cssClasses(self):
@@ -51,7 +53,12 @@ class BaseColumnHeader(SortingColumnHeader):
                            context=self.request)
         # header can be an image or a text
         if self.column.header_image:
-            header = u'<img src="{0}" title="{1}" />'.format(self.column.header_image, header)
+            header = u'<img src="{0}/{1}" title="{2}" />'.format(self.table.portal_url,
+                                                                 self.column.header_image,
+                                                                 header)
+        # inject some javascript in the header?
+        if self.column.header_js:
+            header = self.column.header_js + header
         # a column can specifically declare that it is not sortable
         # by setting sort_index to -1
         if not self.column.sort_index == -1:
