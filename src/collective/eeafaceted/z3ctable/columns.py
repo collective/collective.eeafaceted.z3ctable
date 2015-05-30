@@ -25,6 +25,9 @@ class BaseColumn(column.GetAttrColumn):
         """Generate a CSS class for each <th> so we can skin it if necessary."""
         return {'th': 'th_{0}'.format(self.header)}
 
+    def getCSSClasses(self, item):
+        return self.cssClasses
+
     def getSortKey(self, item):
         attr = self.sort_index or self.attrName
         if attr is None:
@@ -146,12 +149,10 @@ class MemberIdColumn(BaseColumn):
 
     def renderCell(self, item):
         membershipTool = getToolByName(self.context, 'portal_membership')
-        member = membershipTool.getMemberById(self.getValue(item))
-        if not member:
-            return self.getValue(item)
-        else:
-            value = membershipTool.getMemberInfo(member.getId())['fullname'] or self.getValue(item)
-            return unicode(value, 'utf-8')
+        value = self.getValue(item)
+        memberInfo = membershipTool.getMemberInfo(value)
+        value = memberInfo and memberInfo['fullname'] or value
+        return unicode(value, 'utf-8')
 
 
 class DateColumn(BaseColumn):
@@ -176,12 +177,13 @@ class I18nColumn(BaseColumn):
     """GetAttrColumn which translates its content."""
 
     i18n_domain = 'plone'
+    msgid_prefix = ''
 
     def renderCell(self, item):
         value = self.getValue(item)
         if not value:
             return u'-'
-        return translate(value,
+        return translate("{0}{1}".format(self.msgid_prefix, value),
                          domain=self.i18n_domain,
                          context=self.request)
 
@@ -236,3 +238,25 @@ class VocabularyColumn(BaseColumn):
             return u'-'
         else:
             return vocab.getTerm(value).title
+
+
+class ColorColumn(I18nColumn):
+    """A column that is aimed to display a background color and a help message on hover."""
+
+    # no real color is applied but a generated CSS class
+    cssClassPrefix = 'column'
+
+    def renderHeadCell(self):
+        """Hide the head cell."""
+        return ''
+
+    def renderCell(self, item):
+        """Display a message."""
+        translated_msg = super(ColorColumn, self).renderCell(item)
+        return '<div title="{0}">&nbsp;</div>'.format(translated_msg)
+
+    def getCSSClasses(self, item):
+        """Generate a CSS class to apply on the TD depending on the value."""
+        return {'td': "{0}_{1}_{2}".format(self.cssClassPrefix,
+                                           str(self.attrName),
+                                           self.getValue(item))}

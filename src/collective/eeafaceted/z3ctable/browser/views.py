@@ -2,6 +2,7 @@
 
 from zope.component import queryMultiAdapter
 from zope.interface import implements
+from z3c.table import interfaces
 from z3c.table.table import SequenceTable
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -21,12 +22,7 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     cssClassEven = u'odd'
     cssClassOdd = u'even'
-
-    @property
-    def cssClasses(self):
-        """Generate a CSS class for each <th> so we can skin it if necessary."""
-        # use class 'nosort' on table so Plone default CSS sorting is not applied
-        return {'table': 'faceted-table-results listing nosort'}
+    cssClasses = {'table': 'faceted-table-results listing nosort'}
 
     def __init__(self, context, request):
         ''' '''
@@ -120,6 +116,46 @@ class FacetedTableView(BrowserView, SequenceTable):
                 newColumn.attrName = colName
             columns.append(newColumn)
         return columns
+
+    def renderRow(self, row, cssClass=None):
+        """Override to be able to apply a class on the TR defined on a column,
+           because by default, the only way to define a class for the TR
+           is on the table, and we need to do it from the column..."""
+        isSelected = self.isSelectedRow(row)
+        if isSelected and self.cssClassSelected and cssClass:
+            cssClass = '%s %s' % (self.cssClassSelected, cssClass)
+        elif isSelected and self.cssClassSelected:
+            cssClass = self.cssClassSelected
+        # XXX begin adaptation by collective.eeafaceted.z3ctable
+        # get a getCSSClasses method on each column to see if something
+        # is defined for the TR
+        trCSSClasses = [cssClass, ]
+        for item, column, index in row:
+            trCSSClass = column.getCSSClasses(item).get('tr', None)
+            if trCSSClass:
+                trCSSClasses.append(trCSSClass)
+        cssClasses = ' '.join(trCSSClasses)
+        cssClass = self.getCSSClass('tr', cssClasses)
+        # XXX end adaptation by collective.eeafaceted.z3ctable
+        cells = [self.renderCell(item, col, colspan)
+                 for item, col, colspan in row]
+        return u'\n    <tr%s>%s\n    </tr>' % (cssClass, u''.join(cells))
+
+    def renderCell(self, item, column, colspan=0):
+        """Override to be call getCSSClasses on column, no cssClasses."""
+        if interfaces.INoneCell.providedBy(column):
+            return u''
+        # XXX begin adaptation by collective.eeafaceted.z3ctable
+        #cssClass = column.cssClasses.get('td')
+        cssClass = column.getCSSClasses(item).get('td', None)
+        # XXX end adaptation by collective.eeafaceted.z3ctable
+        cssClass = self.getCSSHighlightClass(column, item, cssClass)
+        cssClass = self.getCSSSortClass(column, cssClass)
+        cssClass = self.getCSSClass('td', cssClass)
+        colspanStr = colspan and ' colspan="%s"' % colspan or ''
+        return u'\n      <td%s%s>%s</td>' % (cssClass,
+                                             colspanStr,
+                                             column.renderCell(item))
 
     def sortRows(self):
         self.sortOn = self.update_sortOn()
