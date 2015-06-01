@@ -152,7 +152,7 @@ class MemberIdColumn(BaseColumn):
         value = self.getValue(item)
         memberInfo = membershipTool.getMemberInfo(value)
         value = memberInfo and memberInfo['fullname'] or value
-        return unicode(value, 'utf-8')
+        return value
 
 
 class DateColumn(BaseColumn):
