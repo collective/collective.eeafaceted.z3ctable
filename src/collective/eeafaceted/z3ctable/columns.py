@@ -8,6 +8,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 
 
 class BaseColumn(column.GetAttrColumn):
@@ -122,7 +123,8 @@ class AwakeObjectGetAttrColumn(BaseColumn):
     def renderCell(self, item):
         obj = self._getObject(item)
         try:
-            return getattr(obj, self.attrName)
+            result = getattr(obj, self.attrName)
+            return safe_unicode(result)
         except AttributeError:
             return u''
 
@@ -137,8 +139,7 @@ class AwakeObjectMethodColumn(BaseColumn):
         obj = self._getObject(item)
         try:
             result = getattr(obj, self.attrName)(**self.params)
-            if isinstance(result, str):
-                return unicode(result, 'utf-8')
+            return safe_unicode(result)
         except AttributeError:
             return u''
 
@@ -152,7 +153,7 @@ class MemberIdColumn(BaseColumn):
         value = self.getValue(item)
         memberInfo = membershipTool.getMemberInfo(value)
         value = memberInfo and memberInfo['fullname'] or value
-        return value
+        return safe_unicode(value)
 
 
 class DateColumn(BaseColumn):
@@ -200,8 +201,7 @@ class TitleColumn(BaseColumn):
         value = self.getValue(item)
         if not value:
             value = u'-'
-        if isinstance(value, str):
-            value = unicode(value, 'utf-8')
+        value = safe_unicode(value)
         return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
 
 
@@ -237,7 +237,7 @@ class VocabularyColumn(BaseColumn):
         if not value or not value in vocab:
             return u'-'
         else:
-            return vocab.getTerm(value).title
+            return safe_unicode(vocab.getTerm(value).title)
 
 
 class ColorColumn(I18nColumn):
