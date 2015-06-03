@@ -158,18 +158,8 @@ class FacetedTableView(BrowserView, SequenceTable):
                                              column.renderCell(item))
 
     def sortRows(self):
-        self.sortOn = self.update_sortOn()
-        super(FacetedTableView, self).sortRows()
-
-    def update_sortOn(self):
-        sort_on = self.query.get('sort_on', '')
-        if sort_on:
-            for c in self.columns:
-                key = c.sort_index or c.attrName
-                if key == sort_on:
-                    return c.id
-            # if sort is not found, order on first column
-            return self.columns[0].id
+        """Rows are sorted by the catalog query, do not let z3c.table sort rows."""
+        return
 
     def getSortOrder(self):
         return self.query.get('sort_order', 'ascending')
