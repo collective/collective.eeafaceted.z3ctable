@@ -68,9 +68,17 @@ class BaseColumnHeader(SortingColumnHeader):
         if not self.column.sort_index == -1:
             sort_on_name = self.table.sorting_criterion_name
             if sort_on_name and (self.column.sort_index or self.column.attrName):
-                html = u'<a href="{0}#{1}" title="Sort">{2} {3}</a>'
-                return html.format(self.faceted_url, self.query_string,
-                                   header, self.order_arrow)
+                order_arrow = self.order_arrow
+                faceted_url = self.faceted_url
+                query_string = self.query_string
+                if order_arrow:
+                    html = u'<span>{0}</span><a class="sort_arrow_enabled" href="{1}#{2}" title="Sort">{3}</a>'
+                    return html.format(header, faceted_url, query_string, order_arrow)
+                else:
+                    html = (u'<span>{0}</span><a class="sort_arrow_disabled" href="{1}#{2}" title="Sort">{3}</a>'
+                            '<a class="sort_arrow_disabled" href="{4}#{5}" title="Sort"><span>{6}</span></a>')
+                    return html.format(header, faceted_url, query_string, u'▲',
+                                       faceted_url, query_string+'&reversed=on', u'▼')
         return header
 
     @property
