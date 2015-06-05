@@ -14,7 +14,6 @@ Test Setup  Test Setup
 
 Test Add Faceted Collection Portlet
     Go to  ${PLONE_URL}/eea
-    debug
 
 
 *** Keywords ***
