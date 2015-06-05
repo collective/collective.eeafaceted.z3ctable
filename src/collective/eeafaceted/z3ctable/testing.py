@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -21,7 +21,7 @@ import collective.eeafaceted.z3ctable
 class CollectiveEeafacetedZ3ctableLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
-    products = ('collective.eeafaceted.z3ctable', )
+    products = ('collective.eeafaceted.z3ctable', 'eea.facetednavigation')
 
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
@@ -70,7 +70,7 @@ FUNCTIONAL = FunctionalTesting(
 
 
 ACCEPTANCE = FunctionalTesting(bases=(FIXTURE,
-                                      AUTOLOGIN_LIBRARY_FIXTURE,
+                                      REMOTE_LIBRARY_BUNDLE_FIXTURE,
                                       z2.ZSERVER_FIXTURE),
                                name="ACCEPTANCE")
 

@@ -78,7 +78,7 @@ class BaseColumnHeader(SortingColumnHeader):
                     html = (u'<span>{0}</span><a class="sort_arrow_disabled" href="{1}#{2}" title="Sort">{3}</a>'
                             '<a class="sort_arrow_disabled" href="{4}#{5}" title="Sort"><span>{6}</span></a>')
                     return html.format(header, faceted_url, query_string, u'▲',
-                                       faceted_url, query_string+'&reversed=on', u'▼')
+                                       faceted_url, query_string + '&reversed=on', u'▼')
         return header
 
     @property
