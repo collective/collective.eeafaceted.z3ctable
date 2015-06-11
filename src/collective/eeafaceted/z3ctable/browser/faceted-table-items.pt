@@ -12,21 +12,10 @@
                        DateTime python: modules['DateTime'];
                        now python: DateTime.DateTime()">
 
-<script type="text/javascript">
-    function onImageButtonFocus(itemNumber) {
-    var imageButtons = document.getElementsByName('moveImageButton');
-    for (var i=0; i<imageButtons.length; i++) {
-        if (imageButtons[i].id != itemNumber) {
-            imageButtons[i].style.visibility = 'hidden';
-        }
-        else {
-            imageButtons[i].style.visibility = 'visible';
-            imageButtons[i].style.cursor = 'pointer';
-            document.getElementById('moveValue_' + itemNumber).select();
-        }
-    }
-  }
-</script>
+        <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+          Portal status message
+        </div>
+
         <div metal:use-macro="context/batch_macros/macros/navigation" />
 
         <div tal:condition="batch/sequence_length"
