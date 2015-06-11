@@ -20,6 +20,8 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     implements(IFacetedTable)
 
+    # workaround so z3c.table does not manage batching
+    startBatchingAt = 9999
     cssClassEven = u'odd'
     cssClassOdd = u'even'
     cssClasses = {'table': 'faceted-table-results listing nosort'}
@@ -171,3 +173,6 @@ class FacetedTableView(BrowserView, SequenceTable):
     def update(self, batch):
         self.batch = batch
         super(FacetedTableView, self).update()
+
+    def getBatchSize(self):
+        return self.batch.length
