@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-04-30 09:38+0000\n"
+"POT-Creation-Date: 2015-06-15 13:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,62 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.eeafaceted.z3ctable\n"
+
+#. Default: "Creation date"
+msgid "CreationDate__header_title"
+msgstr ""
+
+#. Default: "Creator"
+msgid "Creator__header_title"
+msgstr ""
+
+#. Default: "Description"
+msgid "Description__header_title"
+msgstr ""
+
+#. Default: "Effective date"
+msgid "EffectiveDate__header_title"
+msgstr ""
+
+#. Default: "Expiration date"
+msgid "ExpirationDate__header_title"
+msgstr ""
+
+#. Default: "Modification date"
+msgid "ModificationDate__header_title"
+msgstr ""
+
+#. Default: "Keywords"
+msgid "Subject__header_title"
+msgstr ""
+
+#. Default: "Title"
+msgid "Title__header_title"
+msgstr ""
+
+#. Default: "Type"
+msgid "Type__header_title"
+msgstr ""
+
+#. Default: "UID"
+msgid "UID__header_title"
+msgstr ""
+
+#. Default: "End"
+msgid "end__header_title"
+msgstr ""
+
+#. Default: "Identifier"
+msgid "getId__header_title"
+msgstr ""
+
+#. Default: "Size"
+msgid "getObjSize__header_title"
+msgstr ""
+
+#. Default: "Body"
+msgid "getText__header_title"
+msgstr ""
 
 #. Default: "Creation date"
 msgid "header_CreationDate"
@@ -92,3 +148,28 @@ msgstr ""
 #. Default: "Total comments"
 msgid "header_total_comments"
 msgstr ""
+
+#. Default: "Location"
+msgid "location__header_title"
+msgstr ""
+
+#. Default: "Type"
+msgid "portal_type__header_title"
+msgstr ""
+
+#. Default: "Review state"
+msgid "review_state__header_title"
+msgstr ""
+
+#. Default: "Select/Unselect items"
+msgid "select_unselect_items"
+msgstr ""
+
+#. Default: "Start"
+msgid "start__header_title"
+msgstr ""
+
+#. Default: "Total comments"
+msgid "total_comments__header_title"
+msgstr ""
+

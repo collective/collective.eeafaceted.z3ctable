@@ -4,37 +4,42 @@
   xmlns:browser="http://namespaces.zope.org/browser"
   i18n_domain="imio.facetednavigation">
 
-  <faceted:widget factory=".overrides.SortingFormAwareAbstractWidget" />
-
-  <faceted:view
-    name="faceted-table-items"
-    template="faceted-table-items.pt"
-    for="eea.facetednavigation.interfaces.IFacetedNavigable"
-    title="Faceted table items"
-    permission="zope2.View"
+    <browser:resourceDirectory
+        name="collective.eeafaceted.z3ctable"
+        directory="static"
     />
 
-  <browser:view
-    for="*"
-    name="faceted-table-view"
-    class=".views.FacetedTableView"
-    permission="zope2.View"
-    />
+    <faceted:widget factory=".overrides.SortingFormAwareAbstractWidget" />
 
-  <browser:page
-    for="eea.facetednavigation.interfaces.IFacetedNavigable"
-    name="default_collection_widgets.xml"
-    template="default_collection.xml"
-    permission="eea.faceted.configure"
-    />
+    <faceted:view
+      name="faceted-table-items"
+      template="faceted-table-items.pt"
+      for="eea.facetednavigation.interfaces.IFacetedNavigable"
+      title="Faceted table items"
+      permission="zope2.View"
+      />
 
-  <adapter
-     for="zope.interface.Interface
-          zope.publisher.interfaces.browser.IBrowserRequest
-          collective.eeafaceted.z3ctable.interfaces.IFacetedTable
-          z3c.table.interfaces.IColumn"
-     factory="collective.eeafaceted.z3ctable.columns.BaseColumnHeader"
-     provides="z3c.table.interfaces.IColumnHeader"
-  />
+    <browser:view
+      for="*"
+      name="faceted-table-view"
+      class=".views.FacetedTableView"
+      permission="zope2.View"
+      />
+
+    <browser:page
+      for="eea.facetednavigation.interfaces.IFacetedNavigable"
+      name="default_collection_widgets.xml"
+      template="default_collection.xml"
+      permission="eea.faceted.configure"
+      />
+
+    <adapter
+       for="zope.interface.Interface
+            zope.publisher.interfaces.browser.IBrowserRequest
+            collective.eeafaceted.z3ctable.interfaces.IFacetedTable
+            z3c.table.interfaces.IColumn"
+       factory="collective.eeafaceted.z3ctable.columns.BaseColumnHeader"
+       provides="z3c.table.interfaces.IColumnHeader"
+    />
 
 </configure>

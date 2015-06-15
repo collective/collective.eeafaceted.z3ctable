@@ -268,3 +268,31 @@ class ColorColumn(I18nColumn):
         return {'td': "{0}_{1}_{2}".format(self.cssClassPrefix,
                                            str(self.attrName),
                                            self.getValue(item))}
+
+
+class CheckBoxColumn(BaseColumn):
+    """
+      Display a checkbox.
+    """
+
+    name = 'select_item'
+    checked_by_default = True
+    attrName = 'UID'
+
+    def renderHeadCell(self):
+        """ """
+        title = translate('select_unselect_items',
+                          domain='collective.eeafaceted.z3ctable',
+                          context=self.request,
+                          default="Select/unselect items")
+        return u'<input type="checkbox" id="select_unselect_items" onClick="%s" title="%s" %s />' \
+            % ("toggleCheckboxes('%s')" % self.name, title, self.checked_by_default and "checked" or "")
+
+    def renderCell(self, item):
+        """ """
+        return u'<input type="checkbox" name="%s" value="%s" %s />' \
+            % (self.name, self.getValue(item), self.checked_by_default and "checked" or "")
+
+    def getCSSClasses(self, item):
+        """ """
+        return {'td': '{0}_checkbox'.format(self.name)}

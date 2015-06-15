@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-04-30 09:38+0000\n"
+"POT-Creation-Date: 2015-06-15 13:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,6 +13,62 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+
+#. Default: "Creation date"
+msgid "CreationDate__header_title"
+msgstr "Créé le"
+
+#. Default: "Creator"
+msgid "Creator__header_title"
+msgstr "Auteur"
+
+#. Default: "Description"
+msgid "Description__header_title"
+msgstr "Description"
+
+#. Default: "Effective date"
+msgid "EffectiveDate__header_title"
+msgstr "Publié le"
+
+#. Default: "Expiration date"
+msgid "ExpirationDate__header_title"
+msgstr "Expiré le"
+
+#. Default: "Modification date"
+msgid "ModificationDate__header_title"
+msgstr "Modifié le"
+
+#. Default: "Keywords"
+msgid "Subject__header_title"
+msgstr "Mots-clés"
+
+#. Default: "Title"
+msgid "Title__header_title"
+msgstr "Titre"
+
+#. Default: "Type"
+msgid "Type__header_title"
+msgstr "Type"
+
+#. Default: "UID"
+msgid "UID__header_title"
+msgstr "UID"
+
+#. Default: "End"
+msgid "end__header_title"
+msgstr "Fin"
+
+#. Default: "Identifier"
+msgid "getId__header_title"
+msgstr "Identifiant"
+
+#. Default: "Size"
+msgid "getObjSize__header_title"
+msgstr "Taille"
+
+#. Default: "Body"
+msgid "getText__header_title"
+msgstr "Corps du texte"
 
 #. Default: "Creation date"
 msgid "header_CreationDate"
@@ -88,4 +144,28 @@ msgstr "Début"
 
 #. Default: "Total comments"
 msgid "header_total_comments"
+msgstr "Nombre de commentaires"
+
+#. Default: "Location"
+msgid "location__header_title"
+msgstr "Localiastion"
+
+#. Default: "Type"
+msgid "portal_type__header_title"
+msgstr "Type"
+
+#. Default: "Review state"
+msgid "review_state__header_title"
+msgstr "Etat"
+
+#. Default: "Select/Unselect items"
+msgid "select_unselect_items"
+msgstr "Tout cocher/décocher"
+
+#. Default: "Start"
+msgid "start__header_title"
+msgstr "Début"
+
+#. Default: "Total comments"
+msgid "total_comments__header_title"
 msgstr "Nombre de commentaires"
