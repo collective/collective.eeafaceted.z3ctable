@@ -72,13 +72,27 @@ class BaseColumnHeader(SortingColumnHeader):
                 faceted_url = self.faceted_url
                 query_string = self.query_string
                 if order_arrow:
-                    html = u'<span>{0}</span><a class="sort_arrow_enabled" href="{1}#{2}" title="Sort">{3}</a>'
-                    return html.format(header, faceted_url, query_string, order_arrow)
+                    contray_sort_order = self.table.query.get('sort_order', 'ascending') == 'ascending' and 'descending' or 'ascending'
+                    contray_sort_order_msgid = "Sort {0}".format(contray_sort_order)
+                    sort_msg = translate(contray_sort_order_msgid,
+                                         domain='collective.eeafaceted.z3ctable',
+                                         context=self.request,
+                                         default=contray_sort_order_msgid)
+                    html = u'<span>{0}</span><a class="sort_arrow_enabled" href="{1}#{2}" title="{3}">{4}</a>'
+                    return html.format(header, faceted_url, query_string, sort_msg, order_arrow)
                 else:
-                    html = (u'<span>{0}</span><a class="sort_arrow_disabled" href="{1}#{2}" title="Sort">{3}</a>'
-                            '<a class="sort_arrow_disabled" href="{4}#{5}" title="Sort"><span>{6}</span></a>')
-                    return html.format(header, faceted_url, query_string, u'▲',
-                                       faceted_url, query_string + '&reversed=on', u'▼')
+                    sort_ascending_msg = translate("Sort ascending",
+                                                   domain='collective.eeafaceted.z3ctable',
+                                                   context=self.request,
+                                                   default="Sort ascending")
+                    sort_descending_msg = translate("Sort descending",
+                                                    domain='collective.eeafaceted.z3ctable',
+                                                    context=self.request,
+                                                    default="Sort descending")
+                    html = (u'<span>{0}</span><a class="sort_arrow_disabled" href="{1}#{2}" title="{3}">{4}</a>'
+                            '<a class="sort_arrow_disabled" href="{5}#{6}" title="{7}"><span>{8}</span></a>')
+                    return html.format(header, faceted_url, query_string, sort_ascending_msg, u'▲',
+                                       faceted_url, query_string + '&reversed=on', sort_descending_msg, u'▼')
         return header
 
     @property

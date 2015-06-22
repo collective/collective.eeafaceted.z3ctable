@@ -85,3 +85,11 @@ msgstr ""
 #. Default: "Body"
 msgid "getText__header_title"
 msgstr ""
+
+#. Default: "Click here to sort elements by ascending order"
+msgid "Sort ascending"
+msgstr ""
+
+#. Default: "Click here to sort elements by descending order"
+msgid "Sort descending"
+msgstr ""
