@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-from ZTUtils import make_query
+import urllib
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
@@ -117,7 +117,10 @@ class BaseColumnHeader(SortingColumnHeader):
         query.update({sort_on_name: self.sort_on})
         if 'version' in query:
             del query['version']
-        return make_query(query)
+        # make sure we handle multiple valued parameters correctly
+        # eea.facetednavigation needs this : ?b_start=0&c6=state1&c6=state2
+        # not ?b_start=0&c6:list=state1&c6:list=state2 nor ?b_start=0&c6=state1+state2
+        return urllib.urlencode(query, doseq=True)
 
     @property
     def request_query(self):
