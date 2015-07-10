@@ -8,9 +8,7 @@
 <body>
   <metal:content-core fill-slot="content-core">
     <metal:block define-macro="content-core">
-      <div tal:define="batch python: folderContents;
-                       DateTime python: modules['DateTime'];
-                       now python: DateTime.DateTime()">
+      <div tal:define="batch python: folderContents;">
 
         <div metal:use-macro="context/global_statusmessage/macros/portal_message">
           Portal status message
@@ -30,13 +28,11 @@
         <div tal:condition="not: batch/sequence_length"
              class="table_faceted_no_results" i18n:domain="plone" i18n:translate="description_no_results_found">No results were found.</div>
         <div style="clear: both;"></div>
-        <span tal:content="now" />
         <div class="eea-preview-items"
              tal:condition="batch/sequence_length"
              tal:define="table_view nocall:context/@@faceted-table-view;">
           <span tal:replace="structure python:table_view.render_table(batch)" />
         </div>
-        <span tal:content="python: DateTime.DateTime() - now" />
 
         <div style="clear: both;"></div>
         <div metal:use-macro="context/batch_macros/macros/navigation" />
