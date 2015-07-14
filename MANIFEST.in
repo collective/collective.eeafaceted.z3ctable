@@ -5,6 +5,8 @@ include *.py
 include Makefile
 recursive-include docs *.GPL
 recursive-include docs *.rst
+recursive-include docs *.gitkeep
+recursive-include docs *.py
 exclude buildout.d
 exclude buildout.d/*
 exclude .installed.cfg
