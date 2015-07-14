@@ -1,4 +1,14 @@
-include *.cfg *.rst *.in *.txt
-graft src/collective/eeafaceted
-graft docs
-global-exclude *pyc
+graft src/collective
+graft docs/
+include *.cfg *.rst *.in
+include *.py
+include Makefile
+recursive-include docs *.GPL
+recursive-include docs *.rst
+exclude buildout.d
+exclude buildout.d/*
+exclude .installed.cfg
+exclude .mr.developer.cfg
+exclude *.yml
+exclude .coveragerc
+global-exclude *.pyc
