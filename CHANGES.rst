@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.2 (unreleased)
+0.2 (2015-08-04)
 ----------------
 
 - Fix: avoid UnicodeDecodeErrors in ColorColumn if label contains special chars.
