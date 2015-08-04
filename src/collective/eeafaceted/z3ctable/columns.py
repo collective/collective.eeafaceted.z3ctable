@@ -278,7 +278,7 @@ class ColorColumn(I18nColumn):
     def renderCell(self, item):
         """Display a message."""
         translated_msg = super(ColorColumn, self).renderCell(item)
-        return '<div title="{0}">&nbsp;</div>'.format(translated_msg)
+        return u'<div title="{0}">&nbsp;</div>'.format(translated_msg)
 
     def getCSSClasses(self, item):
         """Generate a CSS class to apply on the TD depending on the value."""
