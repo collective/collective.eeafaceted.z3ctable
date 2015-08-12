@@ -10,80 +10,104 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.eeafaceted.z3ctable\n"
 
-#. Default: "Title"
-msgid "Title__header_title"
+#. Default: "Creation date"
+msgid "header_CreationDate"
 msgstr ""
 
 #. Default: "Creator"
-msgid "Creator__header_title"
-msgstr ""
-
-#. Default: "Review state"
-msgid "review_state__header_title"
-msgstr ""
-
-#. Default: "Creation date"
-msgid "CreationDate__header_title"
-msgstr ""
-
-#. Default: "Modification date"
-msgid "ModificationDate__header_title"
-msgstr ""
-
-#. Default: "Type"
-msgid "Type__header_title"
-msgstr ""
-
-#. Default: "Type"
-msgid "portal_type__header_title"
-msgstr ""
-
-#. Default: "UID"
-msgid "UID__header_title"
+msgid "header_Creator"
 msgstr ""
 
 #. Default: "Description"
-msgid "Description__header_title"
+msgid "header_Description"
 msgstr ""
 
 #. Default: "Effective date"
-msgid "EffectiveDate__header_title"
-msgstr ""
-
-#. Default: "End"
-msgid "end__header_title"
-msgstr ""
-
-#. Default: "Start"
-msgid "start__header_title"
+msgid "header_EffectiveDate"
 msgstr ""
 
 #. Default: "Expiration date"
-msgid "ExpirationDate__header_title"
+msgid "header_ExpirationDate"
+msgstr ""
+
+#. Default: "Modification date"
+msgid "header_ModificationDate"
+msgstr ""
+
+#. Default: "Keywords"
+msgid "header_Subject"
+msgstr ""
+
+#. Default: "Title"
+msgid "header_Title"
+msgstr ""
+
+#. Default: "Type"
+msgid "header_Type"
+msgstr ""
+
+#. Default: "UID"
+msgid "header_UID"
+msgstr ""
+
+#. Default: "End"
+msgid "header_end"
 msgstr ""
 
 #. Default: "Identifier"
-msgid "getId__header_title"
+msgid "header_getId"
 msgstr ""
 
 #. Default: "Size"
-msgid "getObjSize__header_title"
+msgid "header_getObjSize"
+msgstr ""
+
+#. Default: "Body"
+msgid "header_getText"
+msgstr ""
+
+#. Default: "Location"
+msgid "header_location"
+msgstr ""
+
+#. Default: "Type"
+msgid "header_portal_type"
+msgstr ""
+
+#. Default: "Review state"
+msgid "header_review_state"
+msgstr ""
+
+#. Default: "Start"
+msgid "header_start"
+msgstr ""
+
+#. Default: "Total comments"
+msgid "header_total_comments"
 msgstr ""
 
 #. Default: "Location"
 msgid "location__header_title"
 msgstr ""
 
-#. Default: "Keywords"
-msgid "Subject__header_title"
+#. Default: "Type"
+msgid "portal_type__header_title"
+msgstr ""
+
+#. Default: "Review state"
+msgid "review_state__header_title"
+msgstr ""
+
+#. Default: "Select/Unselect items"
+msgid "select_unselect_items"
+msgstr ""
+
+#. Default: "Start"
+msgid "start__header_title"
 msgstr ""
 
 #. Default: "Total comments"
 msgid "total_comments__header_title"
-msgstr ""
-
-#. Default: "Body"
-msgid "getText__header_title"
 msgstr ""
 
 #. Default: "Click here to sort elements by ascending order"

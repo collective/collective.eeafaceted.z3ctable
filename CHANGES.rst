@@ -5,7 +5,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added link to refresh the search results.
+  [gbastien]
 
 
 0.2 (2015-08-04)
@@ -20,4 +21,3 @@ Changelog
 
 - Initial release.
   [IMIO]
-

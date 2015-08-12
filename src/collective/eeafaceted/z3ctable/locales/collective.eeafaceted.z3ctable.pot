@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-06-22 07:59+0000\n"
+"POT-Creation-Date: 2015-08-12 12:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,68 +17,12 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.eeafaceted.z3ctable\n"
 
-#. Default: "Creation date"
-msgid "CreationDate__header_title"
-msgstr ""
-
-#. Default: "Creator"
-msgid "Creator__header_title"
-msgstr ""
-
-#. Default: "Description"
-msgid "Description__header_title"
-msgstr ""
-
-#. Default: "Effective date"
-msgid "EffectiveDate__header_title"
-msgstr ""
-
-#. Default: "Expiration date"
-msgid "ExpirationDate__header_title"
-msgstr ""
-
-#. Default: "Modification date"
-msgid "ModificationDate__header_title"
-msgstr ""
-
 #. Default: "Click here to sort elements by ascending order"
 msgid "Sort ascending"
 msgstr ""
 
 #. Default: "Click here to sort elements by descending order"
 msgid "Sort descending"
-msgstr ""
-
-#. Default: "Keywords"
-msgid "Subject__header_title"
-msgstr ""
-
-#. Default: "Title"
-msgid "Title__header_title"
-msgstr ""
-
-#. Default: "Type"
-msgid "Type__header_title"
-msgstr ""
-
-#. Default: "UID"
-msgid "UID__header_title"
-msgstr ""
-
-#. Default: "End"
-msgid "end__header_title"
-msgstr ""
-
-#. Default: "Identifier"
-msgid "getId__header_title"
-msgstr ""
-
-#. Default: "Size"
-msgid "getObjSize__header_title"
-msgstr ""
-
-#. Default: "Body"
-msgid "getText__header_title"
 msgstr ""
 
 #. Default: "Creation date"
@@ -163,6 +107,11 @@ msgstr ""
 
 #. Default: "Type"
 msgid "portal_type__header_title"
+msgstr ""
+
+#. Default: "Refresh search results."
+#: ./browser/faceted-table-items.pt:28
+msgid "refresh_results"
 msgstr ""
 
 #. Default: "Review state"
