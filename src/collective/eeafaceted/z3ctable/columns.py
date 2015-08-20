@@ -176,6 +176,8 @@ class MemberIdColumn(BaseColumn):
     def renderCell(self, item):
         membershipTool = getToolByName(self.context, 'portal_membership')
         value = self.getValue(item)
+        if not value:
+            return u'-'
         memberInfo = membershipTool.getMemberInfo(value)
         value = memberInfo and memberInfo['fullname'] or value
         return safe_unicode(value)

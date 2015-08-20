@@ -7,6 +7,8 @@ Changelog
 
 - Added link to refresh the search results.
   [gbastien]
+- Manage None value in MemberIdColumn
+  [sgeulette]
 
 
 0.2 (2015-08-04)
