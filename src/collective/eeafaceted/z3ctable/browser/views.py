@@ -8,12 +8,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from eea.facetednavigation.interfaces import ICriteria
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
-from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
-from collective.eeafaceted.z3ctable.columns import BaseColumn
-from collective.eeafaceted.z3ctable.columns import MemberIdColumn
-from collective.eeafaceted.z3ctable.columns import DateColumn
-from collective.eeafaceted.z3ctable.columns import I18nColumn
-from collective.eeafaceted.z3ctable.columns import TitleColumn
 
 
 class FacetedTableView(BrowserView, SequenceTable):
@@ -53,71 +47,32 @@ class FacetedTableView(BrowserView, SequenceTable):
         colNames = ['Title', 'CreationDate', 'Creator', 'review_state', 'getText']
         return colNames
 
-    def _getColumnFor(self, colName):
-        """This method returns column to use for given p_colName.
-           This will :
-           - call _manualColumn;
-           - call _autoColumnFor."""
-        column = self._manualColumnFor(colName)
-        if not column:
-            column = self._autoColumnFor(colName)
-        return column
-
-    def _manualColumnFor(self, colName):
-        """This method will get the column to use for given p_colName.
-           This is made to manage columns not linked to an index, so not
-           managed automatically by self._autoColumnFor."""
-        # special column for Title
-        if colName == 'Title':
-            return TitleColumn(self.context, self.request, self)
-        # special column for Creator
-        elif colName == 'Creator':
-            return MemberIdColumn(self.context, self.request, self)
-        elif colName in ('CreationDate', 'ModificationDate', 'EffectiveDate', 'ExpirationDate'):
-            # CreationDate and ModificationDate are handled manually
-            # because index is created and modified...
-            column = DateColumn(self.context, self.request, self)
-            # Index is not the same as metadata... we have to map values
-            mapping = {'CreationDate': 'created',
-                       'ModificationDate': 'modified',
-                       'EffectiveDate': 'effective',
-                       'ExpirationDate': 'expired',
-                       }
-            column.sort_index = mapping[colName]
-            return column
-        elif colName == 'getText':
-            return AwakeObjectMethodColumn(self.context, self.request, self)
-
-    def _autoColumnFor(self, colName):
-        """This method will automatically get the relevant column to use for given p_colName."""
-        # for other columns, try to get the corresponding index type
-        # in the portal_catalog and use relevant column type
-        catalog = getToolByName(self.context, 'portal_catalog')
-        if colName in catalog.indexes():
-            indexType = catalog.Indexes[colName].getTagName()
-            if indexType == 'DateIndex':
-                return DateColumn(self.context, self.request, self)
-            elif indexType == 'ZCTextIndex':
-                return BaseColumn(self.context, self.request, self)
-        # in other cases, try to translate content
-        return I18nColumn(self.context, self.request, self)
-
     def setUpColumns(self):
         # show some default columns
-        colNames = self._getViewFields()
-        columns = []
-        for colName in colNames:
-            newColumn = self._getColumnFor(colName)
-            if not newColumn:
-                raise KeyError('No column could be found for "{0}"'.format(colName))
-            if not newColumn.header:
-                # the column header is translated, we build a msgid
-                # that is 'header_' + column name
-                newColumn.header = u'header_{0}'.format(colName)
-            if not newColumn.attrName:
-                newColumn.attrName = colName
-            columns.append(newColumn)
-        return columns
+        col_names = self._getViewFields()
+        cols = []
+        for name in col_names:
+            column = queryMultiAdapter(
+                (self.context, self.request, self),
+                interface=interfaces.IColumn,
+                name=name
+            )
+            cols.append(self.nameColumn(column, name))
+
+        return cols
+
+    def nameColumn(self, column, name):
+        column.__name__ = name
+
+        if not column.header:
+            # the column header is translated, we build a msgid
+            # that is 'header_' + column name
+            column.header = u'header_{0}'.format(name)
+
+        if not column.attrName:
+            column.attrName = name
+
+        return column
 
     def renderRow(self, row, cssClass=None):
         """Override to be able to apply a class on the TR defined on a column,

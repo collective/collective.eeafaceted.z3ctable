@@ -201,6 +201,11 @@ class DateColumn(BaseColumn):
                                     request=self.request)
 
 
+class CreationDateColumn(DateColumn):
+    """ """
+    sort_index = 'created'
+
+
 class I18nColumn(BaseColumn):
     """GetAttrColumn which translates its content."""
 

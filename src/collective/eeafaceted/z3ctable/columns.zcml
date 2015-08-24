@@ -1,0 +1,52 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="urban">
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          Products.urban.browser.table.interfaces.IFacetedTable"
+     factory=".column.AwakeObjectMethodColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="getText"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          Products.urban.browser.table.interfaces.IFacetedTable"
+     factory=".column.MemberIdColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="Creator"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          Products.urban.browser.table.interfaces.IFacetedTable"
+     factory=".column.TitleColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="Title"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          Products.urban.browser.table.interfaces.IFacetedTable"
+     factory=".column.CreationDateColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="CreationDate"
+  />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          Products.urban.browser.table.interfaces.IFacetedTable"
+     factory=".column.I18nColumn"
+     provides="z3c.table.interfaces.IColumn"
+     name="review_state"
+  />
+
+</configure>
