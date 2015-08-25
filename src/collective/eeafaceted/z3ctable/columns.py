@@ -3,18 +3,23 @@
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
+from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
+
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
 
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
+from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 
 import urllib
 
 
 class BaseColumn(column.GetAttrColumn):
+
+    implements(IFacetedColumn)
 
     sort_index = None
     # as we use setUpColumns, weight is 1 for every columns

@@ -2,14 +2,14 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="urban">
+    i18n_domain="collective.eeafaceted.z3ctable">
 
   <adapter
      for="zope.interface.Interface
           zope.publisher.interfaces.browser.IBrowserRequest
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.AwakeObjectMethodColumn"
-     provides="z3c.table.interfaces.IColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
      name="getText"
   />
 
@@ -18,7 +18,7 @@
           zope.publisher.interfaces.browser.IBrowserRequest
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.MemberIdColumn"
-     provides="z3c.table.interfaces.IColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
      name="Creator"
   />
 
@@ -27,7 +27,7 @@
           zope.publisher.interfaces.browser.IBrowserRequest
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.TitleColumn"
-     provides="z3c.table.interfaces.IColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
      name="Title"
   />
 
@@ -36,7 +36,7 @@
           zope.publisher.interfaces.browser.IBrowserRequest
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.CreationDateColumn"
-     provides="z3c.table.interfaces.IColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
      name="CreationDate"
   />
 
@@ -45,7 +45,7 @@
           zope.publisher.interfaces.browser.IBrowserRequest
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.I18nColumn"
-     provides="z3c.table.interfaces.IColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
      name="review_state"
   />
 
