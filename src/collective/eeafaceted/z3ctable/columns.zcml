@@ -7,8 +7,8 @@
   <adapter
      for="zope.interface.Interface
           zope.publisher.interfaces.browser.IBrowserRequest
-          Products.urban.browser.table.interfaces.IFacetedTable"
-     factory=".column.AwakeObjectMethodColumn"
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.AwakeObjectMethodColumn"
      provides="z3c.table.interfaces.IColumn"
      name="getText"
   />
@@ -16,8 +16,8 @@
   <adapter
      for="zope.interface.Interface
           zope.publisher.interfaces.browser.IBrowserRequest
-          Products.urban.browser.table.interfaces.IFacetedTable"
-     factory=".column.MemberIdColumn"
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.MemberIdColumn"
      provides="z3c.table.interfaces.IColumn"
      name="Creator"
   />
@@ -25,8 +25,8 @@
   <adapter
      for="zope.interface.Interface
           zope.publisher.interfaces.browser.IBrowserRequest
-          Products.urban.browser.table.interfaces.IFacetedTable"
-     factory=".column.TitleColumn"
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.TitleColumn"
      provides="z3c.table.interfaces.IColumn"
      name="Title"
   />
@@ -34,8 +34,8 @@
   <adapter
      for="zope.interface.Interface
           zope.publisher.interfaces.browser.IBrowserRequest
-          Products.urban.browser.table.interfaces.IFacetedTable"
-     factory=".column.CreationDateColumn"
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.CreationDateColumn"
      provides="z3c.table.interfaces.IColumn"
      name="CreationDate"
   />
@@ -43,8 +43,8 @@
   <adapter
      for="zope.interface.Interface
           zope.publisher.interfaces.browser.IBrowserRequest
-          Products.urban.browser.table.interfaces.IFacetedTable"
-     factory=".column.I18nColumn"
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory=".columns.I18nColumn"
      provides="z3c.table.interfaces.IColumn"
      name="review_state"
   />
