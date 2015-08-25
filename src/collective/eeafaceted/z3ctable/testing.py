@@ -18,7 +18,7 @@ import unittest2 as unittest
 import collective.eeafaceted.z3ctable
 
 
-class CollectiveEeafacetedZ3ctableLayer(PloneSandboxLayer):
+class NakedPloneLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
     products = ('collective.eeafaceted.z3ctable', 'eea.facetednavigation')
@@ -30,6 +30,22 @@ class CollectiveEeafacetedZ3ctableLayer(PloneSandboxLayer):
                       name='testing.zcml')
         for p in self.products:
             z2.installProduct(app, p)
+
+    def tearDownZope(self, app):
+        """Tear down Zope."""
+        z2.uninstallProduct(app, 'imio.urbdial.notarydivision')
+
+NAKED_PLONE_FIXTURE = NakedPloneLayer(
+    name="NAKED_PLONE_FIXTURE"
+)
+
+NAKED_PLONE_INTEGRATION = IntegrationTesting(
+    bases=(NAKED_PLONE_FIXTURE,),
+    name="NAKED_PLONE_INTEGRATION"
+)
+
+
+class CollectiveEeafacetedZ3ctableLayer(NakedPloneLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -45,11 +61,6 @@ class CollectiveEeafacetedZ3ctableLayer(PloneSandboxLayer):
         # Commit so that the test browser sees these objects
         import transaction
         transaction.commit()
-
-    def tearDownZope(self, app):
-        """Tear down Zope."""
-        for p in reversed(self.products):
-            z2.uninstallProduct(app, p)
 
 
 FIXTURE = CollectiveEeafacetedZ3ctableLayer(
