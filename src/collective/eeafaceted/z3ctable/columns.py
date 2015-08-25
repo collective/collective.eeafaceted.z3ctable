@@ -1,14 +1,17 @@
 # encoding: utf-8
 
-import urllib
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
+
+from z3c.table import column
+from z3c.table.header import SortingColumnHeader
+
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
 from zope.schema.interfaces import IVocabularyFactory
-from z3c.table import column
-from z3c.table.header import SortingColumnHeader
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
+
+import urllib
 
 
 class BaseColumn(column.GetAttrColumn):

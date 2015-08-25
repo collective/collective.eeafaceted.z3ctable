@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
+from eea.facetednavigation.layout.interfaces import IFacetedLayout
+
+from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -13,9 +16,9 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.testing import z2
 
-import unittest2 as unittest
-
 import collective.eeafaceted.z3ctable
+
+import unittest2 as unittest
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -55,8 +58,15 @@ class CollectiveEeafacetedZ3ctableLayer(NakedPloneLayer):
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        folder_id = portal.invokeFactory('Folder', 'folder')
-        portal[folder_id].reindexObject()
+        eea_folder = api.content.create(
+            type='Folder',
+            id='eea_folder',
+            container=portal
+        )
+        eea_folder.reindexObject()
+
+        eea_folder.restrictedTraverse('@@faceted_subtyper').enable()
+        IFacetedLayout(eea_folder).update_layout('faceted-table-items')
 
         # Commit so that the test browser sees these objects
         import transaction
@@ -94,6 +104,8 @@ class IntegrationTestCase(unittest.TestCase):
     def setUp(self):
         super(IntegrationTestCase, self).setUp()
         self.portal = self.layer['portal']
+        self.eea_folder = self.portal.get('eea_folder')
+        self.faceted_z3ctable_view = self.eea_folder.restrictedTraverse('faceted-table-view')
 
 
 class FunctionalTestCase(unittest.TestCase):
