@@ -20,7 +20,8 @@ class TestColumns(IntegrationTestCase):
         - State
         - Text
         """
-        default_columns = self.faceted_z3ctable_view.setUpColumns()
+        self.faceted_z3ctable_view.initColumns()
+        default_columns = self.faceted_z3ctable_view.columns
 
         msg = 'Expected the first column to be a TitleColumn'
         self.assertTrue(isinstance(default_columns[0], TitleColumn), msg=msg)

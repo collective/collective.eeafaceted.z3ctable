@@ -162,6 +162,7 @@ class AwakeObjectMethodColumn(BaseColumn):
     # column not sortable
     sort_index = -1
     params = {}
+    weight = 40
 
     def renderCell(self, item):
         obj = self._getObject(item)
@@ -175,6 +176,7 @@ class AwakeObjectMethodColumn(BaseColumn):
 class MemberIdColumn(BaseColumn):
     """ """
     attrName = 'Creator'
+    weight = 20
 
     def renderCell(self, item):
         membershipTool = getToolByName(self.context, 'portal_membership')
@@ -207,6 +209,7 @@ class DateColumn(BaseColumn):
 class CreationDateColumn(DateColumn):
     """ """
     sort_index = 'created'
+    weight = 10
 
 
 class I18nColumn(BaseColumn):
@@ -214,6 +217,7 @@ class I18nColumn(BaseColumn):
 
     i18n_domain = 'plone'
     msgid_prefix = ''
+    weight = 30
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -227,6 +231,7 @@ class I18nColumn(BaseColumn):
 class TitleColumn(BaseColumn):
     """ """
     sort_index = 'sortable_title'
+    weight = 0
 
     def getSortKey(self, item):
         from Products.CMFPlone.CatalogTool import sortable_title

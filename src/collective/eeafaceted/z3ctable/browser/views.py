@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from zope.component import queryMultiAdapter
-from zope.interface import implements
-from z3c.table import interfaces
-from z3c.table.table import SequenceTable
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from eea.facetednavigation.interfaces import ICriteria
+
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
+
+from eea.facetednavigation.interfaces import ICriteria
+
+from z3c.table.interfaces import IColumn
+from z3c.table.interfaces import INoneCell
+from z3c.table.table import SequenceTable
+
+from zope.component import getAdapters
+from zope.component import queryMultiAdapter
+from zope.interface import implements
 
 
 class FacetedTableView(BrowserView, SequenceTable):
@@ -44,8 +50,8 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     def _getViewFields(self):
         """Returns fields we want to show in the table."""
-        colNames = ['Title', 'CreationDate', 'Creator', 'review_state', 'getText']
-        return colNames
+        col_names = [col[0] for col in getAdapters((self.context, self.request, self), IColumn)]
+        return col_names
 
     def setUpColumns(self):
         # show some default columns
@@ -54,7 +60,7 @@ class FacetedTableView(BrowserView, SequenceTable):
         for name in col_names:
             column = queryMultiAdapter(
                 (self.context, self.request, self),
-                interface=interfaces.IColumn,
+                interface=IColumn,
                 name=name
             )
             cols.append(self.nameColumn(column, name))
@@ -100,7 +106,7 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     def renderCell(self, item, column, colspan=0):
         """Override to be call getCSSClasses on column, no cssClasses."""
-        if interfaces.INoneCell.providedBy(column):
+        if INoneCell.providedBy(column):
             return u''
         # XXX begin adaptation by collective.eeafaceted.z3ctable
         #cssClass = column.cssClasses.get('td')
