@@ -130,3 +130,17 @@ msgstr ""
 msgid "total_comments__header_title"
 msgstr ""
 
+msgid "getText"
+msgstr ""
+
+msgid "Creator"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "CreationDate"
+msgstr ""
+
+msgid "review_state"
+msgstr ""

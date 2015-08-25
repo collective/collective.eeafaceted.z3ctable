@@ -126,3 +126,18 @@ msgstr "Début"
 #. Default: "Total comments"
 msgid "total_comments__header_title"
 msgstr "Nombre de commentaires"
+
+msgid "getText"
+msgstr "Texte"
+
+msgid "Creator"
+msgstr "Auteur"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "CreationDate"
+msgstr "Date de création"
+
+msgid "review_state"
+msgstr "État"
