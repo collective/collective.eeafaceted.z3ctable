@@ -321,6 +321,12 @@ class CreationDateColumn(DateColumn):
     weight = 10
 
 
+class ModificationDateColumn(DateColumn):
+    """ """
+    sort_index = 'modified'
+    weight = 10
+
+
 class TitleColumn(BaseColumn):
     """ """
     sort_index = 'sortable_title'
@@ -336,4 +342,3 @@ class TitleColumn(BaseColumn):
             value = u'-'
         value = safe_unicode(value)
         return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
-
