@@ -211,12 +211,6 @@ class DateColumn(BaseColumn):
                                     request=self.request)
 
 
-class CreationDateColumn(DateColumn):
-    """ """
-    sort_index = 'created'
-    weight = 10
-
-
 class I18nColumn(BaseColumn):
     """GetAttrColumn which translates its content."""
 
@@ -231,23 +225,6 @@ class I18nColumn(BaseColumn):
         return translate("{0}{1}".format(self.msgid_prefix, value),
                          domain=self.i18n_domain,
                          context=self.request)
-
-
-class TitleColumn(BaseColumn):
-    """ """
-    sort_index = 'sortable_title'
-    weight = 0
-
-    def getSortKey(self, item):
-        from Products.CMFPlone.CatalogTool import sortable_title
-        return sortable_title(item)()
-
-    def renderCell(self, item):
-        value = self.getValue(item)
-        if not value:
-            value = u'-'
-        value = safe_unicode(value)
-        return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
 
 
 class BrowserViewCallColumn(BaseColumn):
@@ -333,3 +310,30 @@ class CheckBoxColumn(BaseColumn):
     def getCSSClasses(self, item):
         """ """
         return {'td': '{0}_checkbox'.format(self.name)}
+
+
+############################################################
+####   Custom columns                                   ####
+############################################################
+class CreationDateColumn(DateColumn):
+    """ """
+    sort_index = 'created'
+    weight = 10
+
+
+class TitleColumn(BaseColumn):
+    """ """
+    sort_index = 'sortable_title'
+    weight = 0
+
+    def getSortKey(self, item):
+        from Products.CMFPlone.CatalogTool import sortable_title
+        return sortable_title(item)()
+
+    def renderCell(self, item):
+        value = self.getValue(item)
+        if not value:
+            value = u'-'
+        value = safe_unicode(value)
+        return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
+
