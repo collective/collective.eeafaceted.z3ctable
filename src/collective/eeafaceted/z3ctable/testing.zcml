@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="collective.eeafaceted.z3ctable">
 
   <include file="configure.zcml" />
@@ -12,5 +13,17 @@
       description="Steps to ease tests of collective.eeafaceted.z3ctable"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <!-- This view is used by test_columns.py -->
+  <browser:view
+      for="*"
+      name="testing-browsercall-view"
+      class=".tests.views.TestingBrowserCallView"
+      permission="zope2.View"
+      />
+
+  <!-- This vocabulary is used by test_columns.py -->
+  <utility component=".tests.vocabularies.TestingVocabularyFactory"
+           name="collective.eeafaceted.z3ctable.testingvocabulary" />
 
 </configure>
