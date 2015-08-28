@@ -81,10 +81,10 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.renderCell(brain), u'-')
         # right, use CreationDate as attrName
         column.attrName = 'CreationDate'
-        self.assertEquals(column.renderCell(brain), u'May 05, 2015')
+        self.assertIn(column.renderCell(brain), (u'May 05, 2015', '2015-05-05'))
         # test the long_format parameter
         column.long_format = True
-        self.assertEquals(column.renderCell(brain), u'May 05, 2015 12:30 PM')
+        self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30 PM'))
         column.time_only = True
         self.assertEquals(column.renderCell(brain), u'12:30 PM')
 
