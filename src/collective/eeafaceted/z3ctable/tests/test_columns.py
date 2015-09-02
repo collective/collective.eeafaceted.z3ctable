@@ -86,7 +86,7 @@ class TestColumns(IntegrationTestCase):
         column.long_format = True
         self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30'))
         column.time_only = True
-        self.assertEquals(column.renderCell(brain), u'12:30')
+        self.assertIn(column.renderCell(brain), (u'12:30', u'12:30 PM'))
 
     def test_I18nColumn(self):
         """This column will translate the value."""
