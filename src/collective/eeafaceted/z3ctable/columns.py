@@ -37,12 +37,6 @@ class BaseColumn(column.GetAttrColumn):
     def getCSSClasses(self, item):
         return self.cssClasses
 
-    def getSortKey(self, item):
-        attr = self.sort_index or self.attrName
-        if attr is None:
-            raise ValueError('sort_index or attrName must be defined')
-        return getattr(item, attr)
-
     def renderCell(self, item):
         return getattr(item, self.attrName.decode('utf8'))
 
@@ -331,10 +325,6 @@ class TitleColumn(BaseColumn):
     """ """
     sort_index = 'sortable_title'
     weight = 0
-
-    def getSortKey(self, item):
-        from Products.CMFPlone.CatalogTool import sortable_title
-        return sortable_title(item)()
 
     def renderCell(self, item):
         value = self.getValue(item)
