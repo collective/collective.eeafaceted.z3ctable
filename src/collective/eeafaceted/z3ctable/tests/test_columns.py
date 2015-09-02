@@ -143,11 +143,16 @@ class TestColumns(IntegrationTestCase):
         column = MemberIdColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'Full Name')
-        # if no value, it returns u'-'
+        # if user is not found, the stored value is returned
         self.eea_folder.setCreators(u'remove_user')
         self.eea_folder.reindexObject(idxs=['Creator', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'remove_user')
+        # if no value, it returns u'-'
+        # memberId taken into account could be in any brain metadata, use Description
+        column.attrName = 'Description'
+        self.assertEquals(brain.Description, '')
+        self.assertEquals(column.renderCell(brain), u'-')
 
     def test_ColorColumn(self):
         """A column that will just contain a CSS class made to display a color."""
