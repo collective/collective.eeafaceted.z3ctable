@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from zope.component import queryMultiAdapter
+from z3c.table.interfaces import IColumn
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
@@ -165,6 +167,8 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.getCSSClasses(brain), {'td': 'column_getId_eea_folder'})
         column.cssClassPrefix = 'another'
         self.assertEquals(column.getCSSClasses(brain), {'td': 'another_getId_eea_folder'})
+        # no header is displayed for a ColorColumn
+        self.assertEquals(column.renderHeadCell(), u'')
 
     def test_CheckBoxColumn(self):
         """This will display a CheckBox column."""
@@ -199,3 +203,18 @@ class TestColumns(IntegrationTestCase):
                           u'<input type="checkbox" name="select_element" value="eea_folder" />')
         # a custom CSS class is generated
         self.assertEquals(column.getCSSClasses(brain), {'td': 'select_element_checkbox'})
+
+    def test_TitleColumn(self):
+        """A base column using 'Title' metadata but rendered as a link to the element."""
+        table = self.faceted_z3ctable_view
+        # this column is defined in ZCML
+        column = queryMultiAdapter((self.eea_folder, self.eea_folder.REQUEST, table), IColumn, 'Title')
+        # attrName is set during table.setUpColumns
+        column.attrName = 'Title'
+        # this column use 'sortable_title' as sort_index
+        self.assertEquals(column.sort_index, 'sortable_title')
+        self.eea_folder.setTitle('A title')
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain), u'<a href="{0}">{1}</a>'.format(brain.getURL(),
+                                                                                    brain.Title))

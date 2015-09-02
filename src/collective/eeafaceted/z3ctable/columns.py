@@ -264,7 +264,7 @@ class ColorColumn(I18nColumn):
 
     def renderHeadCell(self):
         """Hide the head cell."""
-        return ''
+        return u''
 
     def renderCell(self, item):
         """Display a message."""
