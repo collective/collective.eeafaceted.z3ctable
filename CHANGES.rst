@@ -5,6 +5,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
+- Added tests for table and columns.
+  [gbastien]
 - Added link to refresh the search results.
   [gbastien]
 - Manage None value in MemberIdColumn
