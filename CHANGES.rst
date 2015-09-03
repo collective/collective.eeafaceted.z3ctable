@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.3 (unreleased)
+0.3 (2015-09-03)
 ----------------
 
 - VocabularyColumn now manage multiValued values (list of values).
