@@ -193,10 +193,10 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'Full Name')
         # if user is not found, the stored value is returned
-        self.eea_folder.setCreators(u'remove_user')
+        self.eea_folder.setCreators(u'removed_user')
         self.eea_folder.reindexObject(idxs=['Creator', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'remove_user')
+        self.assertEquals(column.renderCell(brain), u'removed_user')
         # if no value, it returns u'-'
         # memberId taken into account could be in any brain metadata, use Description
         column.attrName = 'Description'

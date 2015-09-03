@@ -5,6 +5,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
+- Optimized MemberIdColumn by not using getMemberInfo.
+  [gbastien]
 - Added tests for table and columns.
   [gbastien]
 - Added link to refresh the search results.

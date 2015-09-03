@@ -4,6 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
+from plone import api
 
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
@@ -177,13 +178,20 @@ class MemberIdColumn(BaseColumn):
     attrName = 'Creator'
     weight = 20
 
+    def _get_user_fullname(self, username):
+        """Get fullname without using getMemberInfo that is slow slow slow..."""
+        storage = api.portal.get_tool('acl_users').mutable_properties._storage
+        data = storage.get(username, None)
+        if data is not None:
+            return data.get('fullname', '') or username
+        else:
+            return username
+
     def renderCell(self, item):
-        membershipTool = getToolByName(self.context, 'portal_membership')
         value = self.getValue(item)
         if not value:
             return u'-'
-        memberInfo = membershipTool.getMemberInfo(value)
-        value = memberInfo and memberInfo['fullname'] or value
+        value = self._get_user_fullname(value)
         return safe_unicode(value)
 
 
