@@ -55,6 +55,35 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.getCSSClasses(brain), column.cssClasses)
         self.assertEquals(column.renderCell(brain), brain.Title)
 
+    def test_HeaderColumn(self):
+        """The header will behave correctly with the faceted query, especially regarding sorting."""
+        table = self.faceted_z3ctable_view
+        # use the CreationDateC
+        column = BaseColumn(self.portal, self.portal.REQUEST, table)
+        table.nameColumn(column, 'Title')
+        # if column is sortable, header is rendered with relevant arrows
+        column.sort_index = 'sortable_title'
+        # render the headerCell
+        self.maxDiff = None
+        self.assertEquals(column.renderHeadCell(),
+                          u'<span>header_Title</span><a class="sort_arrow_disabled" '
+                          u'href="http:/#c2=sortable_title" title="Sort ascending">\u25b2</a><a '
+                          u'class="sort_arrow_disabled" href="http:/#c2=sortable_title&reversed=on" '
+                          u'title="Sort descending"><span>\u25bc</span></a>')
+        # if column.sort_index = -1, it means that it is not sortable, header is rendered accordingly
+        column.sort_index = -1
+        self.assertEquals(column.renderHeadCell(), u'header_Title')
+        # we may also inject JS in the header using column.header_js
+        column.header_js = '<script type="text/javascript">console.log("Hello world!");</script>'
+        self.assertEquals(column.renderHeadCell(),
+                          u'<script type="text/javascript">console.log("Hello world!");</script>header_Title')
+        # we may also use an image as header using column.header_image
+        # remove header_js to ease test reading although this can be used together
+        column.header_js = u''
+        column.header_image = 'image.png'
+        self.assertEquals(column.renderHeadCell(),
+                          u'<img src="http://nohost/plone/image.png" title="header_Title" />')
+
     def test_AwakeObjectGetAttrColumn(self):
         """This will wake the given catalog brain and getattr the attrName on it.
            This is used when displaying in a column an attribute that is not a catalog metadata."""
