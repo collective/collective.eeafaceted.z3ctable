@@ -5,6 +5,7 @@ from z3c.table.interfaces import IColumn
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
+from collective.eeafaceted.z3ctable.columns import BaseColumn
 from collective.eeafaceted.z3ctable.columns import BrowserViewCallColumn
 from collective.eeafaceted.z3ctable.columns import CheckBoxColumn
 from collective.eeafaceted.z3ctable.columns import ColorColumn
@@ -36,6 +37,23 @@ class TestColumns(IntegrationTestCase):
                                                'ModificationDate',
                                                'review_state',
                                                'getText')))
+
+    def test_BaseColumn(self):
+        """Test the BaseColumn behavior and changes regarding default z3c.table column."""
+        table = self.faceted_z3ctable_view
+        column = BaseColumn(self.portal, self.portal.REQUEST, table)
+        # we will use the 'eea_faceted' folder as a brain
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        # the table is in charge of generating correct column name and header
+        table.nameColumn(column, 'Title')
+        self.assertEquals(column.__name__, u'Title')
+        self.assertEquals(column.header, u'header_Title')
+        # a header CSS class is generated using the table name
+        self.assertEquals(column.cssClasses, {'th': 'th_header_Title'})
+        # a method getCSSClasses receiving a brain is implemented
+        # by default it returns cssClasses but it is made to be overrided
+        self.assertEquals(column.getCSSClasses(brain), column.cssClasses)
+        self.assertEquals(column.renderCell(brain), brain.Title)
 
     def test_AwakeObjectGetAttrColumn(self):
         """This will wake the given catalog brain and getattr the attrName on it.
@@ -213,8 +231,6 @@ class TestColumns(IntegrationTestCase):
         column.attrName = 'Title'
         # this column use 'sortable_title' as sort_index
         self.assertEquals(column.sort_index, 'sortable_title')
-        self.eea_folder.setTitle('A title')
-        self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'<a href="{0}">{1}</a>'.format(brain.getURL(),
                                                                                     brain.Title))

@@ -61,6 +61,7 @@ class CollectiveEeafacetedZ3ctableLayer(NakedPloneLayer):
         eea_folder = api.content.create(
             type='Folder',
             id='eea_folder',
+            title='EEA Folder',
             container=portal
         )
         eea_folder.reindexObject()
