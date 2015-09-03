@@ -18,7 +18,7 @@ class SortingFormAwareAbstractWidget(Widget):
         """
         query = {}
 
-        # XXX only thle line here under is changed, we added the
+        # XXX only the line here under is changed, we added the
         # ' and not self.data.getId() in form' part
         if self.hidden and not self.data.getId() in form:
             default = self.default
