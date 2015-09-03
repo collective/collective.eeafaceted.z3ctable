@@ -161,7 +161,7 @@ class TestColumns(IntegrationTestCase):
 
     def test_VocabularyColumn(self):
         """This column uses a vocabulary to get the value to display for a given key."""
-        self.eea_folder.setTitle('unexisting_key')
+        self.eea_folder.setTitle(u'unexisting_key')
         self.eea_folder.reindexObject(idxs=['Title', ])
         table = self.faceted_z3ctable_view
         column = VocabularyColumn(self.portal, self.portal.REQUEST, table)
@@ -175,13 +175,28 @@ class TestColumns(IntegrationTestCase):
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         # no attrName, u'-' is returned
         self.assertEquals(column.renderCell(brain), u'-')
-        # an attrName but key not found in vocab, u'-' is returned
+
+        # mono valued vocabulary
+        # an attrName but key not found in vocab, the key is returned
         column.attrName = 'Title'
-        self.assertEquals(column.renderCell(brain), u'-')
-        self.eea_folder.setTitle('existing_key')
+        self.assertEquals(column.renderCell(brain), u'unexisting_key')
+        # existing key
+        self.eea_folder.setTitle('existing_key1')
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'Existing value')
+        self.assertEquals(column.renderCell(brain), u'Existing value 1')
+
+        # multiValued vocabulary
+        self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain), u'Existing value 1, Existing value 2')
+        # mixed with unexisting key
+        self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain),
+                          u'Existing value 1, unexisting_key, Existing value 2')
 
     def test_MemberIdColumn(self):
         """This column will display the fullname of the given metadata."""

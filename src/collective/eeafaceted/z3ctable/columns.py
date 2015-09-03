@@ -256,12 +256,22 @@ class VocabularyColumn(BaseColumn):
         if not factory:
             raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
                                                                                                self.attrName))
-        vocab = factory(self.context)
         value = self.getValue(item)
-        if not value or not value in vocab:
+        if not value:
             return u'-'
-        else:
-            return safe_unicode(vocab.getTerm(value).title)
+
+        vocab = factory(self.context)
+        # make sure we have an iterable
+        if not hasattr(value, '__iter__'):
+            value = [value]
+        res = []
+        for v in value:
+            try:
+                res.append(safe_unicode(vocab.getTermByToken(v).title))
+            except LookupError:
+                # in case an element is not in the vocabulary, add the value
+                res.append(safe_unicode(v))
+        return ', '.join(res)
 
 
 class ColorColumn(I18nColumn):
