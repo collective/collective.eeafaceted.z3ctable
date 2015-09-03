@@ -5,6 +5,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
+- VocabularyColumn now manage multiValued values (list of values).
+  [gbastien]
 - Optimized MemberIdColumn by not using getMemberInfo.
   [gbastien]
 - Added tests for table and columns.
