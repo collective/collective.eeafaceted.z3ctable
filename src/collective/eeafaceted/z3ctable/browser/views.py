@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import logging
+logger = logging.getLogger('collective.eeafaceted.z3ctable')
+import traceback
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 
@@ -39,7 +43,16 @@ class FacetedTableView(BrowserView, SequenceTable):
 
     def render_table(self, batch):
         self.update(batch)
-        return self.render()
+        try:
+            return self.render()
+        except Exception, exc:
+            # in case an error occured, catch it or it freezes the web page
+            # because faceted JS disable page and error raised does not unlock
+            traceback.print_exc(None)
+            logger.error(exc)
+            return "An error occured (%s %s), this should not happen, " \
+                "try to go back to the home page." % \
+                (exc.__class__.__name__, exc.message)
 
     def _sortingCriterionName(self):
         """Find the sorting criterion and store the name in the request so

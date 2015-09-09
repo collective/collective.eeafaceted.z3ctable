@@ -5,7 +5,11 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- If an error occurs during render_table, catch the exception
+  and display traceback manually in the Zope log to avoid
+  faceted view to be frozen (JS 'lock' the web page and it is not
+  unlocked when an error occurs).
+  [gbastien]
 
 
 0.3 (2015-09-03)
