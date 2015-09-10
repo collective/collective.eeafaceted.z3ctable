@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4 (unreleased)
+0.4 (2015-09-10)
 ----------------
 
 - If an error occurs during render_table, catch the exception
