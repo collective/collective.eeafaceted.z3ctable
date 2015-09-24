@@ -5,7 +5,8 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Replaced DateColumn rendering to work not only with DateTime but with DateTime, datetime and date.
+  [sgeulette]
 
 
 0.4 (2015-09-10)
