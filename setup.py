@@ -38,8 +38,9 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'Plone',
         'eea.facetednavigation',
-        'plone.api',
+        'plone.api>=1.3.0',
         'setuptools',
         'z3c.table',
     ],
