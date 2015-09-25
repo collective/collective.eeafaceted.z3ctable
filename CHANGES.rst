@@ -5,7 +5,9 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added 2 viewlets managers in the table : 'collective.eeafaceted.z3ctable.top'
+  and 'collective.eeafaceted.z3ctable.bottom'.
+  [gbastien]
 
 
 0.4 (2015-09-10)

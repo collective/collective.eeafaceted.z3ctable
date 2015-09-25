@@ -42,4 +42,18 @@
        provides="z3c.table.interfaces.IColumnHeader"
     />
 
+    <browser:viewletManager
+        name="collective.eeafaceted.z3ctable.top"
+        provides="..interfaces.ITopManager"
+        permission="zope2.View"
+        class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
+        />
+
+    <browser:viewletManager
+        name="collective.eeafaceted.z3ctable.bottom"
+        provides="..interfaces.IBottomManager"
+        permission="zope2.View"
+        class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
+        />
+
 </configure>
