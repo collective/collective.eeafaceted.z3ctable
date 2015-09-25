@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime, date
 from zope.component import queryMultiAdapter
 from z3c.table.interfaces import IColumn
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
@@ -123,6 +124,7 @@ class TestColumns(IntegrationTestCase):
         """This column will display a date correctly."""
         table = self.faceted_z3ctable_view
         column = DateColumn(self.portal, self.portal.REQUEST, table)
+        # test with a DateTime attribute
         self.eea_folder.setCreationDate('2015/05/05 12:30')
         self.eea_folder.reindexObject(idxs=['created', 'CreationDate', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
@@ -136,6 +138,26 @@ class TestColumns(IntegrationTestCase):
         self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30'))
         column.time_only = True
         self.assertIn(column.renderCell(brain), (u'12:30', u'12:30 PM'))
+        # test with a datetime attribute
+        self.eea_folder.a_datetime = datetime(2015, 05, 06, 12, 30)
+        column.attrName = 'a_datetime'
+        column.long_format = False
+        column.time_only = False
+        self.assertIn(column.renderCell(self.eea_folder), (u'May 06, 2015', '2015-05-06'))
+        column.long_format = True
+        self.assertIn(column.renderCell(self.eea_folder), (u'May 06, 2015 12:30 PM', '2015-05-06 12:30'))
+        column.time_only = True
+        self.assertIn(column.renderCell(self.eea_folder), (u'12:30', u'12:30 PM'))
+        # test with a date attribute
+        self.eea_folder.a_date = date(2015, 05, 07)
+        column.attrName = 'a_date'
+        column.long_format = False
+        column.time_only = False
+        self.assertIn(column.renderCell(self.eea_folder), (u'May 07, 2015', '2015-05-07'))
+        column.long_format = True
+        self.assertIn(column.renderCell(self.eea_folder), (u'May 07, 2015', '2015-05-07'))
+        column.time_only = True
+        self.assertEquals(column.renderCell(self.eea_folder), u'')
 
     def test_I18nColumn(self):
         """This column will translate the value."""

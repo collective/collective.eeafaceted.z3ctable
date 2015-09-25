@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
@@ -204,13 +203,7 @@ class DateColumn(BaseColumn):
         value = self.getValue(item)
         if not value or value == 'None':
             return u'-'
-        util = getToolByName(item, 'translation_service')
-        return util.ulocalized_time(value,
-                                    long_format=self.long_format,
-                                    time_only=self.time_only,
-                                    context=item,
-                                    domain='plonelocales',
-                                    request=self.request)
+        return api.portal.get_localized_time(datetime=value, long_format=self.long_format, time_only=self.time_only)
 
 
 class I18nColumn(BaseColumn):

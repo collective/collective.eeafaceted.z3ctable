@@ -8,6 +8,8 @@ Changelog
 - Added 2 viewlets managers in the table : 'collective.eeafaceted.z3ctable.top'
   and 'collective.eeafaceted.z3ctable.bottom'.
   [gbastien]
+- Replaced DateColumn rendering to work not only with DateTime but with DateTime, datetime and date.
+  [sgeulette]
 
 
 0.4 (2015-09-10)
