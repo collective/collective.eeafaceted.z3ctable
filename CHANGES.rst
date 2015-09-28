@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.5 (unreleased)
+0.5 (2015-09-28)
 ----------------
 
 - Added 2 viewlets managers in the table : 'collective.eeafaceted.z3ctable.top'
