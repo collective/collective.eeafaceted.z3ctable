@@ -11,7 +11,7 @@ bin/buildout: bootstrap.py buildout.cfg
 	touch $@
 
 buildout: bin/buildout
-	bin/buildout -Nvt 5
+	bin/buildout -Nt 5
 
 bootstrap: bin/buildout
 
