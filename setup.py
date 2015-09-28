@@ -12,8 +12,8 @@ def read(*rnames):
 
 long_description = \
     read('README.rst') + \
+    read('CHANGES.rst') + \
     read('docs', 'CONTRIBUTORS.rst') + \
-    read('docs', 'CHANGES.rst') + \
     read('docs', 'LICENSE.rst')
 
 setup(
