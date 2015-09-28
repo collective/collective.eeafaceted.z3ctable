@@ -122,7 +122,7 @@ class FacetedTableView(BrowserView, SequenceTable):
         if INoneCell.providedBy(column):
             return u''
         # XXX begin adaptation by collective.eeafaceted.z3ctable
-        #cssClass = column.cssClasses.get('td')
+        # cssClass = column.cssClasses.get('td')
         cssClass = column.getCSSClasses(item).get('td', None)
         # XXX end adaptation by collective.eeafaceted.z3ctable
         cssClass = self.getCSSHighlightClass(column, item, cssClass)

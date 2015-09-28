@@ -51,7 +51,7 @@ class TestTable(IntegrationTestCase):
         brains = self.portal.portal_catalog(portal_type='Folder')
         batch = Batch(brains, size=5)
         # adapt css defined for column to change <tr> applied CSS
-        column.getCSSClasses = lambda x: {'tr': 'special_tr_class'};
+        column.getCSSClasses = lambda x: {'tr': 'special_tr_class'}
         # ok, now make table.setUpColumns take our configured column
         self.portal.REQUEST.set('column', column)
         table.setUpColumns = lambda *x: [__import__('zope').component.hooks.getSite().REQUEST.get('column'), ]

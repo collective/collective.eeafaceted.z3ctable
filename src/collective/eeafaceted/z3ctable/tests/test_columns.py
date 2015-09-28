@@ -33,11 +33,11 @@ class TestColumns(IntegrationTestCase):
         self.faceted_z3ctable_view.initColumns()
         default_columns = set([col.__name__ for col in self.faceted_z3ctable_view.columns])
         self.assertEquals(default_columns, set(('Title',
-                                               'Creator',
-                                               'CreationDate',
-                                               'ModificationDate',
-                                               'review_state',
-                                               'getText')))
+                                                'Creator',
+                                                'CreationDate',
+                                                'ModificationDate',
+                                                'review_state',
+                                                'getText')))
 
     def test_BaseColumn(self):
         """Test the BaseColumn behavior and changes regarding default z3c.table column."""

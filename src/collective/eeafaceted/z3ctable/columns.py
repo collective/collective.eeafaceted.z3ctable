@@ -45,7 +45,7 @@ class BaseColumn(column.GetAttrColumn):
         itemUID = item.UID
         if not hasattr(self.table, '_v_cached_objects'):
             self.table._v_cached_objects = {}
-        if not itemUID in self.table._v_cached_objects:
+        if itemUID not in self.table._v_cached_objects:
             self.table._v_cached_objects[itemUID] = item.getObject()
 
         return self.table._v_cached_objects[itemUID]
@@ -318,7 +318,7 @@ class CheckBoxColumn(BaseColumn):
 
 
 ############################################################
-####   Custom columns                                   ####
+#      Custom columns                                   ####
 ############################################################
 class CreationDateColumn(DateColumn):
     """ """
