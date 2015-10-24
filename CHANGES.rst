@@ -5,7 +5,8 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- VocabularyColumn: get term by value and not by token.
+  [sgeulette]
 
 
 0.5 (2015-09-28)

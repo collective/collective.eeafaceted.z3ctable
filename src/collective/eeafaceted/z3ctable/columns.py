@@ -260,7 +260,7 @@ class VocabularyColumn(BaseColumn):
         res = []
         for v in value:
             try:
-                res.append(safe_unicode(vocab.getTermByToken(v).title))
+                res.append(safe_unicode(vocab.getTerm(v).title))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
