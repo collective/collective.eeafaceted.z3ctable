@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.6 (unreleased)
+0.6 (2015-11-18)
 ----------------
 
 - Set long_format=True for CreationDateColumn and ModificationDateColumn.
