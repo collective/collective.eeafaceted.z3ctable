@@ -324,12 +324,14 @@ class CreationDateColumn(DateColumn):
     """ """
     sort_index = 'created'
     weight = 10
+    long_format = True
 
 
 class ModificationDateColumn(DateColumn):
     """ """
     sort_index = 'modified'
     weight = 10
+    long_format = True
 
 
 class TitleColumn(BaseColumn):

@@ -7,7 +7,7 @@ BUILDOUT_FILES = bin/buildout buildout.cfg buildout.d/*.cfg
 .PHONY: bootstrap buildout run test cleanall
 bin/buildout: bootstrap.py buildout.cfg
 	virtualenv-2.7 .
-	./bin/python bootstrap.py --setuptools-version=7.0 --version=2.2.5
+	./bin/python bootstrap.py
 	touch $@
 
 buildout: bin/buildout

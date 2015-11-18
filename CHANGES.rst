@@ -5,6 +5,8 @@ Changelog
 0.6 (unreleased)
 ----------------
 
+- Set long_format=True for CreationDateColumn and ModificationDateColumn.
+  [gbastien]
 - VocabularyColumn: get term by value and not by token.
   [sgeulette]
 
