@@ -7,6 +7,8 @@ Changelog
 
 - Replace sort triangle characters by html entities.
   [sgeulette]
+- Don't pin setuptools for travis
+  [sgeulette]
 
 0.6 (2015-11-18)
 ----------------
