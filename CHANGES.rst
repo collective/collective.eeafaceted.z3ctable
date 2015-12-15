@@ -5,8 +5,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Replace sort triangle characters by html entities.
+  [sgeulette]
 
 0.6 (2015-11-18)
 ----------------

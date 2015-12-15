@@ -74,7 +74,8 @@ class BaseColumnHeader(SortingColumnHeader):
                 faceted_url = self.faceted_url
                 query_string = self.query_string
                 if order_arrow:
-                    contray_sort_order = self.table.query.get('sort_order', 'ascending') == 'ascending' and 'descending' or 'ascending'
+                    contray_sort_order = (self.table.query.get('sort_order', 'ascending') == 'ascending'
+                                          and 'descending' or 'ascending')
                     contray_sort_order_msgid = "Sort {0}".format(contray_sort_order)
                     sort_msg = translate(contray_sort_order_msgid,
                                          domain='collective.eeafaceted.z3ctable',
@@ -93,8 +94,9 @@ class BaseColumnHeader(SortingColumnHeader):
                                                     default="Sort descending")
                     html = (u'<span>{0}</span><a class="sort_arrow_disabled" href="{1}#{2}" title="{3}">{4}</a>'
                             '<a class="sort_arrow_disabled" href="{5}#{6}" title="{7}"><span>{8}</span></a>')
-                    return html.format(header, faceted_url, query_string, sort_ascending_msg, u'▲',
-                                       faceted_url, query_string + '&reversed=on', sort_descending_msg, u'▼')
+                    return html.format(header, faceted_url, query_string, sort_ascending_msg, '&blacktriangle;',
+                                       faceted_url, query_string + '&reversed=on', sort_descending_msg,
+                                       '&blacktriangledown;')
         return header
 
     @property
@@ -136,9 +138,9 @@ class BaseColumnHeader(SortingColumnHeader):
         if sort_on == self.sort_on or \
            self.table.sortOn == self.column.id:
             if sort_order == 'ascending':
-                return u'▲'
+                return '&blacktriangle;'
             else:
-                return u'▼'
+                return '&blacktriangledown;'
         return u''
 
 
