@@ -95,9 +95,9 @@ class BaseColumnHeader(SortingColumnHeader):
                                                     default="Sort descending")
                     html = (u'<span>{0}</span><a class="sort_arrow_disabled" href="{1}#{2}" title="{3}">{4}</a>'
                             '<a class="sort_arrow_disabled" href="{5}#{6}" title="{7}"><span>{8}</span></a>')
-                    return html.format(header, faceted_url, query_string, sort_ascending_msg, '&blacktriangle;',
+                    return html.format(header, faceted_url, query_string, sort_ascending_msg, '&#9650;',
                                        faceted_url, query_string + '&reversed=on', sort_descending_msg,
-                                       '&blacktriangledown;')
+                                       '&#9660;')
         return header
 
     @property
@@ -139,9 +139,9 @@ class BaseColumnHeader(SortingColumnHeader):
         if sort_on == self.sort_on or \
            self.table.sortOn == self.column.id:
             if sort_order == 'ascending':
-                return '&blacktriangle;'
+                return '&#9650;'
             else:
-                return '&blacktriangledown;'
+                return '&#9660;'
         return u''
 
 

@@ -68,9 +68,9 @@ class TestColumns(IntegrationTestCase):
         self.maxDiff = None
         self.assertEquals(column.renderHeadCell(),
                           u'<span>header_Title</span><a class="sort_arrow_disabled" '
-                          u'href="http:/#c2=sortable_title" title="Sort ascending">&blacktriangle;</a><a '
+                          u'href="http:/#c2=sortable_title" title="Sort ascending">&#9650;</a><a '
                           u'class="sort_arrow_disabled" href="http:/#c2=sortable_title&reversed=on" '
-                          u'title="Sort descending"><span>&blacktriangledown;</span></a>')
+                          u'title="Sort descending"><span>&#9660;</span></a>')
         # if column.sort_index = -1, it means that it is not sortable, header is rendered accordingly
         column.sort_index = -1
         self.assertEquals(column.renderHeadCell(), u'header_Title')

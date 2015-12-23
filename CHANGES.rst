@@ -5,8 +5,9 @@ Changelog
 0.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Use HTML entities &#9650; and &#9660; instead of &blacktriangle; and &blacktriangledown;
+  so it behaves nicely in both Firefox and Chrome.
+  [gbastien]
 
 0.8 (2015-12-23)
 ----------------
