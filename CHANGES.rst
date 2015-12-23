@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.8 (unreleased)
+0.8 (2015-12-23)
 ----------------
 
 - Define a default CSS class on each TD as it is already done for TH
