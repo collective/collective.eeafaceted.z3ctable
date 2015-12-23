@@ -5,7 +5,9 @@ Changelog
 0.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Define a default CSS class on each TD as it is already done for TH
+  so it is easy to skin if necessary.
+  [gbastien]
 
 
 0.7 (2015-12-17)

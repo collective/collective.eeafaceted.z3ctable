@@ -31,8 +31,9 @@ class BaseColumn(column.GetAttrColumn):
 
     @property
     def cssClasses(self):
-        """Generate a CSS class for each <th> so we can skin it if necessary."""
-        return {'th': 'th_{0}'.format(self.header)}
+        """Generate a default CSS class for each <th> and <td> so we can skin it if necessary."""
+        return {'th': 'th_header_{0}'.format(self.attrName),
+                'td': 'td_cell_{0}'.format(self.attrName), }
 
     def getCSSClasses(self, item):
         return self.cssClasses
