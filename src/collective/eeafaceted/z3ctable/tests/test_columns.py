@@ -49,8 +49,10 @@ class TestColumns(IntegrationTestCase):
         table.nameColumn(column, 'Title')
         self.assertEquals(column.__name__, u'Title')
         self.assertEquals(column.header, u'header_Title')
-        # a header CSS class is generated using the table name
-        self.assertEquals(column.cssClasses, {'th': 'th_header_Title'})
+        # a CSS class for <TH> and <TD> is generated using the attrName
+        self.assertEquals(column.cssClasses,
+                          {'th': 'th_header_Title',
+                           'td': 'td_cell_Title'})
         # a method getCSSClasses receiving a brain is implemented
         # by default it returns cssClasses but it is made to be overrided
         self.assertEquals(column.getCSSClasses(brain), column.cssClasses)
