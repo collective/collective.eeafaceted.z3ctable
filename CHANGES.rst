@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.9 (unreleased)
+0.9 (2016-01-04)
 ----------------
 
 - Use HTML entities &#9650; and &#9660; instead of &blacktriangle; and &blacktriangledown;
