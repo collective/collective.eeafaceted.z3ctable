@@ -14,9 +14,11 @@
           Portal status message
         </div>
 
-        <div tal:replace="structure provider:collective.eeafaceted.z3ctable.top" />
+        <div id="viewlet-top-above-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.topabovenav" />
 
         <div metal:use-macro="context/batch_macros/macros/navigation" />
+
+        <div id="viewlet-top-below-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.topbelownav" />
 
         <div tal:condition="batch/sequence_length"
              class="table_faceted_results">
@@ -41,9 +43,12 @@
         </div>
 
         <div style="clear: both;"></div>
+
+        <div id="viewlet-top-below-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.bottomabovenav" />
+
         <div metal:use-macro="context/batch_macros/macros/navigation" />
 
-        <div tal:replace="structure provider:collective.eeafaceted.z3ctable.bottom" />
+        <div id="viewlet-top-below-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.bottombelownav" />
 
       </div>
 

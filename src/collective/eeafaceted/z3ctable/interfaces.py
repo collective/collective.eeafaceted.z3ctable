@@ -20,11 +20,21 @@ class IFacetedColumn(IColumn):
     """ """
 
 
-class ITopManager(IViewletManager):
-    """A viewlet manager that sits at the top of the rendered table
-    """
+class ITopAboveNavManager(IViewletManager):
+    """A viewlet manager that sits at the top of the rendered table,
+       above the batching navigation."""
 
 
-class IBottomManager(IViewletManager):
-    """A viewlet manager that sits at the bottom of the rendered table
-    """
+class ITopBelowNavManager(IViewletManager):
+    """A viewlet manager that sits at the top of the rendered table,
+       below the batching navigation."""
+
+
+class IBottomAboveNavManager(IViewletManager):
+    """A viewlet manager that sits at the bottom of the rendered table,
+       above the batching navigation."""
+
+
+class IBottomBelowNavManager(IViewletManager):
+    """A viewlet manager that sits at the bottom of the rendered table,
+       below the batching navigation."""

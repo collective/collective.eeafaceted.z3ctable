@@ -43,15 +43,29 @@
     />
 
     <browser:viewletManager
-        name="collective.eeafaceted.z3ctable.top"
-        provides="..interfaces.ITopManager"
+        name="collective.eeafaceted.z3ctable.topabovenav"
+        provides="..interfaces.ITopAboveNavManager"
         permission="zope2.View"
         class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
         />
 
     <browser:viewletManager
-        name="collective.eeafaceted.z3ctable.bottom"
-        provides="..interfaces.IBottomManager"
+        name="collective.eeafaceted.z3ctable.topbelownav"
+        provides="..interfaces.ITopBelowNavManager"
+        permission="zope2.View"
+        class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
+        />
+
+    <browser:viewletManager
+        name="collective.eeafaceted.z3ctable.bottomabovenav"
+        provides="..interfaces.IBottomAboveNavManager"
+        permission="zope2.View"
+        class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
+        />
+
+    <browser:viewletManager
+        name="collective.eeafaceted.z3ctable.bottombelownav"
+        provides="..interfaces.IBottomBelowNavManager"
         permission="zope2.View"
         class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
         />

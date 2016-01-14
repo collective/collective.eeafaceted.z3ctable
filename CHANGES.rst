@@ -5,8 +5,11 @@ Changelog
 0.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Splitted the 2 viewlet managers to be able to add viewlets above and below batch navigation,
+  henceforth we have 4 viewlet managers : 'collective.eeafaceted.z3ctable.topabovenav',
+  'collective.eeafaceted.z3ctable.topbelownav', 'collective.eeafaceted.z3ctable.bottomabovenav',
+  'collective.eeafaceted.z3ctable.bottombelownav'.
+  [gbastien]
 
 0.9 (2016-01-04)
 ----------------
