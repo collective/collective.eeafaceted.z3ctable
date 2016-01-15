@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.10 (unreleased)
+0.10 (2016-01-15)
 -----------------
 
 - Splitted the 2 viewlet managers to be able to add viewlets above and below batch navigation,
