@@ -5,8 +5,8 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Made BrowserViewCallColumn more generic
+  [sgeulette]
 
 0.10 (2016-01-15)
 -----------------

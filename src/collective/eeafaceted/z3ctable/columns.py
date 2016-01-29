@@ -8,7 +8,6 @@ from plone import api
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
 
-from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implements
@@ -235,8 +234,7 @@ class BrowserViewCallColumn(BaseColumn):
     def renderCell(self, item):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
-        obj = self._getObject(item)
-        return getMultiAdapter((obj, self.request), name=self.view_name)(**self.params)
+        return self.context.restrictedTraverse('{0}/{1}'.format(item.getPath(), self.view_name))(**self.params)
 
 
 class VocabularyColumn(BaseColumn):
