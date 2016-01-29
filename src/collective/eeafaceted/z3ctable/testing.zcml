@@ -4,6 +4,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="collective.eeafaceted.z3ctable">
 
+  <include package="plone.app.dexterity" />
   <include file="configure.zcml" />
 
   <genericsetup:registerProfile

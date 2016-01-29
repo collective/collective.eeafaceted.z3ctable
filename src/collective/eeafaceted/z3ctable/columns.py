@@ -318,6 +318,36 @@ class CheckBoxColumn(BaseColumn):
         return {'td': '{0}_checkbox'.format(self.name)}
 
 
+class DxWidgetRenderColumn(BaseColumn):
+    """A column that display the result of a dx widget."""
+    # column not sortable
+    sort_index = -1
+    params = {}
+    field_name = None
+    view_name = 'view'
+    prefix = None
+
+    def renderCell(self, item):
+        if not self.field_name:
+            raise KeyError('A "field_name" must be defined for column "{0}" !'.format(self.attrName))
+        view = self.context.restrictedTraverse('{0}/{1}'.format(item.getPath(), self.view_name))
+        view.updateFieldsFromSchemata()
+        # to increase velocity, we escape all other fields. Faster than making new field.Fields
+        for field in view.fields:
+            if field != self.field_name:
+                view.fields = view.fields.omit(field)
+        # we update the widgets for the kept field
+        # passing a string parameter that can be used in overrided updateWidgets
+        # to know that we are in this particular rendering case
+        view.updateWidgets(prefix=self.prefix)
+        try:
+            widget = view.widgets[self.field_name]
+        except KeyError:
+            raise KeyError('The field_name "{0}" is not available for column "{1}" !'.format(self.field_name,
+                                                                                             self.attrName))
+        return widget.render()  # unicode
+
+
 ############################################################
 #      Custom columns                                   ####
 ############################################################

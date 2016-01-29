@@ -7,6 +7,8 @@ Changelog
 
 - Made BrowserViewCallColumn more generic
   [sgeulette]
+- Added DxWidgetRenderColumn to render a dexterity field widget
+  [sgeulette]
 
 0.10 (2016-01-15)
 -----------------

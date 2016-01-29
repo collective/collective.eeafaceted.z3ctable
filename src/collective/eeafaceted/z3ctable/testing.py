@@ -2,7 +2,7 @@
 """Base module for unittesting."""
 
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
-
+from zope import schema
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
@@ -14,11 +14,20 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.supermodel import model
 from plone.testing import z2
 
 import collective.eeafaceted.z3ctable
 
 import unittest2 as unittest
+
+
+class ITestingType(model.Schema):
+
+    afield = schema.TextLine(
+        title=u'A field',
+        required=True
+    )
 
 
 class NakedPloneLayer(PloneSandboxLayer):

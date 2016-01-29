@@ -2,6 +2,7 @@
 
 from datetime import datetime, date
 from zope.component import queryMultiAdapter
+from plone import api
 from z3c.table.interfaces import IColumn
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
@@ -14,6 +15,7 @@ from collective.eeafaceted.z3ctable.columns import DateColumn
 from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
 from collective.eeafaceted.z3ctable.columns import VocabularyColumn
+from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.tests.views import CALL_RESULT
 
 
@@ -302,3 +304,17 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'<a href="{0}">{1}</a>'.format(brain.getURL(),
                                                                                     brain.Title))
+
+    def test_DxWidgetRenderColumn(self):
+        """This column display a field widget rendering."""
+        table = self.faceted_z3ctable_view
+        column = DxWidgetRenderColumn(self.portal, self.portal.REQUEST, table)
+        tt = api.content.create(container=self.eea_folder, type='testingtype',
+                                id='testingtype', title='My testing type', afield='This is a text line')
+        brain = self.portal.portal_catalog(UID=tt.UID())[0]
+        self.assertRaises(KeyError, column.renderCell, brain)
+        column.field_name = 'IBasic.title'
+        self.assertRaises(KeyError, column.renderCell, brain)
+        column.field_name = 'afield'
+        self.assertIn('<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
+                      column.renderCell(brain))
