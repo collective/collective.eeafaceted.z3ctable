@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
-from zope.component import queryMultiAdapter
-from plone import api
+from zope.component import queryMultiAdapter, getUtility
+from zope.intid.interfaces import IIntIds
+from z3c.relationfield.relation import RelationValue
 from z3c.table.interfaces import IColumn
+
+from plone import api
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
+from collective.eeafaceted.z3ctable.columns import RelationTitleColumn
 from collective.eeafaceted.z3ctable.columns import BrowserViewCallColumn
 from collective.eeafaceted.z3ctable.columns import CheckBoxColumn
 from collective.eeafaceted.z3ctable.columns import ColorColumn
@@ -123,6 +127,27 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.renderCell(brain), DESCR_TEXT)
         column.params = {'mimetype': 'text/html'}
         self.assertEquals(column.renderCell(brain), u'<p>{0}</p>'.format(DESCR_TEXT))
+
+    def test_RelationTitleColumn(self):
+        """ """
+        table = self.faceted_z3ctable_view
+        column = RelationTitleColumn(self.portal, self.portal.REQUEST, table)
+        intids = getUtility(IIntIds)
+        fold1 = api.content.create(container=self.portal, type='Folder', id='fold1', title="Folder 1")
+        fold2 = api.content.create(container=self.portal, type='Folder', id='fold2', title="Folder 2")
+        rel1 = RelationValue(intids.getId(fold1))
+        rel2 = RelationValue(intids.getId(fold2))
+        tt = api.content.create(container=self.eea_folder, type='testingtype',
+                                id='testingtype', title='My testing type', rel_item=rel1,
+                                rel_items=[rel1, rel2])
+        brain = self.portal.portal_catalog(UID=tt.UID())[0]
+        column.attrName = 'rel_item'
+        self.assertEqual(u'<a href="http://nohost/plone/fold1">Folder 1</a>',
+                         column.renderCell(brain))
+        column.attrName = 'rel_items'
+        self.assertEqual(u'<ul>\n<li><a href="http://nohost/plone/fold1">Folder 1</a></li>\n'
+                         '<li><a href="http://nohost/plone/fold2">Folder 2</a></li>\n</ul>',
+                         column.renderCell(brain))
 
     def test_DateColumn(self):
         """This column will display a date correctly."""

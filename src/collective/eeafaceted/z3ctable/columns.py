@@ -174,6 +174,44 @@ class AwakeObjectMethodColumn(BaseColumn):
             return u'-'
 
 
+class RelationTitleColumn(BaseColumn):
+    """ Dexterity relation value column """
+
+    sort_index = -1
+
+    def getLinkedObjects(self, item):
+        # z3c.relationfield.relation.RelationValue or [z3c.relationfield.relation.RelationValue, ...]
+        obj = self._getObject(item)
+        rels = getattr(obj, self.attrName, None)
+        if not rels:
+            return None
+        if isinstance(rels, (list, tuple)):
+            ret = []
+            for rel in rels:
+                if not rel.isBroken():
+                    ret.append(rel.to_object)
+            return ret
+        elif not rels.isBroken():
+            return rels.to_object
+        return None
+
+    def target_display(self, obj):
+        """ Return an html link """
+        return u'<a href="{0}">{1}</a>'.format(obj.absolute_url(), obj.Title().decode('utf8'))
+
+    def renderCell(self, item):
+        targets = self.getLinkedObjects(item)
+        if not targets:
+            return u'-'
+        if isinstance(targets, (list, tuple)):
+            ret = []
+            for target in targets:
+                ret.append(u'<li>{0}</li>'.format(self.target_display(target)))
+            return u'<ul>\n{0}\n</ul>'.format('\n'.join(ret))
+        else:
+            return self.target_display(targets)
+
+
 class MemberIdColumn(BaseColumn):
     """ """
     attrName = 'Creator'

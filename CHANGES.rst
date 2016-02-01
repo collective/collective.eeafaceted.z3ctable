@@ -9,6 +9,8 @@ Changelog
   [sgeulette]
 - Added DxWidgetRenderColumn to render a dexterity field widget
   [sgeulette]
+- Added RelationTitleColumn to render a z3c.relationfield.relation.RelationValue attribute
+  [sgeulette]
 
 0.10 (2016-01-15)
 -----------------

@@ -3,6 +3,8 @@
 
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
 from zope import schema
+from z3c.relationfield.schema import RelationChoice, RelationList
+
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
@@ -14,19 +16,33 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.formwidget.contenttree import ObjPathSourceBinder
 from plone.supermodel import model
 from plone.testing import z2
 
 import collective.eeafaceted.z3ctable
 
-import unittest2 as unittest
+import unittest
 
 
 class ITestingType(model.Schema):
 
     afield = schema.TextLine(
         title=u'A field',
-        required=True
+        required=False
+    )
+
+    rel_item = RelationChoice(
+        title=u"Rel item",
+        source=ObjPathSourceBinder(),
+        required=False,
+    )
+
+    rel_items = RelationList(
+        title=u"Related Items",
+        default=[],
+        value_type=RelationChoice(title=u"Related", source=ObjPathSourceBinder()),
+        required=False,
     )
 
 
