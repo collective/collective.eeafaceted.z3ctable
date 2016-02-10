@@ -353,6 +353,9 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'<a href="{0}">{1}</a>'.format(brain.getURL(),
                                                                                     brain.Title))
+        # if brain has no Title, and simple '-' is used
+        brain.Title = ''
+        self.assertEquals(column.renderCell(brain), u'<a href="{0}">-</a>'.format(brain.getURL()))
 
     def test_DxWidgetRenderColumn(self):
         """This column display a field widget rendering."""
