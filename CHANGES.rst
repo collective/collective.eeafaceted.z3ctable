@@ -5,8 +5,8 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Made BrowserViewCallColumn more generic
-  [sgeulette]
+- Made BrowserViewCallColumn more generic, use unrestrictedTraverse instead of getMultiAdapter
+  [sgeulette, gbastien]
 - Added DxWidgetRenderColumn to render a dexterity field widget
   [sgeulette]
 - Added RelationTitleColumn to render a z3c.relationfield.relation.RelationValue attribute

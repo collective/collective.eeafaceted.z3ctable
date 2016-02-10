@@ -272,7 +272,7 @@ class BrowserViewCallColumn(BaseColumn):
     def renderCell(self, item):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
-        return self.context.restrictedTraverse('{0}/{1}'.format(item.getPath(), self.view_name))(**self.params)
+        return self.context.unrestrictedTraverse('{0}/{1}'.format(item.getPath(), self.view_name))(**self.params)
 
 
 class VocabularyColumn(BaseColumn):
