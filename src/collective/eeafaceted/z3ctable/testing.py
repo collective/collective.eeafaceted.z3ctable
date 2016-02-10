@@ -83,6 +83,8 @@ class CollectiveEeafacetedZ3ctableLayer(NakedPloneLayer):
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
+        # make sure we have a default workflow
+        portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         eea_folder = api.content.create(
             type='Folder',
             id='eea_folder',

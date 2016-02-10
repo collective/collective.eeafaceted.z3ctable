@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
+from plone.app.testing import login
 from zope.component import queryMultiAdapter, getUtility
 from zope.intid.interfaces import IIntIds
 from z3c.relationfield.relation import RelationValue
@@ -207,6 +208,29 @@ class TestColumns(IntegrationTestCase):
         # if no view_name, it will raise a KeyError
         self.assertRaises(KeyError, column.renderCell, brain)
         # right, use a view_name
+        column.view_name = u'testing-browsercall-view'
+        self.assertEquals(column.renderCell(brain), CALL_RESULT)
+
+    def test_BrowserViewCallColumnContextWithPrivateSublevels(self):
+        """Test that using the column works if some sublevels of the
+           used context are not viewable by the current user."""
+        table = self.faceted_z3ctable_view
+        column = BrowserViewCallColumn(self.portal, self.portal.REQUEST, table)
+        # create a subFolder in the eea_folder, and publish it
+        subfolder = api.content.create(container=self.eea_folder,
+                                       type='Folder',
+                                       id='subfolder',
+                                       title='Subfolder')
+        api.content.transition(subfolder, 'publish')
+        self.assertEquals(api.content.get_state(self.eea_folder), 'private')
+        self.assertEquals(api.content.get_state(subfolder), 'published')
+        # eea_folder is not viewable by a Member but subfolder is viewable
+        new_user = api.user.create('test@test.be', 'new_user', 'Password_12')
+        login(self.portal, new_user.getId())
+        self.assertFalse(api.user.has_permission('View', user=new_user, obj=self.eea_folder))
+        self.assertTrue(api.user.has_permission('View', user=new_user, obj=subfolder))
+        # call the column
+        brain = self.portal.portal_catalog(UID=subfolder.UID())[0]
         column.view_name = u'testing-browsercall-view'
         self.assertEquals(column.renderCell(brain), CALL_RESULT)
 
