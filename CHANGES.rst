@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.11 (unreleased)
+0.11 (2016-02-15)
 -----------------
 
 - Made BrowserViewCallColumn more generic, use unrestrictedTraverse instead of getMultiAdapter
