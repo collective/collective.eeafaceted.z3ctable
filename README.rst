@@ -5,9 +5,9 @@
   :target: https://coveralls.io/r/IMIO/collective.eeafaceted.z3ctable?branch=master
 
 
-====================
+==============================
 collective.eeafaceted.z3ctable
-====================
+==============================
 
 Package proposant un type de colonne compatible avec eea.facetednavigation
 
@@ -34,4 +34,3 @@ Configuration
 =============
 
 ...
-
