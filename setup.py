@@ -24,7 +24,7 @@ setup(
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
-        "Framework :: Plone :: 4.x",
+        "Framework :: Plone :: 4.3",
         "Programming Language :: Python :: 2.7",
     ],
     keywords='Python Zope Plone',
