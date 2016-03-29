@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-12 12:25+0000\n"
+"POT-Creation-Date: 2016-03-29 13:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,28 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.eeafaceted.z3ctable\n"
 
+#: ./configure.zcml:28
+msgid "Extension profile for collective.eeafaceted.z3ctable."
+msgstr ""
+
 #. Default: "Click here to sort elements by ascending order"
 msgid "Sort ascending"
 msgstr ""
 
 #. Default: "Click here to sort elements by descending order"
 msgid "Sort descending"
+msgstr ""
+
+#: ./testing.zcml:16
+msgid "Steps to ease tests of collective.eeafaceted.z3ctable"
+msgstr ""
+
+#: ./configure.zcml:28
+msgid "collective.eeafaceted.z3ctable"
+msgstr ""
+
+#: ./testing.zcml:16
+msgid "collective.eeafaceted.z3ctable tests"
 msgstr ""
 
 #. Default: "Creation date"
@@ -110,7 +126,7 @@ msgid "portal_type__header_title"
 msgstr ""
 
 #. Default: "Refresh search results."
-#: ./browser/faceted-table-items.pt:28
+#: ./browser/faceted-table-items.pt:32
 msgid "refresh_results"
 msgstr ""
 
@@ -128,19 +144,4 @@ msgstr ""
 
 #. Default: "Total comments"
 msgid "total_comments__header_title"
-msgstr ""
-
-msgid "getText"
-msgstr ""
-
-msgid "Creator"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "CreationDate"
-msgstr ""
-
-msgid "review_state"
 msgstr ""

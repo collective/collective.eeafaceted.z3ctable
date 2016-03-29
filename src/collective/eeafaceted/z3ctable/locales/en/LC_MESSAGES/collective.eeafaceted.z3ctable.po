@@ -9,8 +9,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code:fr\n"
-"Language-Name: French\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
@@ -20,11 +20,11 @@ msgstr ""
 
 #. Default: "Click here to sort elements by ascending order"
 msgid "Sort ascending"
-msgstr "Cliquez ici pour trier les éléments par ordre croissant"
+msgstr ""
 
 #. Default: "Click here to sort elements by descending order"
 msgid "Sort descending"
-msgstr "Cliquez ici pour trier les éléments par ordre décroissant"
+msgstr ""
 
 #: ./testing.zcml:16
 msgid "Steps to ease tests of collective.eeafaceted.z3ctable"
@@ -40,11 +40,11 @@ msgstr ""
 
 #. Default: "Creation date"
 msgid "header_CreationDate"
-msgstr "Créé le"
+msgstr "Created on"
 
 #. Default: "Creator"
 msgid "header_Creator"
-msgstr "Auteur"
+msgstr "Creator"
 
 #. Default: "Description"
 msgid "header_Description"
@@ -52,23 +52,23 @@ msgstr "Description"
 
 #. Default: "Effective date"
 msgid "header_EffectiveDate"
-msgstr "Date d'activation"
+msgstr "Effective date"
 
 #. Default: "Expiration date"
 msgid "header_ExpirationDate"
-msgstr "Date d'expiration"
+msgstr "Expiration date"
 
 #. Default: "Modification date"
 msgid "header_ModificationDate"
-msgstr "Modifié le"
+msgstr "Modified on"
 
 #. Default: "Keywords"
 msgid "header_Subject"
-msgstr "Mots-clés"
+msgstr "Keywords"
 
 #. Default: "Title"
 msgid "header_Title"
-msgstr "Titre"
+msgstr "Title"
 
 #. Default: "Type"
 msgid "header_Type"
@@ -80,23 +80,23 @@ msgstr "UID"
 
 #. Default: "End"
 msgid "header_end"
-msgstr "Fin"
+msgstr "End"
 
 #. Default: "Identifier"
 msgid "header_getId"
-msgstr "Identifiant"
+msgstr "Id"
 
 #. Default: "Size"
 msgid "header_getObjSize"
-msgstr "Taille"
+msgstr "Size"
 
 #. Default: "Body"
 msgid "header_getText"
-msgstr "Corps du texte"
+msgstr "Text"
 
 #. Default: "Location"
 msgid "header_location"
-msgstr "Localisation"
+msgstr "Location"
 
 #. Default: "Type"
 msgid "header_portal_type"
@@ -104,19 +104,19 @@ msgstr "Type"
 
 #. Default: "Review state"
 msgid "header_review_state"
-msgstr "Etat"
+msgstr "State"
 
 #. Default: "Start"
 msgid "header_start"
-msgstr "Début"
+msgstr "Start"
 
 #. Default: "Total comments"
 msgid "header_total_comments"
-msgstr "Nombre de commentaires"
+msgstr "Comments number"
 
 #. Default: "Location"
 msgid "location__header_title"
-msgstr "Localisation"
+msgstr "Location"
 
 #. Default: "Type"
 msgid "portal_type__header_title"
@@ -125,20 +125,20 @@ msgstr "Type"
 #. Default: "Refresh search results."
 #: ./browser/faceted-table-items.pt:32
 msgid "refresh_results"
-msgstr "Actualiser la recherche."
+msgstr "Refresh search"
 
 #. Default: "Review state"
 msgid "review_state__header_title"
-msgstr "Etat"
+msgstr "State"
 
 #. Default: "Select/Unselect items"
 msgid "select_unselect_items"
-msgstr "Tout cocher/décocher"
+msgstr "Select/unselect all"
 
 #. Default: "Start"
 msgid "start__header_title"
-msgstr "Début"
+msgstr "Start"
 
 #. Default: "Total comments"
 msgid "total_comments__header_title"
-msgstr "Nombre de commentaires"
+msgstr "Comments number"

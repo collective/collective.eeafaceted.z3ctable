@@ -6,8 +6,7 @@
 CATALOGNAME="collective.eeafaceted.z3ctable"
 
 # List of languages used for po initialization (no mandatory update for syncing)
-# Ex LANGUAGES="en|English|en-au;en-ca;en-gb;en-us fr|French|fr-fr;fr-be;fr-ca nl|Dutch|nl-be;nl-nl"
-LANGUAGES="fr|French|fr-fr;fr-be;fr-ca"
+LANGUAGES="en|English|en-au;en-ca;en-gb;en-us fr|French|fr-fr;fr-be;fr-ca"
 
 # Create locales folder structure for languages
 install -d locales

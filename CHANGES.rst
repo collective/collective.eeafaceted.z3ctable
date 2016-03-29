@@ -5,8 +5,8 @@ Changelog
 0.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Add english translations.
+  [sgeulette]
 
 0.11 (2016-02-15)
 -----------------
