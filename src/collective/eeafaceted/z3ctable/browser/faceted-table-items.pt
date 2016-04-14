@@ -27,14 +27,16 @@
                   tal:content="batch/sequence_length|string:0">234</strong>
             items matching your search terms.
           </span>
-          <a href="#" onclick="javascript: event.preventDefault(); Faceted.URLHandler.hash_changed();">
-            <img src="#"
-                 tal:attributes="src string:${context/portal_url}/++resource++collective.eeafaceted.z3ctable/refresh.gif" /><span i18n:translate="refresh_results">Refresh search results.</span>
-          </a>
         </div>
 
         <div tal:condition="not: batch/sequence_length"
              class="table_faceted_no_results" i18n:domain="plone" i18n:translate="description_no_results_found">No results were found.</div>
+
+        <a href="#" onclick="javascript: event.preventDefault(); Faceted.URLHandler.hash_changed();">
+          <img src="#"
+               tal:attributes="src string:${context/portal_url}/++resource++collective.eeafaceted.z3ctable/refresh.gif" /><span i18n:translate="refresh_results">Refresh search results.</span>
+        </a>
+
         <div style="clear: both;"></div>
         <div class="eea-preview-items"
              tal:condition="batch/sequence_length"

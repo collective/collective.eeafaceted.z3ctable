@@ -5,8 +5,8 @@ Changelog
 0.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Display the 'Refresh search results.' link also when there are no current results.
+  [gbastien]
 
 0.12 (2016-03-29)
 -----------------
