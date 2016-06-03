@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.13 (unreleased)
+0.13 (2016-06-03)
 -----------------
 
 - Display the 'Refresh search results.' link also when there are no current results.
