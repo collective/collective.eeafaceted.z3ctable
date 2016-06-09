@@ -313,8 +313,9 @@ class ColorColumn(I18nColumn):
     cssClassPrefix = 'column'
 
     def renderHeadCell(self):
-        """Hide the head cell."""
-        return u''
+        """Hide the head cell but fill it with spaces so it
+           does not shrink to nothing if table is too large."""
+        return u'&nbsp;&nbsp;&nbsp;'
 
     def renderCell(self, item):
         """Display a message."""

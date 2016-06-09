@@ -5,8 +5,9 @@ Changelog
 0.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- ColorColumn : in renderHeadCell, do not return an empty HTML content but u'&nbsp;&nbsp;&nbsp;'
+  so in case table is too large, the column does not shrink to nothing.
+  [gbastien]
 
 0.13 (2016-06-03)
 -----------------
