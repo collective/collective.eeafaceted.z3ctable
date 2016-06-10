@@ -305,7 +305,7 @@ class TestColumns(IntegrationTestCase):
         column.cssClassPrefix = 'another'
         self.assertEquals(column.getCSSClasses(brain), {'td': 'another_getId_eea_folder'})
         # no header is displayed for a ColorColumn
-        self.assertEquals(column.renderHeadCell(), u'')
+        self.assertEquals(column.renderHeadCell(), u'&nbsp;&nbsp;&nbsp;')
 
     def test_CheckBoxColumn(self):
         """This will display a CheckBox column."""
