@@ -15,9 +15,9 @@ class TestingVocabulary(object):
     def __call__(self, context):
         """ """
         res = []
-        res.append(SimpleTerm('existing_key1', 'existing_key1', 'Existing value 1'))
-        res.append(SimpleTerm('existing_key2', 'existing_key2', 'Existing value 2'))
-        res.append(SimpleTerm('existing_key3', 'existing_key3', 'Existing value 3'))
+        res.append(SimpleTerm('existing_key1', 'existing_key1', 'Existing v\xc3\xa9lue 1'))
+        res.append(SimpleTerm('existing_key2', 'existing_key2', 'Existing v\xc3\xa9lue 2'))
+        res.append(SimpleTerm('existing_key3', 'existing_key3', 'Existing v\xc3\xa9lue 3'))
         return SimpleVocabulary(res)
 
 TestingVocabularyFactory = TestingVocabulary()

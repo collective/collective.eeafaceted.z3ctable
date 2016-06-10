@@ -260,19 +260,19 @@ class TestColumns(IntegrationTestCase):
         self.eea_folder.setTitle('existing_key1')
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'Existing value 1')
+        self.assertEquals(column.renderCell(brain), u'Existing v\xe9lue 1')
 
         # multiValued vocabulary
         self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'Existing value 1, Existing value 2')
+        self.assertEquals(column.renderCell(brain), u'Existing v\xe9lue 1, Existing v\xe9lue 2')
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain),
-                          u'Existing value 1, unexisting_key, Existing value 2')
+                          u'Existing v\xe9lue 1, unexisting_key, Existing v\xe9lue 2')
 
     def test_AbbrColumn(self):
         """This column uses 2 vocabularies to generate an <abbr> tag where first vocabulary
@@ -314,23 +314,23 @@ class TestColumns(IntegrationTestCase):
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain),
-                          "<abbr title='Full existing value 1'>Existing value 1</abbr>")
+                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
 
         # multiValued vocabulary
         self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain),
-                          "<abbr title='Full existing value 1'>Existing value 1</abbr>, "
-                          "<abbr title='Full existing value 2'>Existing value 2</abbr>")
+                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
+                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain),
-                          "<abbr title='Full existing value 1'>Existing value 1</abbr>, "
-                          "unexisting_key, "
-                          "<abbr title='Full existing value 2'>Existing value 2</abbr>")
+                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
+                          u"unexisting_key, "
+                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
 
     def test_MemberIdColumn(self):
         """This column will display the fullname of the given metadata."""
