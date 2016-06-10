@@ -5,8 +5,11 @@ Changelog
 0.14 (unreleased)
 -----------------
 
-- ColorColumn : in renderHeadCell, do not return an empty HTML content but u'&nbsp;&nbsp;&nbsp;'
+- ColorColumn : in renderHeadCell, do not return an empty HTML content but `u'&nbsp;&nbsp;&nbsp;'`
   so in case table is too large, the column does not shrink to nothing.
+  [gbastien]
+- Use `__name__` instead of `attrName` to generate `th_header_` and `td_cell_` CSS classes
+  so 2 columns using the same `attrName` get different CSS classes.
   [gbastien]
 
 0.13 (2016-06-03)
