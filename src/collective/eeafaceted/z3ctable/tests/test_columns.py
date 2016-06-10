@@ -276,7 +276,7 @@ class TestColumns(IntegrationTestCase):
 
     def test_AbbrColumn(self):
         """This column uses 2 vocabularies to generate an <abbr> tag where first vocabulary
-           if the displayed value (abbreviation) and second vocabulary (vocabulary_full)
+           if the displayed value (abbreviation) and second vocabulary (full_vocabulary)
            displays the full value."""
         self.eea_folder.setTitle(u'unexisting_key')
         self.eea_folder.reindexObject(idxs=['Title', ])
@@ -285,18 +285,18 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # both vocabularies are required
         column.vocabulary = None
-        column.vocabulary_full = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.full_vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         self.assertRaises(KeyError, column.renderCell, brain)
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
-        column.vocabulary_full = None
+        column.full_vocabulary = None
         self.assertRaises(KeyError, column.renderCell, brain)
 
         # both vocabularies must be valid
         column.vocabulary = "some.unknown.vocabulary"
-        column.vocabulary_full = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.full_vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         self.assertRaises(KeyError, column.renderCell, brain)
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
-        column.vocabulary_full = "some.unknown.vocabulary"
+        column.full_vocabulary = "some.unknown.vocabulary"
         self.assertRaises(KeyError, column.renderCell, brain)
 
         # use a valid vocabulary and test

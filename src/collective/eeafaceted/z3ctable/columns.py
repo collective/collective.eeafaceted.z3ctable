@@ -314,9 +314,9 @@ class AbbrColumn(VocabularyColumn):
     full_vocabulary = None
 
     def renderCell(self, item):
-        if not self.vocabulary or not self.vocabulary_full:
+        if not self.vocabulary or not self.full_vocabulary:
             raise KeyError(
-                'A "vocabulary" and a "vocabulary_full" must be defined for column "{0}" !'.format(self.attrName))
+                'A "vocabulary" and a "full_vocabulary" must be defined for column "{0}" !'.format(self.attrName))
         acronym_factory = queryUtility(IVocabularyFactory, self.vocabulary)
         if not acronym_factory:
             raise KeyError(
