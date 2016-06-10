@@ -11,6 +11,9 @@ Changelog
 - Use `__name__` instead of `attrName` to generate `th_header_` and `td_cell_` CSS classes
   so 2 columns using the same `attrName` get different CSS classes.
   [gbastien]
+- Added `AbbrColumn` that will generate a HTML tag `<abbr>` and that is based on 2 vocabularies,
+  one that manage the abbreviated value and one that manage the full value.
+  [gbastien]
 
 0.13 (2016-06-03)
 -----------------

@@ -8,7 +8,7 @@ from z3c.relationfield.relation import RelationValue
 from z3c.table.interfaces import IColumn
 
 from plone import api
-from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
+from collective.eeafaceted.z3ctable.columns import AbbrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
@@ -21,6 +21,7 @@ from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
 from collective.eeafaceted.z3ctable.columns import VocabularyColumn
 from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
+from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.tests.views import CALL_RESULT
 
 
@@ -272,6 +273,64 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain),
                           u'Existing value 1, unexisting_key, Existing value 2')
+
+    def test_AbbrColumn(self):
+        """This column uses 2 vocabularies to generate an <abbr> tag where first vocabulary
+           if the displayed value (abbreviation) and second vocabulary (vocabulary_full)
+           displays the full value."""
+        self.eea_folder.setTitle(u'unexisting_key')
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        table = self.faceted_z3ctable_view
+        column = AbbrColumn(self.portal, self.portal.REQUEST, table)
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        # both vocabularies are required
+        column.vocabulary = None
+        column.vocabulary_full = "collective.eeafaceted.z3ctable.testingvocabulary"
+        self.assertRaises(KeyError, column.renderCell, brain)
+        column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.vocabulary_full = None
+        self.assertRaises(KeyError, column.renderCell, brain)
+
+        # both vocabularies must be valid
+        column.vocabulary = "some.unknown.vocabulary"
+        column.vocabulary_full = "collective.eeafaceted.z3ctable.testingvocabulary"
+        self.assertRaises(KeyError, column.renderCell, brain)
+        column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.vocabulary_full = "some.unknown.vocabulary"
+        self.assertRaises(KeyError, column.renderCell, brain)
+
+        # use a valid vocabulary and test
+        column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
+        # no attrName, u'-' is returned
+        self.assertEquals(column.renderCell(brain), u'-')
+
+        # mono valued vocabulary
+        # an attrName but key not found in vocab, the key is returned
+        column.attrName = 'Title'
+        self.assertEquals(column.renderCell(brain), u'unexisting_key')
+        # existing key
+        self.eea_folder.setTitle('existing_key1')
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain),
+                          "<abbr title='Full existing value 1'>Existing value 1</abbr>")
+
+        # multiValued vocabulary
+        self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain),
+                          "<abbr title='Full existing value 1'>Existing value 1</abbr>, "
+                          "<abbr title='Full existing value 2'>Existing value 2</abbr>")
+        # mixed with unexisting key
+        self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain),
+                          "<abbr title='Full existing value 1'>Existing value 1</abbr>, "
+                          "unexisting_key, "
+                          "<abbr title='Full existing value 2'>Existing value 2</abbr>")
 
     def test_MemberIdColumn(self):
         """This column will display the fullname of the given metadata."""

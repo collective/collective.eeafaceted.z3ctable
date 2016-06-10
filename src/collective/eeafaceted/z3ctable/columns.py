@@ -306,6 +306,50 @@ class VocabularyColumn(BaseColumn):
         return ', '.join(res)
 
 
+class AbbrColumn(VocabularyColumn):
+    """A column that will display a <abbr> HTML tag and that will show a full version on hover.
+       It is aware of 2 vocabularies, one to manage abbreviation and one to manage full value."""
+
+    # named utility
+    full_vocabulary = None
+
+    def renderCell(self, item):
+        if not self.vocabulary or not self.vocabulary_full:
+            raise KeyError(
+                'A "vocabulary" and a "vocabulary_full" must be defined for column "{0}" !'.format(self.attrName))
+        acronym_factory = queryUtility(IVocabularyFactory, self.vocabulary)
+        if not acronym_factory:
+            raise KeyError(
+                'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
+                                                                                    self.attrName))
+        full_factory = queryUtility(IVocabularyFactory, self.full_vocabulary)
+        if not full_factory:
+            raise KeyError(
+                'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.full_vocabulary,
+                                                                                    self.attrName))
+
+        value = self.getValue(item)
+        if not value:
+            return u'-'
+
+        acronym_vocab = acronym_factory(self.context)
+        full_vocab = full_factory(self.context)
+        # make sure we have an iterable
+        if not hasattr(value, '__iter__'):
+            value = [value]
+        res = []
+        for v in value:
+            try:
+                res.append(u"<abbr title='{0}'>{1}</abbr>".format(
+                    safe_unicode(full_vocab.getTerm(v).title),
+                    safe_unicode(acronym_vocab.getTerm(v).title)
+                    ))
+            except LookupError:
+                # in case an element is not in the vocabulary, add the value
+                res.append(safe_unicode(v))
+        return ', '.join(res)
+
+
 class ColorColumn(I18nColumn):
     """A column that is aimed to display a background color and a help message on hover."""
 

@@ -23,8 +23,10 @@
       permission="zope2.View"
       />
 
-  <!-- This vocabulary is used by test_columns.py -->
+  <!-- Vocabularies used in test_columns.py -->
   <utility component=".tests.vocabularies.TestingVocabularyFactory"
            name="collective.eeafaceted.z3ctable.testingvocabulary" />
+  <utility component=".tests.vocabularies.TestingFullVocabularyFactory"
+           name="collective.eeafaceted.z3ctable.testingfullvocabulary" />
 
 </configure>

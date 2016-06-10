@@ -13,7 +13,7 @@ class TestingVocabulary(object):
 
     @memoize
     def __call__(self, context):
-        """Just return a value defined in the REQUEST."""
+        """ """
         res = []
         res.append(SimpleTerm('existing_key1', 'existing_key1', 'Existing value 1'))
         res.append(SimpleTerm('existing_key2', 'existing_key2', 'Existing value 2'))
@@ -21,3 +21,18 @@ class TestingVocabulary(object):
         return SimpleVocabulary(res)
 
 TestingVocabularyFactory = TestingVocabulary()
+
+
+class TestingFullVocabulary(object):
+    implements(IVocabularyFactory)
+
+    @memoize
+    def __call__(self, context):
+        """ """
+        res = []
+        res.append(SimpleTerm('existing_key1', 'existing_key1', 'Full existing value 1'))
+        res.append(SimpleTerm('existing_key2', 'existing_key2', 'Full existing value 2'))
+        res.append(SimpleTerm('existing_key3', 'existing_key3', 'Full existing value 3'))
+        return SimpleVocabulary(res)
+
+TestingFullVocabularyFactory = TestingFullVocabulary()
