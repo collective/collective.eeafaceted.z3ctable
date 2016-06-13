@@ -5,7 +5,8 @@ Changelog
 0.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Correct wrong release.
+  [gbastien]
 
 
 0.14 (2016-06-13)
