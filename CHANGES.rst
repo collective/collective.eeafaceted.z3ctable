@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.15 (unreleased)
+0.15 (2016-06-13)
 -----------------
 
 - Correct wrong release.
