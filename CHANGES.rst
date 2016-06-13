@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.14 (unreleased)
+0.14 (2016-06-13)
 -----------------
 
 - ColorColumn : in renderHeadCell, do not return an empty HTML content but `u'&nbsp;&nbsp;&nbsp;'`

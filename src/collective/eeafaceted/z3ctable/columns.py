@@ -342,8 +342,7 @@ class AbbrColumn(VocabularyColumn):
             try:
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(
                     safe_unicode(full_vocab.getTerm(v).title),
-                    safe_unicode(acronym_vocab.getTerm(v).title)
-                    ))
+                    safe_unicode(acronym_vocab.getTerm(v).title)))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
