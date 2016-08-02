@@ -29,6 +29,7 @@ class FacetedTableView(BrowserView, SequenceTable):
     cssClassEven = u'odd'
     cssClassOdd = u'even'
     cssClasses = {'table': 'faceted-table-results listing nosort'}
+    ignoreColumnWeight = False  # when set to True, keep columns ordered as returned by '_getViewFields'
 
     def __init__(self, context, request):
         ''' '''
@@ -92,6 +93,15 @@ class FacetedTableView(BrowserView, SequenceTable):
             column.attrName = name
 
         return column
+
+    def orderColumns(self):
+        """ Order columns of the table."""
+
+        if self.ignoreColumnWeight:
+            for i, column in enumerate(self.columns):
+                column.weight = i
+
+        super(FacetedTableView, self).orderColumns()
 
     def renderRow(self, row, cssClass=None):
         """Override to be able to apply a class on the TR defined on a column,
