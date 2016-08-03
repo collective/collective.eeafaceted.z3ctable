@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import logging
-logger = logging.getLogger('collective.eeafaceted.z3ctable')
-import traceback
-
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 
@@ -18,6 +14,11 @@ from z3c.table.table import SequenceTable
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
 from zope.interface import implements
+
+import logging
+import traceback
+
+logger = logging.getLogger('collective.eeafaceted.z3ctable')
 
 
 class FacetedTableView(BrowserView, SequenceTable):

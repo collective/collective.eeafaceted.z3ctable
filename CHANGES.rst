@@ -5,7 +5,9 @@ Changelog
 0.16 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Add option ignoreColumnWeight to Table to keep columns ordered as returned by
+  setUpColumns() rather than by column weight.
+  [sdelcourt]
 
 
 0.15 (2016-06-13)

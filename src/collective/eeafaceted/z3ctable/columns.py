@@ -74,8 +74,8 @@ class BaseColumnHeader(SortingColumnHeader):
                 faceted_url = self.faceted_url
                 query_string = self.query_string
                 if order_arrow:
-                    contray_sort_order = (self.table.query.get('sort_order', 'ascending') == 'ascending'
-                                          and 'descending' or 'ascending')
+                    contray_sort_order = (self.table.query.get('sort_order', 'ascending') == 'ascending' and
+                                          'descending' or 'ascending')
                     contray_sort_order_msgid = "Sort {0}".format(contray_sort_order)
                     sort_msg = translate(contray_sort_order_msgid,
                                          domain='collective.eeafaceted.z3ctable',

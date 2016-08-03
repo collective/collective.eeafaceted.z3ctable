@@ -41,7 +41,7 @@ class TestTable(IntegrationTestCase):
         brain = brains[0]
         self.assertEquals(rendered_table.find('tbody').find('tr').find('td').text_content(), brain.Title)
 
-    def test_Table_CSS_on_tr_from_cell(self, ):
+    def test_Table_CSS_on_tr_from_cell(self):
         """table.renderRow was overrided to take into account 'tr' CSS classes defined on a column."""
         table = self.faceted_z3ctable_view
         column = BaseColumn(self.portal, self.portal.REQUEST, table)
@@ -58,3 +58,32 @@ class TestTable(IntegrationTestCase):
         rendered_table = lxml.html.fromstring(table.render_table(batch))
         # the class is applied to the <tr>, in addition to the 'odd' class
         self.assertEquals(rendered_table.find('tbody').find('tr').attrib['class'], 'odd special_tr_class')
+
+    def test_columns_ordering(self):
+        """table.orderColumns take the ignoreColumnWeight parameter into account
+        to keep columns as ordered by setUpColumns or to order them by weight."""
+        table = self.faceted_z3ctable_view
+
+        # when ignoreColumnWeight is set to True, colums are kept ordered
+        # as found on setUpColumns
+        table.ignoreColumnWeight = True
+        table.initColumns()
+
+        columns = [col.__name__ for col in table.columns]
+        self.assertEquals(columns, table._getViewFields())
+
+        weights = [col.__class__.weight for col in table.columns]
+        ordered_weights = sorted(weights)
+        self.assertNotEquals(weights, ordered_weights)
+
+        # when ignoreColumnWeight is set to False, colums are kept ordered
+        # by weight on each column
+        table.ignoreColumnWeight = False
+        table.initColumns()
+
+        columns = [col.__name__ for col in table.columns]
+        self.assertNotEquals(columns, table._getViewFields())
+
+        weights = [col.__class__.weight for col in table.columns]
+        ordered_weights = sorted(weights)
+        self.assertEquals(weights, ordered_weights)
