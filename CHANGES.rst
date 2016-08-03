@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.16 (unreleased)
+0.16 (2016-08-03)
 -----------------
 
 - Add option ignoreColumnWeight to Table to keep columns ordered as returned by
