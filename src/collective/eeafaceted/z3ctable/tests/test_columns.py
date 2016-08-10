@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 from datetime import datetime, date
+import time
 from plone.app.testing import login
 from zope.component import queryMultiAdapter, getUtility
 from zope.intid.interfaces import IIntIds
@@ -164,6 +164,12 @@ class TestColumns(IntegrationTestCase):
         # right, use CreationDate as attrName
         column.attrName = 'CreationDate'
         self.assertIn(column.renderCell(brain), (u'May 05, 2015', '2015-05-05'))
+        # test with an ignored value
+        tzone_offset = time.strftime('%z')
+        column.ignored_value = u'2015-05-05T12:30:00{}:{}'.format(
+            tzone_offset[:3], tzone_offset[3:])
+        self.assertEquals(column.renderCell(brain), u'-')
+        column.ignored_value = None
         # test the long_format parameter
         column.long_format = True
         self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30'))

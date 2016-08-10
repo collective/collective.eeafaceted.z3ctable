@@ -238,10 +238,11 @@ class DateColumn(BaseColumn):
     """ """
     long_format = False
     time_only = False
+    ignored_value = None
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == 'None':
+        if not value or value == 'None' or value == self.ignored_value:
             return u'-'
         return api.portal.get_localized_time(datetime=value, long_format=self.long_format, time_only=self.time_only)
 
