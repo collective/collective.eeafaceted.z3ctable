@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 from Products.CMFPlone.utils import safe_unicode
+from Products.CMFPlone.utils import base_hasattr
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from plone import api
@@ -429,6 +430,26 @@ class DxWidgetRenderColumn(BaseColumn):
             raise KeyError('The field_name "{0}" is not available for column "{1}" !'.format(self.field_name,
                                                                                              self.attrName))
         return widget.render()  # unicode
+
+
+class ElementNumberColumn(BaseColumn):
+    header = u''
+
+    def renderCell(self, item):
+        """ """
+        start = 1
+        # if we have a batch, use it
+        if base_hasattr(self.table, 'batch'):
+            start = self.table.batch.start
+            values_from = start - 1
+            values_to = values_from + self.table.batch.length
+            values_uids = [v.UID for v in self.table.values._sequence[
+                values_from:values_to]]
+        else:
+            # this column may also be used with more classical z3c.table
+            # where there is no batch and we display the entire table
+            values_uids = [v.UID for v in self.table.values]
+        return start + values_uids.index(item.UID)
 
 
 ############################################################

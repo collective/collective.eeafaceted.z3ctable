@@ -5,8 +5,9 @@ Changelog
 0.17 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added ElementNumberColumn that will display the number of the current element
+  among elements displayed in the table.  This supports table using batch or not.
+  [gbastien]
 
 0.16 (2016-08-03)
 -----------------

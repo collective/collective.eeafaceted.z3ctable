@@ -2,10 +2,12 @@
 from datetime import datetime, date
 import time
 from plone.app.testing import login
+from plone.batching import Batch
 from zope.component import queryMultiAdapter, getUtility
 from zope.intid.interfaces import IIntIds
 from z3c.relationfield.relation import RelationValue
 from z3c.table.interfaces import IColumn
+from z3c.table.table import Table
 
 from plone import api
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
@@ -17,6 +19,7 @@ from collective.eeafaceted.z3ctable.columns import BrowserViewCallColumn
 from collective.eeafaceted.z3ctable.columns import CheckBoxColumn
 from collective.eeafaceted.z3ctable.columns import ColorColumn
 from collective.eeafaceted.z3ctable.columns import DateColumn
+from collective.eeafaceted.z3ctable.columns import ElementNumberColumn
 from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
 from collective.eeafaceted.z3ctable.columns import VocabularyColumn
@@ -418,9 +421,51 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEquals(column.renderCell(brain), u'<a href="{0}">{1}</a>'.format(brain.getURL(),
                                                                                     brain.Title))
-        # if brain has no Title, and simple '-' is used
+        # if brain has no Title, '-' is used
         brain.Title = ''
         self.assertEquals(column.renderCell(brain), u'<a href="{0}">-</a>'.format(brain.getURL()))
+
+    def test_ElementNumberColumn(self):
+        """A base column using 'Title' metadata but rendered as a link to the element."""
+        # create some testingtype instances to build a batch
+        for i in range(0, 8):
+            api.content.create(container=self.eea_folder,
+                               type='testingtype',
+                               title='My testing type {0}'.format(i))
+        # create a batch with every elements
+        brains = self.portal.portal_catalog(portal_type='testingtype')
+        self.assertEquals(len(brains), 8)
+
+        # without batch
+        table = BrainsWithoutBatchTable(self.portal, self.portal.REQUEST)
+        self.assertEquals(len(table.values), 8)
+        column = ElementNumberColumn(self.portal, self.portal.REQUEST, table)
+        self.assertEqual(column.renderCell(table.values[0]), 1)
+        self.assertEqual(column.renderCell(table.values[1]), 2)
+        self.assertEqual(column.renderCell(table.values[2]), 3)
+        self.assertEqual(column.renderCell(table.values[3]), 4)
+        self.assertEqual(column.renderCell(table.values[4]), 5)
+        self.assertEqual(column.renderCell(table.values[5]), 6)
+        self.assertEqual(column.renderCell(table.values[6]), 7)
+        self.assertEqual(column.renderCell(table.values[7]), 8)
+
+        # with batch
+        table = self.faceted_z3ctable_view
+        column = ElementNumberColumn(self.portal, self.portal.REQUEST, table)
+        batch = Batch(brains, size=5)
+        table.update(batch)
+        self.assertEqual(batch.start, 1)
+        self.assertEqual(column.renderCell(batch._sequence[0]), 1)
+        self.assertEqual(column.renderCell(batch._sequence[1]), 2)
+        self.assertEqual(column.renderCell(batch._sequence[2]), 3)
+        self.assertEqual(column.renderCell(batch._sequence[3]), 4)
+        self.assertEqual(column.renderCell(batch._sequence[4]), 5)
+        # next 5 others (3 last actually) are accessible if batch start changed
+        self.assertRaises(ValueError, column.renderCell, batch._sequence[5])
+        batch.start = 6
+        self.assertEqual(column.renderCell(batch._sequence[5]), 6)
+        self.assertEqual(column.renderCell(batch._sequence[6]), 7)
+        self.assertEqual(column.renderCell(batch._sequence[7]), 8)
 
     def test_DxWidgetRenderColumn(self):
         """This column display a field widget rendering."""
@@ -435,3 +480,11 @@ class TestColumns(IntegrationTestCase):
         column.field_name = 'afield'
         self.assertIn('<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
                       column.renderCell(brain))
+
+
+class BrainsWithoutBatchTable(Table):
+    """ """
+    @property
+    def values(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        return catalog(portal_type='testingtype')
