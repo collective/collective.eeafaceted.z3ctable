@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, date
-import time
 from plone.app.testing import login
 from plone.batching import Batch
 from zope.component import queryMultiAdapter, getUtility
@@ -168,9 +167,7 @@ class TestColumns(IntegrationTestCase):
         column.attrName = 'CreationDate'
         self.assertIn(column.renderCell(brain), (u'May 05, 2015', '2015-05-05'))
         # test with an ignored value
-        tzone_offset = time.strftime('%z')
-        column.ignored_value = u'2015-05-05T12:30:00{}:{}'.format(
-            tzone_offset[:3], tzone_offset[3:])
+        column.ignored_value = brain.CreationDate
         self.assertEquals(column.renderCell(brain), u'-')
         column.ignored_value = None
         # test the long_format parameter
