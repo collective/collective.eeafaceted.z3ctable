@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.17 (unreleased)
+0.17 (2016-12-05)
 -----------------
 
 - Added ElementNumberColumn that will display the number of the current element
