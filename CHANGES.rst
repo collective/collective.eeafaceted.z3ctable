@@ -5,7 +5,10 @@ Changelog
 0.18 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Handle sort_on of the query by storing result of the sorting widget in the
+  request.form so it is reuseable by other widget.query that also manage the
+  sort_on attribute.
+  [gbastien]
 
 
 0.17 (2016-12-05)

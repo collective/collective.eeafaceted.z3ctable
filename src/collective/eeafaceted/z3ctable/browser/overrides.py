@@ -18,12 +18,19 @@ class SortingFormAwareAbstractWidget(Widget):
         """
         query = {}
 
-        # XXX only the line here under is changed, we added the
-        # ' and not self.data.getId() in form' part
+        # XXX changed by collective.eeafaceted.z3ctable
+        # added the ' and not self.data.getId() in form' part
         if self.hidden and not self.data.getId() in form:
             default = self.default
             sort_on = len(default) > 0 and default[0] or None
             reverse = len(default) > 1 and default[1] or False
+            # XXX changed by collective.eeafaceted.z3ctable
+            # save info in the request.form so method query
+            # of collectionwidget may use it and not add
+            # the sort_on from the collection
+            if sort_on:
+                self.request.form[self.data.__name__ + '[]'] = sort_on
+                self.request.form['reversed'] = reverse
         else:
             sort_on = form.get(self.data.getId(), '')
             reverse = form.get('reversed', False)
