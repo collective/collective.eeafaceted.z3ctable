@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.18 (unreleased)
+0.18 (2017-01-31)
 -----------------
 
 - Handle sort_on of the query by storing result of the sorting widget in the
