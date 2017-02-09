@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.19 (unreleased)
+0.19 (2017-02-09)
 -----------------
 
 - Enable merging and caching for collective.eeafaceted.z3ctable.js
