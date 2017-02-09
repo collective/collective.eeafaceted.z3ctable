@@ -5,8 +5,9 @@ Changelog
 0.19 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Enable merging and caching for collective.eeafaceted.z3ctable.js
+  in portal_javascripts.
+  [gbastien]
 
 0.18 (2017-01-31)
 -----------------
@@ -15,7 +16,6 @@ Changelog
   request.form so it is reuseable by other widget.query that also manage the
   sort_on attribute.
   [gbastien]
-
 
 0.17 (2016-12-05)
 -----------------
@@ -31,13 +31,11 @@ Changelog
   setUpColumns() rather than by column weight.
   [sdelcourt]
 
-
 0.15 (2016-06-13)
 -----------------
 
 - Correct wrong release.
   [gbastien]
-
 
 0.14 (2016-06-13)
 -----------------

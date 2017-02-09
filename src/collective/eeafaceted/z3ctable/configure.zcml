@@ -34,4 +34,14 @@
         handler=".setuphandlers.post_install">
     </genericsetup:importStep>
 
+    <genericsetup:upgradeSteps
+        source="1"
+        destination="2"
+        profile="collective.eeafaceted.z3ctable:default">
+        <genericsetup:upgradeDepends
+            title="Reapply collective.eeafaceted.z3ctable.js in portal_javascripts"
+            description="Enable merging and caching"
+            import_steps="jsregistry" />
+    </genericsetup:upgradeSteps>
+
 </configure>
