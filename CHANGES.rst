@@ -5,8 +5,8 @@ Changelog
 0.20 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Check also empty column value with __empty_string__.
+  [sgeulette]
 
 0.19 (2017-02-09)
 -----------------

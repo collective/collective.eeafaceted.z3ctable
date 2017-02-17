@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+import urllib
+
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFPlone.utils import base_hasattr
 
@@ -14,7 +16,7 @@ from zope.i18n import translate
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 
-import urllib
+from . import EMPTY_STRING
 
 
 class BaseColumn(column.GetAttrColumn):
@@ -229,7 +231,7 @@ class MemberIdColumn(BaseColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value:
+        if not value or value == EMPTY_STRING:
             return u'-'
         value = self._get_user_fullname(value)
         return safe_unicode(value)
