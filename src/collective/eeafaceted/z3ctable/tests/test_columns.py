@@ -79,23 +79,23 @@ class TestColumns(IntegrationTestCase):
         # render the headerCell
         self.maxDiff = None
         self.assertEquals(column.renderHeadCell(),
-                          u'<span>Title</span><a class="sort_arrow_disabled" '
+                          u'<span>header_Title</span><a class="sort_arrow_disabled" '
                           u'href="http:/#c2=sortable_title" title="Sort ascending">&#9650;</a><a '
                           u'class="sort_arrow_disabled" href="http:/#c2=sortable_title&reversed=on" '
                           u'title="Sort descending"><span>&#9660;</span></a>')
         # if column.sort_index = -1, it means that it is not sortable, header is rendered accordingly
         column.sort_index = -1
-        self.assertEquals(column.renderHeadCell(), u'Title')
+        self.assertEquals(column.renderHeadCell(), u'header_Title')
         # we may also inject JS in the header using column.header_js
         column.header_js = '<script type="text/javascript">console.log("Hello world!");</script>'
         self.assertEquals(column.renderHeadCell(),
-                          u'<script type="text/javascript">console.log("Hello world!");</script>Title')
+                          u'<script type="text/javascript">console.log("Hello world!");</script>header_Title')
         # we may also use an image as header using column.header_image
         # remove header_js to ease test reading although this can be used together
         column.header_js = u''
         column.header_image = 'image.png'
         self.assertEquals(column.renderHeadCell(),
-                          u'<img src="http://nohost/plone/image.png" title="Title" />')
+                          u'<img src="http://nohost/plone/image.png" title="header_Title" />')
 
     def test_AwakeObjectGetAttrColumn(self):
         """This will wake the given catalog brain and getattr the attrName on it.
@@ -380,7 +380,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.renderHeadCell(),
                           u'<input type="checkbox" id="select_unselect_items" '
                           'onClick="toggleCheckboxes(\'select_item\')" '
-                          'title="Select/unselect all" checked />')
+                          'title="Select/unselect items" checked />')
         self.assertEquals(column.renderCell(brain),
                           u'<input type="checkbox" name="select_item" value="%s" checked />' % brain.UID)
         # column could be unchecked by default
@@ -388,7 +388,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.renderHeadCell(),
                           u'<input type="checkbox" id="select_unselect_items" '
                           'onClick="toggleCheckboxes(\'select_item\')" '
-                          'title="Select/unselect all" />')
+                          'title="Select/unselect items" />')
         self.assertEquals(column.renderCell(brain),
                           u'<input type="checkbox" name="select_item" value="%s" />' % brain.UID)
         # name can be changed
@@ -396,7 +396,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.renderHeadCell(),
                           u'<input type="checkbox" id="select_unselect_items" '
                           'onClick="toggleCheckboxes(\'select_element\')" '
-                          'title="Select/unselect all" />')
+                          'title="Select/unselect items" />')
         self.assertEquals(column.renderCell(brain),
                           u'<input type="checkbox" name="select_element" value="%s" />' % brain.UID)
         # attrName can be changed
