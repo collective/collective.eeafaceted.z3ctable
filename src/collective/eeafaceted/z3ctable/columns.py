@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+from datetime import date
 import urllib
 
 from Products.CMFPlone.utils import safe_unicode
@@ -16,7 +17,8 @@ from zope.i18n import translate
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 
-from . import EMPTY_STRING
+EMPTY_STRING = '__empty_string__'
+EMPTY_DATE = date(1950, 1, 1)
 
 
 class BaseColumn(column.GetAttrColumn):
@@ -219,6 +221,7 @@ class MemberIdColumn(BaseColumn):
     """ """
     attrName = 'Creator'
     weight = 20
+    ignored_value = EMPTY_STRING
 
     def _get_user_fullname(self, username):
         """Get fullname without using getMemberInfo that is slow slow slow..."""
@@ -231,7 +234,7 @@ class MemberIdColumn(BaseColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == EMPTY_STRING:
+        if not value or value == self.ignored_value:
             return u'-'
         value = self._get_user_fullname(value)
         return safe_unicode(value)
@@ -241,7 +244,7 @@ class DateColumn(BaseColumn):
     """ """
     long_format = False
     time_only = False
-    ignored_value = None
+    ignored_value = EMPTY_DATE
 
     def renderCell(self, item):
         value = self.getValue(item)

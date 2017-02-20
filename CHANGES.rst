@@ -7,6 +7,8 @@ Changelog
 
 - Check also empty column value with __empty_string__.
   [sgeulette]
+- Set default to ignored_value DateColumn
+  [sgeulette]
 
 0.19 (2017-02-09)
 -----------------
