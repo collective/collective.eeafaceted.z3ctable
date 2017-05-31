@@ -5,8 +5,12 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Avoid useless redirects when using sorting when current URL ends with 
+  `/view` or so.
+  [gbastien]
+- Fixed tests to use translated strings instead msgid, adapted buildout
+  so po files are computed.
+  [gbastien]
 
 1.0 (2017-05-31)
 ----------------

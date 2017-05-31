@@ -110,7 +110,10 @@ class BaseColumnHeader(SortingColumnHeader):
 
     @property
     def faceted_url(self):
-        return '/'.join(self.request.get('URL').split('/')[:-1])
+        """Take HTTP_REFERER as faceted page is done using a XHRequest we will have
+           the real complete URL including ending '/' or '/view' and click on sorting
+           will not redirect anymore."""
+        return self.request.get('HTTP_REFERER') or '/'.join(self.request.get('URL').split('/')[:-1])
 
     @property
     def query_string(self):

@@ -131,7 +131,7 @@ msgstr "Actualiser la recherche."
 msgid "review_state__header_title"
 msgstr "Etat"
 
-#. Default: "Select/Unselect items"
+#. Default: "Select/Unselect all"
 msgid "select_unselect_items"
 msgstr "Tout cocher/décocher"
 

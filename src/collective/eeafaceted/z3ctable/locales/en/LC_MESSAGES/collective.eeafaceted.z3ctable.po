@@ -131,7 +131,7 @@ msgstr "Refresh search"
 msgid "review_state__header_title"
 msgstr "State"
 
-#. Default: "Select/Unselect items"
+#. Default: "Select/Unselect all"
 msgid "select_unselect_items"
 msgstr "Select/unselect all"
 

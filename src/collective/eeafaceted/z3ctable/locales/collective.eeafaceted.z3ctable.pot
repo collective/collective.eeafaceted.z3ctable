@@ -134,7 +134,7 @@ msgstr ""
 msgid "review_state__header_title"
 msgstr ""
 
-#. Default: "Select/Unselect items"
+#. Default: "Select/Unselect all"
 msgid "select_unselect_items"
 msgstr ""
 
