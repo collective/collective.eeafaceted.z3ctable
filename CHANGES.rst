@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-0.20 (unreleased)
------------------
+1.0 (2017-05-31)
+----------------
 
 - Check also empty column value with __empty_string__.
   [sgeulette]
