@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.0.1 (2017-06-01)
 ------------------
 
 - Avoid useless redirects when using sorting and current URL ends with 
