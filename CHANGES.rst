@@ -5,7 +5,7 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Avoid useless redirects when using sorting when current URL ends with 
+- Avoid useless redirects when using sorting and current URL ends with 
   `/view` or so.
   [gbastien]
 - Fixed tests to use translated strings instead msgid, adapted buildout
