@@ -283,8 +283,8 @@ class BrowserViewCallColumn(BaseColumn):
     def renderCell(self, item):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
-        # avoid double '//' that breaks (un)restrictedTraverse
-        path = os.path.join(item.getPath(), self.view_name)
+        # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
+        path = os.path.join(item.getPath(), self.view_name).encode('utf-8')
         return self.table.portal.unrestrictedTraverse(path)(**self.params)
 
 
