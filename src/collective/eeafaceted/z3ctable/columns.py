@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 from datetime import date
+import os
 import urllib
 
 from Products.CMFPlone.utils import safe_unicode
@@ -282,7 +283,9 @@ class BrowserViewCallColumn(BaseColumn):
     def renderCell(self, item):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
-        return self.context.unrestrictedTraverse('{0}/{1}'.format(item.getPath(), self.view_name))(**self.params)
+        # avoid double '//' that breaks (un)restrictedTraverse
+        path = os.path.join(item.getPath(), self.view_name)
+        return self.table.portal.unrestrictedTraverse(path)(**self.params)
 
 
 class VocabularyColumn(BaseColumn):

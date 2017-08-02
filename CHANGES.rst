@@ -5,8 +5,11 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- In BrowserViewCallColumn when computing the path to traverse,
+  avoid double '//' that breaks (un)restrictedTraverse.
+  [gbastien]
+- Make portal and portal_url directly available on the table instance.
+  [gbastien]
 
 1.0.1 (2017-06-01)
 ------------------

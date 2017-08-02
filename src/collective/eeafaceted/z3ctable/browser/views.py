@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
+from plone import api
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
 
@@ -41,7 +41,8 @@ class FacetedTableView(BrowserView, SequenceTable):
         self.query = view.criteria()
         self.sorting_criterion_name = self._sortingCriterionName()
         # convenience
-        self.portal_url = getToolByName(self.context, 'portal_url').getPortalObject().absolute_url()
+        self.portal = api.portal.get()
+        self.portal_url = self.portal.absolute_url()
 
     def render_table(self, batch):
         self.update(batch)
