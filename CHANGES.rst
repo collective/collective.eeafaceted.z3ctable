@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.2 (unreleased)
+1.0.2 (2017-08-03)
 ------------------
 
 - In BrowserViewCallColumn when computing the path to traverse,
