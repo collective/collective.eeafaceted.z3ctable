@@ -22,6 +22,8 @@ var/
 .project
 .pydevproject
 .settings/
+.coverage
+htmlcov/
 buildout-cache/
 src/*
 docs/html
