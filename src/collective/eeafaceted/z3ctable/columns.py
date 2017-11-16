@@ -393,6 +393,7 @@ class CheckBoxColumn(BaseColumn):
     name = 'select_item'
     checked_by_default = True
     attrName = 'UID'
+    weight = 100
 
     def renderHeadCell(self):
         """ """

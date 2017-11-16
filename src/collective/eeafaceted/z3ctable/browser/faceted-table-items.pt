@@ -32,7 +32,7 @@
         <div tal:condition="not: batch/sequence_length"
              class="table_faceted_no_results" i18n:domain="plone" i18n:translate="description_no_results_found">No results were found.</div>
 
-        <a href="#" onclick="javascript: event.preventDefault(); Faceted.URLHandler.hash_changed();">
+        <a href="#" onclick="event.preventDefault(); Faceted.URLHandler.hash_changed();">
           <img src="#"
                tal:attributes="src string:${context/portal_url}/++resource++collective.eeafaceted.z3ctable/refresh.gif" /><span i18n:translate="refresh_results">Refresh search results.</span>
         </a>
@@ -46,11 +46,11 @@
 
         <div style="clear: both;"></div>
 
-        <div id="viewlet-top-below-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.bottomabovenav" />
+        <div id="viewlet-bottom-above-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.bottomabovenav" />
 
         <div metal:use-macro="context/batch_macros/macros/navigation" />
 
-        <div id="viewlet-top-below-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.bottombelownav" />
+        <div id="viewlet-bottom-below-nav" tal:content="structure provider:collective.eeafaceted.z3ctable.bottombelownav" />
 
       </div>
 

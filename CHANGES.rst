@@ -5,8 +5,11 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Defined a weight of '100' for the CheckBoxColumn so it is displayed on the
+  right of the table columns by default.
+  [gbastien]
+- Defined correct CSS id for bottom viewlets providers.
+  [gbastien]
 
 1.0.2 (2017-08-03)
 ------------------
