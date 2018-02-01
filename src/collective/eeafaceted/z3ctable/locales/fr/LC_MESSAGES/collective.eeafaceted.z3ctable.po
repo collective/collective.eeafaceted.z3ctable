@@ -104,7 +104,7 @@ msgstr "Type"
 
 #. Default: "Review state"
 msgid "header_review_state"
-msgstr "Etat"
+msgstr "État"
 
 #. Default: "Start"
 msgid "header_start"

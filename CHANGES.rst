@@ -10,6 +10,8 @@ Changelog
   [gbastien]
 - Defined correct CSS id for bottom viewlets providers.
   [gbastien]
+- Updated french translation of 'Review state' to add a 'E' with accent.
+  [gbastien]
 
 1.0.2 (2017-08-03)
 ------------------
