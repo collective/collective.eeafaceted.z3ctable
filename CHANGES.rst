@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.3 (unreleased)
+1.0.3 (2018-05-03)
 ------------------
 
 - Defined a weight of '100' for the CheckBoxColumn so it is displayed on the
