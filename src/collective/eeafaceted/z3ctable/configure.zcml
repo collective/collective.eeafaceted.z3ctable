@@ -17,31 +17,6 @@
     <include package=".browser" />
 
     <include file="columns.zcml" />
-
-    <!-- Register the installation GenericSetup extension profile -->
-    <genericsetup:registerProfile
-        name="default"
-        title="collective.eeafaceted.z3ctable"
-        directory="profiles/default"
-        description="Extension profile for collective.eeafaceted.z3ctable."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:importStep
-        name="collective.eeafaceted.z3ctable-postInstall"
-        title="collective.eeafaceted.z3ctable post_install import step"
-        description="Post install import step from collective.eeafaceted.z3ctable"
-        handler=".setuphandlers.post_install">
-    </genericsetup:importStep>
-
-    <genericsetup:upgradeSteps
-        source="1"
-        destination="2"
-        profile="collective.eeafaceted.z3ctable:default">
-        <genericsetup:upgradeDepends
-            title="Reapply collective.eeafaceted.z3ctable.js in portal_javascripts"
-            description="Enable merging and caching"
-            import_steps="jsregistry" />
-    </genericsetup:upgradeSteps>
+    <include file="profiles.zcml" />
 
 </configure>
