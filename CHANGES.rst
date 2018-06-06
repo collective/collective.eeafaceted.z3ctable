@@ -10,6 +10,9 @@ Changelog
   [gbastien]
 - Make package installable on both Plone4 and Plone5.
   [gbastien]
+- Reintegrated the `select_row` column from `collective.eeafaceted.batchactions`
+  as it is useable by other Faceted packages.
+  [gbastien]
 
 1.0.3 (2018-05-03)
 ------------------

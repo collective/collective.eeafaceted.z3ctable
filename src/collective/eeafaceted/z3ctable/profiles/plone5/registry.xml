@@ -16,6 +16,7 @@
     <value key="jscompilation">++plone++static/faceted-z3ctable.min.js</value>
     <value key="compile">False</value>
     <value key="enabled">True</value>
+    <value key="expression"></value>
   </records>
 
 </registry>

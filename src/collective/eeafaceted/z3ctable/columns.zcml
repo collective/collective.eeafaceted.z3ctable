@@ -10,8 +10,7 @@
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.AwakeObjectMethodColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
-     name="getText"
-  />
+     name="getText" />
 
   <adapter
      for="zope.interface.Interface
@@ -19,8 +18,7 @@
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.MemberIdColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
-     name="Creator"
-  />
+     name="Creator" />
 
   <adapter
      for="zope.interface.Interface
@@ -28,8 +26,7 @@
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.TitleColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
-     name="Title"
-  />
+     name="Title" />
 
   <adapter
      for="zope.interface.Interface
@@ -37,8 +34,7 @@
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.CreationDateColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
-     name="CreationDate"
-  />
+     name="CreationDate" />
 
   <adapter
      for="zope.interface.Interface
@@ -46,8 +42,7 @@
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.ModificationDateColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
-     name="ModificationDate"
-  />
+     name="ModificationDate" />
 
   <adapter
      for="zope.interface.Interface
@@ -55,7 +50,14 @@
           collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
      factory=".columns.I18nColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
-     name="review_state"
-  />
+     name="review_state" />
+
+  <adapter
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory="collective.eeafaceted.z3ctable.columns.CheckBoxColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
+     name="select_row" />
 
 </configure>
