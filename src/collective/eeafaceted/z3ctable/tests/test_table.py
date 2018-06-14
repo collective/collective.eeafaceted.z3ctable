@@ -32,11 +32,11 @@ class TestTable(IntegrationTestCase):
         self.assertEquals(len(brains), 1)
         batch = Batch(brains, size=5)
         rendered_table = lxml.html.fromstring(table.render_table(batch))
-        # we have one table with 6 columns and 1 row
+        # we have one table with 7 columns and 1 row
         # 1 row
         self.assertEquals(len(rendered_table.find('tbody').findall('tr')), 1)
-        # 6 columns
-        self.assertEquals(len(rendered_table.find('tbody').find('tr').findall('td')), 6)
+        # 7 columns
+        self.assertEquals(len(rendered_table.find('tbody').find('tr').findall('td')), 7)
         # the brain is actually displayed in the table
         brain = brains[0]
         self.assertEquals(rendered_table.find('tbody').find('tr').find('td').text_content(), brain.Title)

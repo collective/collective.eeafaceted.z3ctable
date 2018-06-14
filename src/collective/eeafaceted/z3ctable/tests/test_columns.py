@@ -38,16 +38,15 @@ class TestColumns(IntegrationTestCase):
         - Modification date;
         - Creator;
         - State;
-        - Text.
+        - Text;
+        - select_row.
         """
         self.faceted_z3ctable_view.initColumns()
-        default_columns = set([col.__name__ for col in self.faceted_z3ctable_view.columns])
-        self.assertEquals(default_columns, set(('Title',
-                                                'Creator',
-                                                'CreationDate',
-                                                'ModificationDate',
-                                                'review_state',
-                                                'getText')))
+        default_columns = sorted([col.__name__ for col in self.faceted_z3ctable_view.columns])
+        self.assertEquals(
+            default_columns,
+            [u'CreationDate', u'Creator', u'ModificationDate',
+             u'Title', u'getText', u'review_state', u'select_row'])
 
     def test_BaseColumn(self):
         """Test the BaseColumn behavior and changes regarding default z3c.table column."""
@@ -478,6 +477,14 @@ class TestColumns(IntegrationTestCase):
         column.field_name = 'afield'
         self.assertIn('<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
                       column.renderCell(brain))
+
+    def test_js_variables(self):
+        """Some JS variables are defined for translation purpose."""
+        js_variables = self.portal.restrictedTraverse(
+            'collective_eeafaceted_z3ctable_js_variables.js')
+        self.assertEqual(
+            js_variables(),
+            'var no_selected_items = "Please select at least one element.";\n')
 
 
 class BrainsWithoutBatchTable(Table):

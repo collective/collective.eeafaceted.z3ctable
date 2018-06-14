@@ -400,7 +400,7 @@ class CheckBoxColumn(BaseColumn):
         title = translate('select_unselect_items',
                           domain='collective.eeafaceted.z3ctable',
                           context=self.request,
-                          default="Select/unselect items")
+                          default="Select/unselect all")
         return u'<input type="checkbox" id="select_unselect_items" onClick="%s" title="%s" %s/>' \
             % ("toggleCheckboxes('%s')" % self.name, title, self.checked_by_default and "checked " or "")
 
