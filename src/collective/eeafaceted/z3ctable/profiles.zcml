@@ -46,5 +46,14 @@
             import_steps="jsregistry" />
     </genericsetup:upgradeSteps>
 
- 
+     <genericsetup:upgradeSteps
+        source="2"
+        destination="3"
+        profile="collective.eeafaceted.z3ctable:default">
+        <genericsetup:upgradeDepends
+            title="Add the collective_eeafaceted_z3ctable_js_variables.js to portal_javascripts"
+            description=""
+            import_steps="jsregistry" />
+    </genericsetup:upgradeSteps>
+  
 </configure>
