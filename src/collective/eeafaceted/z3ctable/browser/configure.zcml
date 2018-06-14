@@ -20,6 +20,12 @@
       permission="zope2.View"
       />
 
+    <browser:page
+        for="*"
+        name="collective_eeafaceted_z3ctable_js_variables.js"
+        class=".jsvariables.JSVariables"
+        permission="zope.Public" />
+
     <browser:view
       for="*"
       name="faceted-table-view"
