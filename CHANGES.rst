@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0 (unreleased)
+2.0 (2018-06-20)
 ----------------
 
 - Make widget compatible with `eea.facetednavigation >= 10.0`.
