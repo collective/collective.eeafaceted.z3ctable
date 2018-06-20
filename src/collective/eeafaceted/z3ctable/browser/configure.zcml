@@ -9,7 +9,8 @@
         directory="static"
     />
 
-    <faceted:widget factory=".overrides.SortingFormAwareAbstractWidget" />
+    <faceted:widget factory=".widgets.SortingFormAwareAbstractWidget"
+                    schema=".widgets.ISortingFormAwareSchema" />
 
     <faceted:view
       name="faceted-table-items"
@@ -18,6 +19,12 @@
       title="Faceted table items"
       permission="zope2.View"
       />
+
+    <browser:page
+        for="*"
+        name="collective_eeafaceted_z3ctable_js_variables.js"
+        class=".jsvariables.JSVariables"
+        permission="zope.Public" />
 
     <browser:view
       for="*"

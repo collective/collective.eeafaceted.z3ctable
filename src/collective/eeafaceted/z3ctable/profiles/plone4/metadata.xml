@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>2</version>
+  <dependencies>
+    <dependency>profile-eea.facetednavigation:default</dependency>
+    <dependency>profile-collective.eeafaceted.z3ctable:universal</dependency>
+  </dependencies>
+</metadata>

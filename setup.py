@@ -18,13 +18,15 @@ long_description = \
 
 setup(
     name='collective.eeafaceted.z3ctable',
-    version='1.0.4.dev0',
+    version='2.0.dev0',
     description="Package proposant un type de colonne compatible avec eea.facetednavigation",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 5.0",
+        "Framework :: Plone :: 5.1",
         "Programming Language :: Python :: 2.7",
     ],
     keywords='Python Zope Plone',
@@ -39,7 +41,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'Plone',
-        'eea.facetednavigation',
+        'eea.facetednavigation>10.0',
         'plone.api>=1.3.0',
         'setuptools',
         'z3c.table',

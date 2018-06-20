@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>3</version>
+  <dependencies>
+    <dependency>profile-eea.facetednavigation:default</dependency>
+  </dependencies>
+</metadata>

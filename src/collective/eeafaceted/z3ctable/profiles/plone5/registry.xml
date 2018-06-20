@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records prefix="plone.resources/faceted-z3ctable"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++resource++collective.eeafaceted.z3ctable/collective.eeafaceted.z3ctable.js</value>
+  </records>
+
+  <records prefix="plone.resources/faceted-vars-z3ctable"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">collective_eeafaceted_z3ctable_js_variables.js</value>
+  </records>
+
+  <records prefix="plone.bundles/faceted-z3ctable"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources">
+      <element>faceted-z3ctable</element>
+      <element>faceted-vars-z3ctable</element>
+    </value>
+    <value key="depends"></value>
+    <value key="csscompilation"></value>
+    <value key="jscompilation">++plone++static/faceted-z3ctable.min.js</value>
+    <value key="compile">False</value>
+    <value key="enabled">True</value>
+    <value key="expression"></value>
+  </records>
+
+</registry>

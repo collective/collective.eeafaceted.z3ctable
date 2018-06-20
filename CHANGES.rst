@@ -2,11 +2,19 @@ Changelog
 =========
 
 
-1.0.4 (unreleased)
-------------------
+2.0 (unreleased)
+----------------
 
-- Nothing changed yet.
-
+- Make widget compatible with `eea.facetednavigation >= 10.0`.
+  This makes it no more compatible with older version.
+  [gbastien]
+- Make package installable on both Plone4 and Plone5.
+  [gbastien]
+- Reintegrated the `select_row` column from `collective.eeafaceted.batchactions`
+  as it is useable by other Faceted packages.
+  [gbastien]
+- Reintegrated js variables view that manages `no selected elements` message.
+  [gbastien]
 
 1.0.3 (2018-05-03)
 ------------------
