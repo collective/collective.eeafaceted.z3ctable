@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-08-28 09:38+0000\n"
+"POT-Creation-Date: 2018-08-28 12:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,6 +67,7 @@ msgid "header_Subject"
 msgstr "Keywords"
 
 #. Default: "Title"
+#: ./columns.py:502
 msgid "header_Title"
 msgstr "Title"
 

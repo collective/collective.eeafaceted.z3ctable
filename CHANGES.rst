@@ -16,6 +16,11 @@ Changelog
 - Added `RelationPrettyLinkColumn` column displaying a relation as a
   pretty link.
   [gbastien]
+- Moved overrides of `SequenceTable.renderRow` and `SequenceTable.renderCell`
+  relative to being able to define CSS classes by `<td>` tag and depending on
+  item value to a separated `ExtendedCSSTable class` so it can be reused by
+  other packages.
+  [gbastien]
 
 2.0 (2018-06-20)
 ----------------

@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
+from collective.eeafaceted.z3ctable import _
 from datetime import date
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
@@ -286,6 +287,12 @@ class BooleanColumn(I18nColumn):
     i18n_domain = 'collective.eeafaceted.z3ctable'
     msgid_prefix = 'boolean_value_'
 
+    def getCSSClasses(self, item):
+        cssClasses = self.cssClasses
+        cssClasses['td'] = cssClasses['td'] + ' bool_value_{0}'.format(
+            str(self.getValue(item)).lower())
+        return cssClasses
+
 
 class BrowserViewCallColumn(BaseColumn):
     """A column that display the result of a given browser view name call."""
@@ -498,6 +505,7 @@ class ModificationDateColumn(DateColumn):
 class TitleColumn(BaseColumn):
     """ """
 
+    header = _('header_Title')
     sort_index = 'sortable_title'
     weight = 0
 
