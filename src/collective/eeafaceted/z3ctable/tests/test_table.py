@@ -35,8 +35,8 @@ class TestTable(IntegrationTestCase):
         # we have one table with 7 columns and 1 row
         # 1 row
         self.assertEquals(len(rendered_table.find('tbody').findall('tr')), 1)
-        # 7 columns
-        self.assertEquals(len(rendered_table.find('tbody').find('tr').findall('td')), 7)
+        # 9 columns
+        self.assertEquals(len(rendered_table.find('tbody').find('tr').findall('td')), 9)
         # the brain is actually displayed in the table
         brain = brains[0]
         self.assertEquals(rendered_table.find('tbody').find('tr').find('td').text_content(), brain.Title)

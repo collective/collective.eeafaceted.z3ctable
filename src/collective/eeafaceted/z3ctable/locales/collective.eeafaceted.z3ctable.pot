@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-03-29 13:04+0000\n"
+"POT-Creation-Date: 2018-08-28 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,6 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.eeafaceted.z3ctable\n"
 
-#: ./configure.zcml:28
-msgid "Extension profile for collective.eeafaceted.z3ctable."
-msgstr ""
-
 #. Default: "Click here to sort elements by ascending order"
 msgid "Sort ascending"
 msgstr ""
@@ -29,15 +25,19 @@ msgstr ""
 msgid "Sort descending"
 msgstr ""
 
-#: ./testing.zcml:16
+#: ./testing.zcml:18
 msgid "Steps to ease tests of collective.eeafaceted.z3ctable"
 msgstr ""
 
-#: ./configure.zcml:28
-msgid "collective.eeafaceted.z3ctable"
+#. Default: "No"
+msgid "boolean_value_False"
 msgstr ""
 
-#: ./testing.zcml:16
+#. Default: "Yes"
+msgid "boolean_value_True"
+msgstr ""
+
+#: ./testing.zcml:18
 msgid "collective.eeafaceted.z3ctable tests"
 msgstr ""
 
@@ -121,12 +121,17 @@ msgstr ""
 msgid "location__header_title"
 msgstr ""
 
+#. Default: "Please select at least one element."
+#: ./browser/jsvariables.py:15
+msgid "no_selected_items"
+msgstr ""
+
 #. Default: "Type"
 msgid "portal_type__header_title"
 msgstr ""
 
 #. Default: "Refresh search results."
-#: ./browser/faceted-table-items.pt:32
+#: ./browser/faceted-table-items.pt:37
 msgid "refresh_results"
 msgstr ""
 
@@ -134,7 +139,7 @@ msgstr ""
 msgid "review_state__header_title"
 msgstr ""
 
-#. Default: "Select/Unselect all"
+#. Default: "Select/Unselect items"
 msgid "select_unselect_items"
 msgstr ""
 

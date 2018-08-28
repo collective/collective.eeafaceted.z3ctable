@@ -48,6 +48,8 @@ setup(
     ],
     extras_require={
         'test': [
+            'imio.actionspanel',
+            'imio.prettylink',
             'plone.app.dexterity',
             'plone.app.testing',
             'plone.app.relationfield',

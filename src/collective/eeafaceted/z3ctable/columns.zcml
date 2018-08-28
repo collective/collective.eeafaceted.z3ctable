@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.eeafaceted.z3ctable">
 
   <adapter
@@ -59,5 +60,23 @@
      factory="collective.eeafaceted.z3ctable.columns.CheckBoxColumn"
      provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
      name="select_row" />
+
+  <adapter
+     zcml:condition="installed imio.prettylink"
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory="collective.eeafaceted.z3ctable.columns.PrettyLinkColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
+     name="pretty_link" />
+
+  <adapter
+     zcml:condition="installed imio.actionspanel"
+     for="zope.interface.Interface
+          zope.publisher.interfaces.browser.IBrowserRequest
+          collective.eeafaceted.z3ctable.interfaces.IFacetedTable"
+     factory="collective.eeafaceted.z3ctable.columns.ActionsColumn"
+     provides="collective.eeafaceted.z3ctable.interfaces.IFacetedColumn"
+     name="actions" />
 
 </configure>

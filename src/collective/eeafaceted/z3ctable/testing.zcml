@@ -6,6 +6,8 @@
 
   <include package="plone.app.dexterity" />
   <include file="configure.zcml" />
+  <include package="imio.actionspanel"/>
+  <include package="imio.prettylink"/>
 
   <genericsetup:registerProfile
       name="testing"

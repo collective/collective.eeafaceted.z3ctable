@@ -117,3 +117,11 @@ msgstr ""
 #. Default: "Click here to sort elements by descending order"
 msgid "Sort descending"
 msgstr ""
+
+#. Default: "Yes"
+msgid "boolean_value_True"
+msgstr ""
+
+#. Default: "No"
+msgid "boolean_value_False"
+msgstr ""
