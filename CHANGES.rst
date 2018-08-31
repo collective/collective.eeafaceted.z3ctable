@@ -5,8 +5,22 @@ Changelog
 2.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added `BooleanColumn` based on the `I18nColumn` that displays `Yes` or `No`
+  depending on fact that value is `True` or `False`.
+  [gbastien]
+- Added `PrettyLinkColumn` and `PrettyLinkWithAdditionalInfosColumn` columns
+  based on soft dependency to `imio.prettylink`.
+  [gbastien]
+- Added `ActionsColumn` column based on soft dependency to `imio.actionspanel`.
+  [gbastien]
+- Added `RelationPrettyLinkColumn` column displaying a relation as a
+  pretty link.
+  [gbastien]
+- Moved overrides of `SequenceTable.renderRow` and `SequenceTable.renderCell`
+  relative to being able to define CSS classes by `<td>` tag and depending on
+  item value to a separated `ExtendedCSSTable class` so it can be reused by
+  other packages.
+  [gbastien]
 
 2.0 (2018-06-20)
 ----------------

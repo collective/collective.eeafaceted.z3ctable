@@ -1,22 +1,30 @@
 # encoding: utf-8
 
-from datetime import date
-import os
-import urllib
-
-from Products.CMFPlone.utils import safe_unicode
-from Products.CMFPlone.utils import base_hasattr
-
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
+from collective.eeafaceted.z3ctable import _
+from datetime import date
 from plone import api
-
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
-
 from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
+
+import os
+import pkg_resources
+import urllib
+
+
+try:
+    api.env.get_distribution('imio.prettylink')
+    from imio.prettylink.interfaces import IPrettyLink
+    HAS_PRETTYLINK = True
+except pkg_resources.DistributionNotFound:
+    HAS_PRETTYLINK = False
+
 
 EMPTY_STRING = '__empty_string__'
 EMPTY_DATE = date(1950, 1, 1)
@@ -266,11 +274,24 @@ class I18nColumn(BaseColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value:
+        if value == self.defaultValue:
             return u'-'
         return translate("{0}{1}".format(self.msgid_prefix, value),
                          domain=self.i18n_domain,
                          context=self.request)
+
+
+class BooleanColumn(I18nColumn):
+    """ """
+
+    i18n_domain = 'collective.eeafaceted.z3ctable'
+    msgid_prefix = 'boolean_value_'
+
+    def getCSSClasses(self, item):
+        cssClasses = self.cssClasses
+        cssClasses['td'] = cssClasses['td'] + ' bool_value_{0}'.format(
+            str(self.getValue(item)).lower())
+        return cssClasses
 
 
 class BrowserViewCallColumn(BaseColumn):
@@ -483,6 +504,8 @@ class ModificationDateColumn(DateColumn):
 
 class TitleColumn(BaseColumn):
     """ """
+
+    header = _('header_Title')
     sort_index = 'sortable_title'
     weight = 0
 
@@ -492,3 +515,97 @@ class TitleColumn(BaseColumn):
             value = u'-'
         value = safe_unicode(value)
         return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
+
+
+class PrettyLinkColumn(TitleColumn):
+    """A column that displays the IPrettyLink.getLink column.
+       This rely on imio.prettylink."""
+
+    params = {}
+
+    @property
+    def cssClasses(self):
+        """Generate a CSS class for each <th> so we can skin it if necessary."""
+        cssClasses = super(PrettyLinkColumn, self).cssClasses.copy() or {}
+        cssClasses.update({'td': 'pretty_link', })
+        return cssClasses
+
+    def contentValue(self, item):
+        """ """
+        return None
+
+    def getPrettyLink(self, item):
+        pl = IPrettyLink(item)
+        for k, v in self.params.items():
+            setattr(pl, k, v)
+        pl.contentValue = self.contentValue(item)
+        return pl.getLink()
+
+    def renderCell(self, item):
+        """ """
+        return self.getPrettyLink(self._getObject(item))
+
+
+class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
+    """A column that displays the PrettyLinkColumn column
+       and includes additional informations.
+       This only works when used with DX content types."""
+
+    # additional infos config
+    ai_widget_render_pattern = u'<div class="discreet{2}"><label class="horizontal">{0}</label>\n<div>{1}</div></div>'
+    ai_excluded_fields = []
+    ai_highlighted_fields = []
+    ai_highligh_css_class = "highlight"
+
+    def get_ai_excluded_fields(self):
+        """ """
+        return self.ai_excluded_fields
+
+    def additional_infos(self, item):
+        """ """
+        res = u''
+        # Need to patch url for links to downloadable files to work...
+        old_url = self.request.getURL()
+        self.request.set('URL', self.context.absolute_url() + '/view')
+        obj = self._getObject(item)
+        view = obj.restrictedTraverse('view')
+        view.update()
+        widgets = view.widgets.values()
+        for group in view.groups:
+            widgets.extend(group.widgets.values())
+        for widget in widgets:
+            if widget not in self.get_ai_excluded_fields() and \
+               widget.value not in (None, '', '--NOVALUE--', u'', (), [], ['--NOVALUE--']):
+                css_class = widget.__name__ in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
+                res += self.ai_widget_render_pattern.format(widget.label, widget.render(), css_class)
+        # unpatch URL
+        self.request.set('URL', old_url)
+        return res
+
+    def renderCell(self, item):
+        """ """
+        rendered_cell = super(PrettyLinkWithAdditionalInfosColumn, self).renderCell(item)
+        return rendered_cell + self.additional_infos(item)
+
+
+class RelationPrettyLinkColumn(RelationTitleColumn, PrettyLinkColumn):
+    """
+    A column displaying related items with IPrettyLink.getLink
+    """
+
+    params = {}
+
+    def target_display(self, obj):
+        return PrettyLinkColumn.getPrettyLink(self, obj)
+
+
+class ActionsColumn(BrowserViewCallColumn):
+    """
+    A column displaying available actions of the listed item.
+    This rely on imio.actionspanel.
+    """
+
+    header_js = '<script type="text/javascript">jQuery(document).ready(initializeOverlays);' \
+                'jQuery(document).ready(preventDefaultClickTransition);</script>'
+    view_name = 'actions_panel'
+    params = {'showHistory': True, 'showActions': True}

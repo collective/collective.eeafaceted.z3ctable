@@ -1,30 +1,34 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, date
-from plone.app.testing import login
-from plone.batching import Batch
-from zope.component import queryMultiAdapter, getUtility
-from zope.intid.interfaces import IIntIds
-from z3c.relationfield.relation import RelationValue
-from z3c.table.interfaces import IColumn
-from z3c.table.table import Table
-
-from plone import api
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
-from collective.eeafaceted.z3ctable.columns import RelationTitleColumn
+from collective.eeafaceted.z3ctable.columns import BooleanColumn
 from collective.eeafaceted.z3ctable.columns import BrowserViewCallColumn
 from collective.eeafaceted.z3ctable.columns import CheckBoxColumn
 from collective.eeafaceted.z3ctable.columns import ColorColumn
 from collective.eeafaceted.z3ctable.columns import DateColumn
+from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.columns import ElementNumberColumn
 from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
+from collective.eeafaceted.z3ctable.columns import PrettyLinkWithAdditionalInfosColumn
+from collective.eeafaceted.z3ctable.columns import RelationTitleColumn
 from collective.eeafaceted.z3ctable.columns import VocabularyColumn
-from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.tests.views import CALL_RESULT
+from datetime import date
+from datetime import datetime
+from plone import api
+from plone.app.testing import login
+from plone.batching import Batch
+from z3c.relationfield.relation import RelationValue
+from z3c.table.interfaces import IColumn
+from z3c.table.table import Table
+from zope.component import getUtility
+from zope.component import queryMultiAdapter
+from zope.intid.interfaces import IIntIds
+from imio.prettylink.interfaces import IPrettyLink
 
 
 class TestColumns(IntegrationTestCase):
@@ -45,8 +49,15 @@ class TestColumns(IntegrationTestCase):
         default_columns = sorted([col.__name__ for col in self.faceted_z3ctable_view.columns])
         self.assertEquals(
             default_columns,
-            [u'CreationDate', u'Creator', u'ModificationDate',
-             u'Title', u'getText', u'review_state', u'select_row'])
+            [u'CreationDate',
+             u'Creator',
+             u'ModificationDate',
+             u'Title',
+             u'actions',
+             u'getText',
+             u'pretty_link',
+             u'review_state',
+             u'select_row'])
 
     def test_BaseColumn(self):
         """Test the BaseColumn behavior and changes regarding default z3c.table column."""
@@ -206,6 +217,20 @@ class TestColumns(IntegrationTestCase):
         # right, use 'Type' as attrName
         column.attrName = 'Type'
         self.assertEquals(column.renderCell(brain), u'Folder')
+
+    def test_BooleanColumn(self):
+        """This column will translate the values False or True."""
+        table = self.faceted_z3ctable_view
+        column = BooleanColumn(self.portal, self.portal.REQUEST, table)
+        tt = api.content.create(
+            container=self.eea_folder,
+            type='testingtype',
+            title='My testing type')
+        folderish_brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        not_folderish_brain = self.portal.portal_catalog(UID=tt.UID())[0]
+        column.attrName = 'is_folderish'
+        self.assertEquals(column.renderCell(folderish_brain), 'boolean_value_True')
+        self.assertEquals(column.renderCell(not_folderish_brain), 'boolean_value_False')
 
     def test_BrowserViewCallColumn(self):
         """This column will call a given view and display the result."""
@@ -421,6 +446,49 @@ class TestColumns(IntegrationTestCase):
         # if brain has no Title, '-' is used
         brain.Title = ''
         self.assertEquals(column.renderCell(brain), u'<a href="{0}">-</a>'.format(brain.getURL()))
+
+    def test_PrettyLinkColumn(self):
+        """A base column rendering imio.prettylink."""
+        table = self.faceted_z3ctable_view
+        # this column is defined in ZCML
+        column = queryMultiAdapter((self.eea_folder, self.eea_folder.REQUEST, table), IColumn, 'pretty_link')
+        # attrName is set during table.setUpColumns
+        column.attrName = 'Title'
+        # this column use 'sortable_title' as sort_index
+        self.assertEquals(column.sort_index, 'sortable_title')
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEquals(column.renderCell(brain),
+                          IPrettyLink(self.eea_folder).getLink())
+
+    def test_PrettyLinkWithAdditionalInfosColumn(self):
+        """A base column rendering imio.prettylink and additional informations."""
+        table = self.faceted_z3ctable_view
+        column = PrettyLinkWithAdditionalInfosColumn(self.portal, self.portal.REQUEST, table)
+        # attrName is set during table.setUpColumns
+        column.attrName = 'Title'
+        # this column use 'sortable_title' as sort_index
+        self.assertEquals(column.sort_index, 'sortable_title')
+        # this column only works with DX content types
+        tt = api.content.create(
+            container=self.eea_folder,
+            type='testingtype',
+            title='My testing type',
+            bool_field=False)
+        brain = self.portal.portal_catalog(UID=tt.UID())[0]
+        # no additional informations defined so nothing more than pretty link is returned
+        self.assertEquals(column.renderCell(brain), IPrettyLink(tt).getLink())
+        # define some informations
+        tt.afield = u'My field content'
+        self.assertTrue(
+            '<span id="form-widgets-afield" class="text-widget textline-field">My field content</span>'
+            in column.renderCell(brain))
+
+    def test_ActionsColumn(self):
+        """A BrowserViewCallColumn rendering imio.actionspanel."""
+        table = self.faceted_z3ctable_view
+        column = queryMultiAdapter((self.eea_folder, self.eea_folder.REQUEST, table), IColumn, 'actions')
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertTrue('actionspanel' in column.renderCell(brain))
 
     def test_ElementNumberColumn(self):
         """A base column using 'Title' metadata but rendered as a link to the element."""

@@ -32,6 +32,12 @@ class ITestingType(model.Schema):
         required=False
     )
 
+    bool_field = schema.Bool(
+        title=u'Boolean field',
+        required=False,
+        default=True
+    )
+
     rel_item = RelationChoice(
         title=u"Rel item",
         source=ObjPathSourceBinder(),
@@ -61,7 +67,7 @@ class NakedPloneLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        z2.uninstallProduct(app, 'imio.urbdial.notarydivision')
+        z2.uninstallProduct(app, 'collective.eeafaceted.z3ctable')
 
 NAKED_PLONE_FIXTURE = NakedPloneLayer(
     name="NAKED_PLONE_FIXTURE"
