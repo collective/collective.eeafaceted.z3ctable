@@ -500,20 +500,24 @@ class TestColumns(IntegrationTestCase):
                                 title='My testing type', rel_item=rel1, rel_items=[rel1, rel2])
         brain = self.portal.portal_catalog(UID=tt.UID())[0]
         column.attrName = 'rel_item'
-        self.assertEqual(u"<a class='pretty_link state-private' title='Folder 1' href='http://nohost/plone/fold1' target='_self'>"
-                         "<span class='pretty_link_content'>Folder 1</span></a>",
+        self.assertEqual(u"<a class='pretty_link state-private' title='Folder 1' "
+                         u"href='http://nohost/plone/fold1' target='_self'>"
+                         u"<span class='pretty_link_content'>Folder 1</span></a>",
                          column.renderCell(brain))
         column.params = {'showContentIcon': True}
-        self.assertEqual(u"<a class='pretty_link state-private contenttype-Folder' title='Folder 1' href='http://nohost/plone/fold1' "
-                         "target='_self'><span class='pretty_link_content'>Folder 1</span></a>",
+        self.assertEqual(u"<a class='pretty_link state-private contenttype-Folder' title='Folder 1' "
+                         u"href='http://nohost/plone/fold1' "
+                         u"target='_self'><span class='pretty_link_content'>Folder 1</span></a>",
                          column.renderCell(brain))
         column.params = {}
         column.attrName = 'rel_items'
         self.assertEqual(u"<ul>\n"
-                         "<li><a class='pretty_link state-private' title='Folder 1' href='http://nohost/plone/fold1' target='_self'>"
-                         "<span class='pretty_link_content'>Folder 1</span></a></li>\n"
-                         "<li><a class='pretty_link state-private' title='Folder 2' href='http://nohost/plone/fold2' target='_self'>"
-                         "<span class='pretty_link_content'>Folder 2</span></a></li>\n</ul>",
+                         u"<li><a class='pretty_link state-private' title='Folder 1' "
+                         u"href='http://nohost/plone/fold1' target='_self'>"
+                         u"<span class='pretty_link_content'>Folder 1</span></a></li>\n"
+                         u"<li><a class='pretty_link state-private' title='Folder 2' "
+                         u"href='http://nohost/plone/fold2' target='_self'>"
+                         u"<span class='pretty_link_content'>Folder 2</span></a></li>\n</ul>",
                          column.renderCell(brain))
         # a pretty_link class is defined for the td
         table.nameColumn(column, 'rel_items')
@@ -579,8 +583,9 @@ class TestColumns(IntegrationTestCase):
         column.field_name = 'IBasic.title'
         self.assertRaises(KeyError, column.renderCell, brain)
         column.field_name = 'afield'
-        self.assertIn('<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
-                      column.renderCell(brain))
+        self.assertIn(
+            '<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
+            column.renderCell(brain))
 
     def test_js_variables(self):
         """Some JS variables are defined for translation purpose."""
