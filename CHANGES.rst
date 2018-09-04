@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1 (unreleased)
+2.1 (2018-09-04)
 ----------------
 
 - Added `BooleanColumn` based on the `I18nColumn` that displays `Yes` or `No`
