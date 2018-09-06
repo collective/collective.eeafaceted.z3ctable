@@ -552,14 +552,24 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
        This only works when used with DX content types."""
 
     # additional infos config
-    ai_widget_render_pattern = u'<div class="discreet{2}"><label class="horizontal">{0}</label>\n<div>{1}</div></div>'
+    ai_widget_render_pattern = u'<div class="discreet {2} {3}">' \
+        u'<label class="horizontal">{0}</label>\n<div>{1}</div></div>'
     ai_excluded_fields = []
     ai_highlighted_fields = []
     ai_highligh_css_class = "highlight"
+    ai_generate_css_class_fields = []
 
     def get_ai_excluded_fields(self):
         """ """
         return self.ai_excluded_fields
+
+    def _field_css_class(self, widget):
+        """Compute a field CSS class based on field name and value."""
+        field_css_class = ''
+        if widget.__name__ in self.ai_generate_css_class_fields:
+            field_css_class = '{0}_{1}'.format(
+                widget.__name__, str(widget.field.get(widget.context)).lower())
+        return field_css_class
 
     def additional_infos(self, item):
         """ """
@@ -576,8 +586,12 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
         for widget in widgets:
             if widget not in self.get_ai_excluded_fields() and \
                widget.value not in (None, '', '--NOVALUE--', u'', (), [], ['--NOVALUE--']):
-                css_class = widget.__name__ in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
-                res += self.ai_widget_render_pattern.format(widget.label, widget.render(), css_class)
+                widget_name = widget.__name__
+                css_class = widget_name in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
+                field_css_class = self._field_css_class(widget)
+                translated_label = translate(widget.label, context=self.request)
+                res += self.ai_widget_render_pattern.format(
+                    translated_label, widget.render(), css_class, field_css_class)
         # unpatch URL
         self.request.set('URL', old_url)
         return res

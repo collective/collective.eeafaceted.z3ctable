@@ -5,8 +5,12 @@ Changelog
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added `PrettyLinkWithAdditionalInfosColumn.ai_generate_css_class_fields`
+  attribute to make it possible to specify fields we want to generate a
+  CSS class for, depending on field name and value.  This is useful for
+  applying custom CSS to a particular additional info field having a
+  specific value.
+  [gbastien]
 
 2.1 (2018-09-04)
 ----------------
