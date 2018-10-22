@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
+from collective.eeafaceted.z3ctable.columns import ActionsColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
@@ -524,11 +525,17 @@ class TestColumns(IntegrationTestCase):
         self.assertEquals(column.cssClasses, {'td': 'pretty_link', 'th': 'th_header_rel_items'})
 
     def test_ActionsColumn(self):
-        """A BrowserViewCallColumn rendering imio.actionspanel."""
+        """Render the @@actions_panel view."""
         table = self.faceted_z3ctable_view
-        column = queryMultiAdapter((self.eea_folder, self.eea_folder.REQUEST, table), IColumn, 'actions')
-        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertTrue('actionspanel' in column.renderCell(brain))
+        column = ActionsColumn(self.portal, self.portal.REQUEST, table)
+        brain = self.portal.portal_catalog(UID=self.portal.eea_folder.UID())[0]
+        # it is a BrowserViewCallColumn with some fixed parameters
+        self.assertEquals(column.view_name, 'actions_panel')
+        rendered_column = column.renderCell(brain)
+        # common parts are there : 'edit', 'Delete', 'history'
+        self.assertIn("/edit", rendered_column)
+        self.assertIn("javascript:confirmDeleteObject", rendered_column)
+        self.assertIn("history.gif", rendered_column)
 
     def test_ElementNumberColumn(self):
         """A base column using 'Title' metadata but rendered as a link to the element."""
