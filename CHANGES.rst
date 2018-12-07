@@ -5,8 +5,9 @@ Changelog
 2.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- In `faceted-table-items.pt`, group `<span>` displaying number of results or
+  no results under same `<div>` so it is easy to style.
+  [gbastien]
 
 2.2 (2018-11-20)
 ----------------
