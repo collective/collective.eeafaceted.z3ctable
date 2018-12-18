@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.3 (unreleased)
+2.3 (2018-12-18)
 ----------------
 
 - In `faceted-table-items.pt`, group `<span>` displaying number of results or
