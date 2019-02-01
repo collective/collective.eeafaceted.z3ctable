@@ -384,15 +384,14 @@ class AbbrColumn(VocabularyColumn):
 
 
 class ColorColumn(I18nColumn):
-    """A column that is aimed to display a background color and a help message on hover."""
+    """A column that is aimed to display a background color
+       and a help message on hover."""
 
     # no real color is applied but a generated CSS class
     cssClassPrefix = 'column'
-
-    def renderHeadCell(self):
-        """Hide the head cell but fill it with spaces so it
-           does not shrink to nothing if table is too large."""
-        return u'&nbsp;&nbsp;&nbsp;'
+    # Hide the head cell but fill it with spaces so it does
+    # not shrink to nothing if table is too large
+    header = u'&nbsp;&nbsp;&nbsp;'
 
     def renderCell(self, item):
         """Display a message."""

@@ -22,6 +22,18 @@ class ExtendedCSSTable(SequenceTable):
     """SequenceTable that manage ability to set CSS per cell and
        depending on cell value."""
 
+    table_id = ''
+    row_id_prefix = ''
+
+    def renderTable(self):
+        rendered_table = super(ExtendedCSSTable, self).renderTable()
+        if rendered_table and self.table_id:
+            # include 'id' when 'class' defined
+            rendered_table = rendered_table.replace('<table ', '<table id="%s" ' % self.table_id, 1)
+            # include 'id' when <table>
+            rendered_table = rendered_table.replace('<table>', '<table id="%s">' % self.table_id, 1)
+        return rendered_table
+
     def renderRow(self, row, cssClass=None):
         """Override to be able to apply a class on the TR defined on a column,
            because by default, the only way to define a class for the TR
@@ -44,7 +56,12 @@ class ExtendedCSSTable(SequenceTable):
         # XXX end adaptation by collective.eeafaceted.z3ctable
         cells = [self.renderCell(item, col, colspan)
                  for item, col, colspan in row]
-        return u'\n    <tr%s>%s\n    </tr>' % (cssClass, u''.join(cells))
+        if self.row_id_prefix:
+            return u'\n    <tr id="%s%s" %s>%s\n    </tr>' % (
+                self.row_id_prefix, item.UID, cssClass, u''.join(cells))
+        else:
+            return u'\n    <tr %s>%s\n    </tr>' % (
+                cssClass, u''.join(cells))
 
     def renderCell(self, item, column, colspan=0):
         """Override to be call getCSSClasses on column, no cssClasses."""
@@ -73,6 +90,8 @@ class FacetedTableView(BrowserView, ExtendedCSSTable):
     cssClassOdd = u'even'
     cssClasses = {'table': 'faceted-table-results listing nosort'}
     ignoreColumnWeight = False  # when set to True, keep columns ordered as returned by '_getViewFields'
+    table_id = 'faceted_table'
+    row_id_prefix = 'row_'
 
     def __init__(self, context, request):
         ''' '''

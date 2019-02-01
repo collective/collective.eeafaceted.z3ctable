@@ -5,8 +5,14 @@ Changelog
 2.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added `ExtendedCSSTable.table_id` and `ExtendedCSSTable.row_id_prefix` making
+  it possible to have a CSS id on the table and for each rows.
+  By default, we defined it for `FacetedTableView`, `table_id = 'faceted_table'`
+  and `row_id_prefix = 'row_'`.
+  [gbastien]
+- For `ColorColumn`, do not redefine the `renderHeadCell` method but use the
+  `header` attribute as we return static content.
+  [gbastien]
 
 2.3 (2018-12-18)
 ----------------
