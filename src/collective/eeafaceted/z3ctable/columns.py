@@ -314,17 +314,35 @@ class VocabularyColumn(BaseColumn):
 
     # named utility
     vocabulary = None
+    use_caching = True
+
+    def _get_cached_result(self, value):
+        if getattr(self, '_cached_result', None):
+            return self._cached_result.get(value, None)
+
+    def _store_cached_result(self, value, result):
+        """ """
+        if getattr(self, '_cached_result', None) is None:
+            self._cached_result = {}
+        self._cached_result['_'.join(value)] = result
 
     def renderCell(self, item):
+        value = self.getValue(item)
+        if not value:
+            return u'-'
+
+        # caching when several same values in same column
+        if self.use_caching:
+            res = self._get_cached_result(value)
+            if res:
+                return res
+
         if not self.vocabulary:
             raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(self.attrName))
         factory = queryUtility(IVocabularyFactory, self.vocabulary)
         if not factory:
             raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
                                                                                                self.attrName))
-        value = self.getValue(item)
-        if not value:
-            return u'-'
 
         vocab = factory(self.context)
         # make sure we have an iterable
@@ -337,7 +355,10 @@ class VocabularyColumn(BaseColumn):
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
-        return ', '.join(res)
+        res = ', '.join(res)
+        if self.use_caching:
+            self._store_cached_result(value, res)
+        return res
 
 
 class AbbrColumn(VocabularyColumn):

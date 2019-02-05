@@ -13,6 +13,10 @@ Changelog
 - For `ColorColumn`, do not redefine the `renderHeadCell` method but use the
   `header` attribute as we return static content.
   [gbastien]
+- Added `VocabularyColumn.use_caching` attribute set to `True` by default,
+  if used a caching is enabled to avoid to render vocabulary if value was
+  already displayed in a previous row.
+  [gbastien]
 
 2.3 (2018-12-18)
 ----------------
