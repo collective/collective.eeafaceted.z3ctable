@@ -41,6 +41,8 @@ class BaseColumn(column.GetAttrColumn):
     header_image = None
     # we can inject some javascript in the header
     header_js = None
+    # enable caching, needs to be implemented by Column
+    use_caching = True
 
     @property
     def cssClasses(self):
@@ -63,6 +65,18 @@ class BaseColumn(column.GetAttrColumn):
             self.table._v_cached_objects[itemUID] = item.getObject()
 
         return self.table._v_cached_objects[itemUID]
+
+    def _get_cached_result(self, value):
+        if getattr(self, '_cached_result', None):
+            return self._cached_result.get(value, None)
+
+    def _store_cached_result(self, value, result):
+        """ """
+        if getattr(self, '_cached_result', None) is None:
+            self._cached_result = {}
+        if hasattr(value, '__iter__'):
+            value = '_'.join(value)
+        self._cached_result[value] = result
 
 
 class BaseColumnHeader(SortingColumnHeader):
@@ -262,7 +276,14 @@ class DateColumn(BaseColumn):
         value = self.getValue(item)
         if not value or value == 'None' or value == self.ignored_value:
             return u'-'
-        return api.portal.get_localized_time(datetime=value, long_format=self.long_format, time_only=self.time_only)
+        if self.use_caching:
+            res = self._get_cached_result(value)
+            if res:
+                return res
+        res = api.portal.get_localized_time(datetime=value, long_format=self.long_format, time_only=self.time_only)
+        if self.use_caching:
+            self._store_cached_result(value, res)
+        return res
 
 
 class I18nColumn(BaseColumn):
@@ -314,17 +335,6 @@ class VocabularyColumn(BaseColumn):
 
     # named utility
     vocabulary = None
-    use_caching = True
-
-    def _get_cached_result(self, value):
-        if getattr(self, '_cached_result', None):
-            return self._cached_result.get(value, None)
-
-    def _store_cached_result(self, value, result):
-        """ """
-        if getattr(self, '_cached_result', None) is None:
-            self._cached_result = {}
-        self._cached_result['_'.join(value)] = result
 
     def renderCell(self, item):
         value = self.getValue(item)

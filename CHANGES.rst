@@ -13,11 +13,11 @@ Changelog
 - For `ColorColumn`, do not redefine the `renderHeadCell` method but use the
   `header` attribute as we return static content.
   [gbastien]
-- Added `VocabularyColumn.use_caching` attribute set to `True` by default,
-  if used a caching is enabled to avoid to render vocabulary if value was
-  already displayed in a previous row.
-  As `AbbrColumn` inherits from `VocabularyColumn`, adapted code to take
-  use_caching into account too.
+- Added `BaseColumn.use_caching` attribute set to `True` by default that will
+  avoid recomputing a value if it was already computed for a previous row.
+  This needs to be managed by column and base `_get_cached_result` and
+  `_store_cached_result` are defined on `BaseColumn`.
+  Implementations are done for `DateColumn`, `VocabularyColumn` and `AbbrColumn`.
   [gbastien]
 
 2.3 (2018-12-18)
