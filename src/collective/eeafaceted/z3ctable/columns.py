@@ -369,6 +369,16 @@ class AbbrColumn(VocabularyColumn):
     full_vocabulary = None
 
     def renderCell(self, item):
+        value = self.getValue(item)
+        if not value:
+            return u'-'
+
+        # caching when several same values in same column
+        if self.use_caching:
+            res = self._get_cached_result(value)
+            if res:
+                return res
+
         if not self.vocabulary or not self.full_vocabulary:
             raise KeyError(
                 'A "vocabulary" and a "full_vocabulary" must be defined for column "{0}" !'.format(self.attrName))
@@ -382,10 +392,6 @@ class AbbrColumn(VocabularyColumn):
             raise KeyError(
                 'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.full_vocabulary,
                                                                                     self.attrName))
-
-        value = self.getValue(item)
-        if not value:
-            return u'-'
 
         acronym_vocab = acronym_factory(self.context)
         full_vocab = full_factory(self.context)
@@ -401,7 +407,11 @@ class AbbrColumn(VocabularyColumn):
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
-        return ', '.join(res)
+
+        res = ', '.join(res)
+        if self.use_caching:
+            self._store_cached_result(value, res)
+        return res
 
 
 class ColorColumn(I18nColumn):

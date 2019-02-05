@@ -16,6 +16,8 @@ Changelog
 - Added `VocabularyColumn.use_caching` attribute set to `True` by default,
   if used a caching is enabled to avoid to render vocabulary if value was
   already displayed in a previous row.
+  As `AbbrColumn` inherits from `VocabularyColumn`, adapted code to take
+  use_caching into account too.
   [gbastien]
 
 2.3 (2018-12-18)
