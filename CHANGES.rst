@@ -5,6 +5,8 @@ Changelog
 2.4 (unreleased)
 ----------------
 
+- Fix Date column with SolR result
+  [mpeeters]
 - Added `ExtendedCSSTable.table_id` and `ExtendedCSSTable.row_id_prefix` making
   it possible to have a CSS id on the table and for each rows.
   By default, we defined it for `FacetedTableView`, `table_id = 'faceted_table'`
