@@ -68,6 +68,8 @@ class BaseColumn(column.GetAttrColumn):
 
     def _get_cached_result(self, value):
         if getattr(self, '_cached_result', None):
+            if hasattr(value, '__iter__'):
+                value = '_'.join(value)
             return self._cached_result.get(value, None)
 
     def _store_cached_result(self, value, result):
