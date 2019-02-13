@@ -3,6 +3,7 @@
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.eeafaceted.z3ctable import _
 from datetime import date
+from DateTime import DateTime
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
@@ -276,6 +277,8 @@ class DateColumn(BaseColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
+        if isinstance(value, DateTime):
+            value = value.asdatetime().date()
         if not value or value == 'None' or value == self.ignored_value:
             return u'-'
         if self.use_caching:
