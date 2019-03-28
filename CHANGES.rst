@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4 (unreleased)
+2.4 (2019-03-28)
 ----------------
 
 - Fix Date column with SolR result
