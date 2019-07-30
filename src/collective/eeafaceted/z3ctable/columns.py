@@ -330,6 +330,7 @@ class BrowserViewCallColumn(BaseColumn):
     def renderCell(self, item):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
+
         # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
         path = os.path.join(item.getPath(), self.view_name).encode('utf-8')
         return self.table.portal.unrestrictedTraverse(path)(**self.params)
@@ -352,21 +353,24 @@ class VocabularyColumn(BaseColumn):
             if res:
                 return res
 
-        if not self.vocabulary:
-            raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(self.attrName))
-        factory = queryUtility(IVocabularyFactory, self.vocabulary)
-        if not factory:
-            raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
-                                                                                               self.attrName))
+        # the vocabulary instance is cached
+        if not hasattr(self, '_cached_vocab_instance'):
+            if not self.vocabulary:
+                raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(self.attrName))
+            factory = queryUtility(IVocabularyFactory, self.vocabulary)
+            if not factory:
+                raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
+                                                                                                   self.attrName))
 
-        vocab = factory(self.context)
+            self._cached_vocab_instance = factory(self.context)
+
         # make sure we have an iterable
         if not hasattr(value, '__iter__'):
             value = [value]
         res = []
         for v in value:
             try:
-                res.append(safe_unicode(vocab.getTerm(v).title))
+                res.append(safe_unicode(self._cached_vocab_instance.getTerm(v).title))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
@@ -394,22 +398,24 @@ class AbbrColumn(VocabularyColumn):
             if res:
                 return res
 
-        if not self.vocabulary or not self.full_vocabulary:
-            raise KeyError(
-                'A "vocabulary" and a "full_vocabulary" must be defined for column "{0}" !'.format(self.attrName))
-        acronym_factory = queryUtility(IVocabularyFactory, self.vocabulary)
-        if not acronym_factory:
-            raise KeyError(
-                'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
-                                                                                    self.attrName))
-        full_factory = queryUtility(IVocabularyFactory, self.full_vocabulary)
-        if not full_factory:
-            raise KeyError(
-                'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.full_vocabulary,
-                                                                                    self.attrName))
+        # the vocabulary instances are cached
+        if not hasattr(self, '_cached_full_vocab_instance'):
+            if not self.vocabulary or not self.full_vocabulary:
+                raise KeyError(
+                    'A "vocabulary" and a "full_vocabulary" must be defined for column "{0}" !'.format(self.attrName))
+            acronym_factory = queryUtility(IVocabularyFactory, self.vocabulary)
+            if not acronym_factory:
+                raise KeyError(
+                    'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
+                                                                                        self.attrName))
+            full_factory = queryUtility(IVocabularyFactory, self.full_vocabulary)
+            if not full_factory:
+                raise KeyError(
+                    'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.full_vocabulary,
+                                                                                        self.attrName))
+            self._cached_acronym_vocab_instance = acronym_factory(self.context)
+            self._cached_full_vocab_instance = full_factory(self.context)
 
-        acronym_vocab = acronym_factory(self.context)
-        full_vocab = full_factory(self.context)
         # make sure we have an iterable
         if not hasattr(value, '__iter__'):
             value = [value]
@@ -417,8 +423,8 @@ class AbbrColumn(VocabularyColumn):
         for v in value:
             try:
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(
-                    safe_unicode(full_vocab.getTerm(v).title),
-                    safe_unicode(acronym_vocab.getTerm(v).title)))
+                    safe_unicode(self._cached_full_vocab_instance.getTerm(v).title),
+                    safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title)))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))

@@ -5,8 +5,10 @@ Changelog
 2.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- In `VocabularyColumn` and `AbbrColumn`, store the vocabularies instances
+  under `_cached_vocab_instance` to avoid doing a lookup for each row.
+  This does speed rendering a lot.
+  [gbastien]
 
 2.4 (2019-03-28)
 ----------------
