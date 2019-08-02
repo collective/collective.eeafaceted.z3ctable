@@ -12,9 +12,7 @@ def read(*rnames):
 
 long_description = \
     read('README.rst') + \
-    read('CHANGES.rst') + \
-    read('docs', 'CONTRIBUTORS.rst') + \
-    read('docs', 'LICENSE.rst')
+    read('CHANGES.rst')
 
 setup(
     name='collective.eeafaceted.z3ctable',

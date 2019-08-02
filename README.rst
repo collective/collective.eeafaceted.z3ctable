@@ -15,12 +15,6 @@ Package proposant un type de colonne compatible avec eea.facetednavigation
 * `Releases @ PyPI <http://pypi.python.org/pypi/collective.eeafaceted.z3ctable>`_
 * `Continuous Integration @ Travis-CI <http://travis-ci.org/collective/collective.eeafaceted.z3ctable>`_
 
-How it works
-============
-
-...
-
-
 Installation
 ============
 
@@ -28,8 +22,3 @@ To install `collective.eeafaceted.z3ctable` you simply add ``collective.eeafacet
 to the list of eggs in your buildout, run buildout and restart Plone.
 Then, install `collective.eeafaceted.z3ctable` using the Add-ons control panel.
 
-
-Configuration
-=============
-
-...
