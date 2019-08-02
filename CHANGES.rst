@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.5 (unreleased)
+2.5 (2019-08-02)
 ----------------
 
 - In `VocabularyColumn` and `AbbrColumn`, store the vocabularies instances
