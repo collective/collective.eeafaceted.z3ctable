@@ -14,7 +14,7 @@ class JSVariables(BrowserView):
 
         no_selected_items = _('no_selected_items',
                               default="Please select at least one element.",
-                              domain='collective.eeafaceted.batchactions',
+                              domain='collective.eeafaceted.z3ctable',
                               context=self.request)
         return TEMPLATE % dict(
             no_selected_items=no_selected_items,

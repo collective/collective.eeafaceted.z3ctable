@@ -5,8 +5,10 @@ Changelog
 2.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Fixed translation of `Please select at least one element.` msgid, it was
+  still using the old domain `collective.eeafaceted.batchactions` from which
+  the `select_row` column was reintegrated.
+  [gbastien]
 
 2.5 (2019-08-02)
 ----------------
