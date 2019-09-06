@@ -636,7 +636,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
         # caching
         obj = self._getObject(item)
-        if getattr(self, '_cached_view', None) is None:
+        if not self.use_caching or getattr(self, '_cached_view', None) is None:
             self.request.set('URL', self.context.absolute_url() + '/view')
             view = obj.restrictedTraverse('view')
             self._cached_view = view
@@ -666,7 +666,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
         for widget in widgets:
             if widget.__name__ not in self.get_ai_excluded_fields() and \
-               widget.value not in (None, '', '--NOVALUE--', u'', (), [], ['--NOVALUE--']):
+               widget.value not in (None, '', '--NOVALUE--', u'', (), [], (''), [''], ['--NOVALUE--']):
                 widget_name = widget.__name__
                 css_class = widget_name in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
                 field_css_class = self._field_css_class(widget)
