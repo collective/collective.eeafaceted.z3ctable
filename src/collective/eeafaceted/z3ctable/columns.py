@@ -2,11 +2,14 @@
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.eeafaceted.z3ctable import _
+from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
+from collective.z3cform.datagridfield.datagridfield import DataGridField
 from datetime import date
 from DateTime import DateTime
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
+from z3c.form.interfaces import IDataConverter
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
 from zope.component import queryUtility
@@ -627,25 +630,70 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
         res = u''
         # Need to patch url for links to downloadable files to work...
         old_url = self.request.getURL()
-        self.request.set('URL', self.context.absolute_url() + '/view')
+
+        # caching
         obj = self._getObject(item)
-        view = obj.restrictedTraverse('view')
-        view.update()
-        widgets = view.widgets.values()
-        for group in view.groups:
-            widgets.extend(group.widgets.values())
+        if not self.use_caching or getattr(self, '_cached_view', None) is None:
+            self.request.set('URL', self.context.absolute_url() + '/view')
+            view = obj.restrictedTraverse('view')
+            self._cached_view = view
+            view.update()
+            # handle widgets
+            widgets = view.widgets.values()
+            for group in view.groups:
+                widgets.extend(group.widgets.values())
+        else:
+            view = self._cached_view
+            view.context = obj
+            for widget in view.widgets.values():
+                converter = IDataConverter(widget)
+                value = getattr(view.context, widget.__name__)
+                if value:
+                    if isinstance(widget, DataGridField):
+                        widget._value = value
+                    else:
+                        converted = converter.toWidgetValue(getattr(view.context, widget.__name__))
+                        # special behavior for datagridfield where setting the value
+                        # will updateWidgets and is slow/slow/slow...
+                        widget.value = converted
+                        widget._rendered_value = widget.render()
+                else:
+                    widget.value = None
+            widgets = view.widgets.values()
+
         for widget in widgets:
-            if widget not in self.get_ai_excluded_fields() and \
-               widget.value not in (None, '', '--NOVALUE--', u'', (), [], ['--NOVALUE--']):
+            if widget.__name__ not in self.get_ai_excluded_fields() and \
+               widget.value not in (None, '', '--NOVALUE--', u'', (), [], (''), [''], ['--NOVALUE--']):
                 widget_name = widget.__name__
                 css_class = widget_name in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
                 field_css_class = self._field_css_class(widget)
                 translated_label = translate(widget.label, context=self.request)
+                # render the widget
+                if isinstance(widget, DataGridField):
+                    _rendered_value = self._render_datagridfield(view, widget)
+                else:
+                    _rendered_value = widget.render()
                 res += self.ai_widget_render_pattern.format(
-                    translated_label, widget.render(), css_class, field_css_class)
+                    translated_label, _rendered_value, css_class, field_css_class)
         # unpatch URL
         self.request.set('URL', old_url)
         return res
+
+    def _render_datagridfield(self, view, widget):
+        '''Datagridfield is so slow to render we can not use widget rendering,
+           we will use a collective.excelexport exportable to render it.'''
+        exportable = get_exportable_for_fieldname(view.context, widget.__name__, self.request)
+        _rendered_value = exportable.render_value(view.context)
+        # format exportable value
+        _rendered_value = u'<div class="table-col-datagrid-header">{0}'.format(_rendered_value)
+        _rendered_value = _rendered_value.replace(
+            ' : ', ' : </div><div class="table-col-datagrid-value">&nbsp;')
+        _rendered_value = _rendered_value.replace(
+            '\n', '</div><br /><div class="table-col-datagrid-header">')
+        _rendered_value = _rendered_value.replace(
+            ' / ', '&nbsp;</div>&nbsp;<div class="table-col-datagrid-header">')
+        _rendered_value = u'{0}</div>'.format(_rendered_value)
+        return _rendered_value
 
     def renderCell(self, item):
         """ """

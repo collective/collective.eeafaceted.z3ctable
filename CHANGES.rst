@@ -9,6 +9,13 @@ Changelog
   still using the old domain `collective.eeafaceted.batchactions` from which
   the `select_row` column was reintegrated.
   [gbastien]
+- Optimized the `PrettyLinkWithAdditionalInfosColumn` speed :
+    - the `view.update` is called one time and we store the view in the column
+      so next rows may use it;
+    - use `collective.excelexport` datagridfield exportable to render a
+      `datagridfield` because widget rendering is way too slow...
+
+  [gbastien]
 
 2.5 (2019-08-02)
 ----------------
