@@ -674,7 +674,16 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 # render the widget
                 if isinstance(widget, DataGridField):
                     exportable = get_exportable_for_fieldname(view.context, widget.__name__, self.request)
-                    _rendered_value = exportable.render_value(view.context).replace('\n', '<br />')
+                    _rendered_value = exportable.render_value(view.context)
+                    # format exportable value
+                    _rendered_value = u'<div class="table-col-datagrid-header">{0}'.format(_rendered_value)
+                    _rendered_value = _rendered_value.replace(
+                        ' : ', ' : </div><div class="table-col-datagrid-value">&nbsp;')
+                    _rendered_value = _rendered_value.replace(
+                        '\n', '</div><br /><div class="table-col-datagrid-header">')
+                    _rendered_value = _rendered_value.replace(
+                        ' / ', '&nbsp;</div>&nbsp;<div class="table-col-datagrid-header">')
+                    _rendered_value = u'{0}</div>'.format(_rendered_value)
                 else:
                     _rendered_value = widget.render()
                 res += self.ai_widget_render_pattern.format(
