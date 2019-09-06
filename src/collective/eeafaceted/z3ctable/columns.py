@@ -625,9 +625,6 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 widget.__name__, str(widget.field.get(widget.context)).lower())
         return field_css_class
 
-    def _cached_fields(self, item):
-        """ """
-
     def additional_infos(self, item):
         """ """
         res = u''
