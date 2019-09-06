@@ -673,17 +673,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 translated_label = translate(widget.label, context=self.request)
                 # render the widget
                 if isinstance(widget, DataGridField):
-                    exportable = get_exportable_for_fieldname(view.context, widget.__name__, self.request)
-                    _rendered_value = exportable.render_value(view.context)
-                    # format exportable value
-                    _rendered_value = u'<div class="table-col-datagrid-header">{0}'.format(_rendered_value)
-                    _rendered_value = _rendered_value.replace(
-                        ' : ', ' : </div><div class="table-col-datagrid-value">&nbsp;')
-                    _rendered_value = _rendered_value.replace(
-                        '\n', '</div><br /><div class="table-col-datagrid-header">')
-                    _rendered_value = _rendered_value.replace(
-                        ' / ', '&nbsp;</div>&nbsp;<div class="table-col-datagrid-header">')
-                    _rendered_value = u'{0}</div>'.format(_rendered_value)
+                    _rendered_value = self._render_datagridfield(view, widget)
                 else:
                     _rendered_value = widget.render()
                 res += self.ai_widget_render_pattern.format(
@@ -691,6 +681,22 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
         # unpatch URL
         self.request.set('URL', old_url)
         return res
+
+    def _render_datagridfield(self, view, widget):
+        '''Datagridfield is so slow to render we can not use widget rendering,
+           we will use a collective.excelexport exportable to render it.'''
+        exportable = get_exportable_for_fieldname(view.context, widget.__name__, self.request)
+        _rendered_value = exportable.render_value(view.context)
+        # format exportable value
+        _rendered_value = u'<div class="table-col-datagrid-header">{0}'.format(_rendered_value)
+        _rendered_value = _rendered_value.replace(
+            ' : ', ' : </div><div class="table-col-datagrid-value">&nbsp;')
+        _rendered_value = _rendered_value.replace(
+            '\n', '</div><br /><div class="table-col-datagrid-header">')
+        _rendered_value = _rendered_value.replace(
+            ' / ', '&nbsp;</div>&nbsp;<div class="table-col-datagrid-header">')
+        _rendered_value = u'{0}</div>'.format(_rendered_value)
+        return _rendered_value
 
     def renderCell(self, item):
         """ """
