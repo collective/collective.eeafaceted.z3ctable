@@ -14,6 +14,7 @@ Changelog
       so next rows may use it;
     - use `collective.excelexport` datagridfield exportable to render a
       `datagridfield` because widget rendering is way too slow...
+    - added `collective.excelexport` as a dependency.
 
   [gbastien]
 

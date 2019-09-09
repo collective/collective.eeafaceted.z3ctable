@@ -39,6 +39,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'Plone',
+        'collective.excelexport',
         'eea.facetednavigation>10.0',
         'plone.api>=1.3.0',
         'setuptools',
