@@ -15,7 +15,7 @@ env:
 install:
   - easy_install --version
   - mkdir -p buildout-cache/{eggs,downloads}
-  - sudo apt-get -qq install libfreetype6-dev liblcms1-dev gettext
+  - sudo apt-get -qq install libfreetype6-dev gettext
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg
   - bin/buildout -Nc travis.cfg
