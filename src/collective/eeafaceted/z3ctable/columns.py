@@ -3,7 +3,6 @@
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.eeafaceted.z3ctable import _
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
-from collective.z3cform.datagridfield.datagridfield import DataGridField
 from datetime import date
 from DateTime import DateTime
 from plone import api
@@ -28,6 +27,13 @@ try:
     HAS_PRETTYLINK = True
 except pkg_resources.DistributionNotFound:
     HAS_PRETTYLINK = False
+
+try:
+    api.env.get_distribution('collective.z3cform.datagridfield')
+    from collective.z3cform.datagridfield.datagridfield import DataGridField
+    HAS_Z3CFORM_DATAGRIDFIELD = True
+except pkg_resources.DistributionNotFound:
+    HAS_Z3CFORM_DATAGRIDFIELD = False
 
 
 EMPTY_STRING = '__empty_string__'
@@ -649,14 +655,13 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 converter = IDataConverter(widget)
                 value = getattr(view.context, widget.__name__)
                 if value:
-                    if isinstance(widget, DataGridField):
+                    if HAS_Z3CFORM_DATAGRIDFIELD and isinstance(widget, DataGridField):
                         widget._value = value
                     else:
                         converted = converter.toWidgetValue(getattr(view.context, widget.__name__))
                         # special behavior for datagridfield where setting the value
                         # will updateWidgets and is slow/slow/slow...
                         widget.value = converted
-                        widget._rendered_value = widget.render()
                 else:
                     widget.value = None
             widgets = view.widgets.values()
@@ -669,7 +674,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 field_css_class = self._field_css_class(widget)
                 translated_label = translate(widget.label, context=self.request)
                 # render the widget
-                if isinstance(widget, DataGridField):
+                if HAS_Z3CFORM_DATAGRIDFIELD and isinstance(widget, DataGridField):
                     _rendered_value = self._render_datagridfield(view, widget)
                 else:
                     _rendered_value = widget.render()

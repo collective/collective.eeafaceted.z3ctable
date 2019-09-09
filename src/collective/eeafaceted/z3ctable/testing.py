@@ -2,9 +2,6 @@
 """Base module for unittesting."""
 
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
-from zope import schema
-from z3c.relationfield.schema import RelationChoice, RelationList
-
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
@@ -19,9 +16,12 @@ from plone.app.testing import TEST_USER_NAME
 from plone.formwidget.contenttree import ObjPathSourceBinder
 from plone.supermodel import model
 from plone.testing import z2
+from z3c.relationfield.schema import RelationChoice
+from z3c.relationfield.schema import RelationList
+from zope import schema
+from zope.globalrequest.local import setLocal
 
 import collective.eeafaceted.z3ctable
-
 import unittest
 
 
@@ -83,6 +83,7 @@ class CollectiveEeafacetedZ3ctableLayer(NakedPloneLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
+        setLocal('request', portal.REQUEST)
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.eeafaceted.z3ctable:testing')
 

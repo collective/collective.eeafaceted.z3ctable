@@ -170,6 +170,7 @@ class TestColumns(IntegrationTestCase):
         """This column will display a date correctly."""
         table = self.faceted_z3ctable_view
         column = DateColumn(self.portal, self.portal.REQUEST, table)
+        column.use_caching = False
         # test with a DateTime attribute
         self.eea_folder.setCreationDate('2015/05/05 12:30')
         self.eea_folder.reindexObject(idxs=['created', 'CreationDate', ])
@@ -275,6 +276,10 @@ class TestColumns(IntegrationTestCase):
         table = self.faceted_z3ctable_view
         column = VocabularyColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        # no attrName, u'-' is returned
+        self.assertEquals(column.renderCell(brain), u'-')
+
+        column.attrName = 'Title'
         # a vocabulary is required
         self.assertRaises(KeyError, column.renderCell, brain)
         # a valid vocabulary is required
@@ -282,12 +287,9 @@ class TestColumns(IntegrationTestCase):
         self.assertRaises(KeyError, column.renderCell, brain)
         # use a valid vocabulary and test
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
-        # no attrName, u'-' is returned
-        self.assertEquals(column.renderCell(brain), u'-')
 
         # mono valued vocabulary
         # an attrName but key not found in vocab, the key is returned
-        column.attrName = 'Title'
         self.assertEquals(column.renderCell(brain), u'unexisting_key')
         # existing key
         self.eea_folder.setTitle('existing_key1')
@@ -316,13 +318,24 @@ class TestColumns(IntegrationTestCase):
         table = self.faceted_z3ctable_view
         column = AbbrColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        # not value, '-' is returned
+        self.assertEqual(column.renderCell(brain), u'-')
+        column.attrName = 'Title'
         # both vocabularies are required
         column.vocabulary = None
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
-        self.assertRaises(KeyError, column.renderCell, brain)
+        with self.assertRaises(KeyError) as cm:
+            column.renderCell(brain)
+        self.assertEqual(
+            cm.exception.message,
+            'A "vocabulary" and a "full_vocabulary" must be defined for column "Title" !')
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = None
-        self.assertRaises(KeyError, column.renderCell, brain)
+        with self.assertRaises(KeyError) as cm:
+            column.renderCell(brain)
+        self.assertEqual(
+            cm.exception.message,
+            'A "vocabulary" and a "full_vocabulary" must be defined for column "Title" !')
 
         # both vocabularies must be valid
         column.vocabulary = "some.unknown.vocabulary"
@@ -335,12 +348,10 @@ class TestColumns(IntegrationTestCase):
         # use a valid vocabulary and test
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
-        # no attrName, u'-' is returned
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEquals(column.renderCell(brain), u'unexisting_key')
 
         # mono valued vocabulary
         # an attrName but key not found in vocab, the key is returned
-        column.attrName = 'Title'
         self.assertEquals(column.renderCell(brain), u'unexisting_key')
         # existing key
         self.eea_folder.setTitle('existing_key1')
@@ -397,7 +408,7 @@ class TestColumns(IntegrationTestCase):
         column.cssClassPrefix = 'another'
         self.assertEquals(column.getCSSClasses(brain), {'td': 'another_getId_eea_folder'})
         # no header is displayed for a ColorColumn
-        self.assertEquals(column.renderHeadCell(), u'&nbsp;&nbsp;&nbsp;')
+        self.assertTrue(column.renderHeadCell().startswith("<span>&nbsp;&nbsp;&nbsp;</span>"))
 
     def test_CheckBoxColumn(self):
         """This will display a CheckBox column."""
