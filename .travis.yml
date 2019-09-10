@@ -17,7 +17,7 @@ install:
   - mkdir -p buildout-cache/{eggs,downloads}
   - sudo apt-get -qq install libfreetype6-dev gettext
   - mkdir -p buildout-cache/{eggs,downloads}
-  - python bootstrap.py -c travis.cfg
+  - python bootstrap.py --version=2.13.1 --setuptools-version=38.2.4
   - bin/buildout -Nc travis.cfg
   - bin/translation-manage -c
 
