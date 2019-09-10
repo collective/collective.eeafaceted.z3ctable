@@ -22,10 +22,12 @@ install:
 
 script:
   - bin/test
-  - bin/createcoverage
 
 after_success:
-  - pip install coveralls==0.5
+  - bin/coverage run bin/test
+  - pip install coverage
+  - python -m coverage.pickle2json
+  - pip install coveralls
   - coveralls
 
 notifications:
