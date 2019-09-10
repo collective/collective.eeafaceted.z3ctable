@@ -20,10 +20,6 @@ install:
   - python bootstrap.py
   - bin/buildout -c travis.cfg
 
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-
 script:
   - bin/test
   - bin/createcoverage
@@ -33,7 +29,5 @@ after_success:
   - coveralls
 
 notifications:
-  irc:
-      - ""
   email:
       - devs@imio.be
