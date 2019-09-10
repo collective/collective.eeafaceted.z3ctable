@@ -19,7 +19,6 @@ install:
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py
   - bin/buildout -c travis.cfg
-  - bin/translation-manage -c
 
 before_script:
   - "export DISPLAY=:99.0"
