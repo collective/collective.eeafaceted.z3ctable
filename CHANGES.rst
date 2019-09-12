@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.6 (unreleased)
+2.6 (2019-09-12)
 ----------------
 
 - Fixed translation of `Please select at least one element.` msgid, it was
