@@ -5,8 +5,9 @@ Changelog
 2.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- In `columns.AbbrColumn`, make sure there is no `'` in tag title or it is not
+  rendered correctly in the browser.
+  [gbastien]
 
 2.6 (2019-09-12)
 ----------------

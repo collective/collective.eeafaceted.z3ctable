@@ -431,8 +431,10 @@ class AbbrColumn(VocabularyColumn):
         res = []
         for v in value:
             try:
+                tag_title = self._cached_full_vocab_instance.getTerm(v).title
+                tag_title = tag_title.replace("'", "&#39;")
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(
-                    safe_unicode(self._cached_full_vocab_instance.getTerm(v).title),
+                    safe_unicode(tag_title),
                     safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title)))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
