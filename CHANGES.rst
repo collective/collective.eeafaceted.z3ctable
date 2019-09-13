@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7 (unreleased)
+2.7 (2019-09-13)
 ----------------
 
 - In `columns.AbbrColumn`, make sure there is no `'` in tag title or it is not
