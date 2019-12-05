@@ -5,8 +5,8 @@ Changelog
 2.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Managed correctly a field not yet set.
+  [sgeulette]
 
 2.7 (2019-09-13)
 ----------------
@@ -133,7 +133,7 @@ Changelog
 1.0.1 (2017-06-01)
 ------------------
 
-- Avoid useless redirects when using sorting and current URL ends with 
+- Avoid useless redirects when using sorting and current URL ends with
   `/view` or so.
   [gbastien]
 - Fixed tests to use translated strings instead msgid, adapted buildout

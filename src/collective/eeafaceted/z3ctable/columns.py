@@ -655,7 +655,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
             view.context = obj
             for widget in view.widgets.values():
                 converter = IDataConverter(widget)
-                value = getattr(view.context, widget.__name__)
+                value = getattr(view.context, widget.__name__, None)
                 if value:
                     if HAS_Z3CFORM_DATAGRIDFIELD and isinstance(widget, DataGridField):
                         widget._value = value
