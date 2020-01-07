@@ -7,6 +7,10 @@ Changelog
 
 - Managed correctly a field not yet set.
   [sgeulette]
+- In the `PrettyLinkWithAdditionalInfosColumn`, manage `description` manually
+  as it is not present in the `@@view` widgets.
+  Display it as any other fields if not empty.
+  [gbastien]
 
 2.7 (2019-09-13)
 ----------------

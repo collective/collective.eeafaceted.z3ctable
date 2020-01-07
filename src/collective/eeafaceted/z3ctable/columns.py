@@ -641,6 +641,12 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
         # caching
         obj = self._getObject(item)
+        # display description if relevant
+        if base_hasattr(obj, 'description'):
+            description = obj.description
+            if description:
+                res = u'<div class="discreet"><label class="horizontal">Description</label>' \
+                    '<div>{0}</div></div>'.format(description)
         if not self.use_caching or getattr(self, '_cached_view', None) is None:
             self.request.set('URL', self.context.absolute_url() + '/view')
             view = obj.restrictedTraverse('view')
