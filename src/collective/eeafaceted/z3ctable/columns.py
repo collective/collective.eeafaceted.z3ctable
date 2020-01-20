@@ -735,3 +735,33 @@ class ActionsColumn(BrowserViewCallColumn):
                 'jQuery(document).ready(preventDefaultClickTransition);</script>'
     view_name = 'actions_panel'
     params = {'showHistory': True, 'showActions': True}
+
+
+class IconsColumn(BaseColumn):
+    """
+        Column displaying icons with title tag
+    """
+    attrName = None
+    defaultValue = []  # default value for self.getValue()
+    separator = ' '
+
+    def values(self, item):
+        return self.getValue(item)
+
+    def titleValue(self, item, val):
+        return val
+
+    def classValue(self, item, val):
+        return ''
+
+    def srcValue(self, item, val):
+        return '{}/{}'.format(self.table.portal_url, val)
+
+    def renderCell(self, item):
+        tags = []
+        for val in self.values(item):
+            tag = u"""<img title="{}" class="{}" src="{}" />""".format(self.titleValue(item, val),
+                                                                       self.classValue(item, val),
+                                                                       self.srcValue(item, val))
+            tags.append(tag)
+        return self.separator.join(tags)

@@ -12,6 +12,7 @@ from collective.eeafaceted.z3ctable.columns import DateColumn
 from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.columns import ElementNumberColumn
 from collective.eeafaceted.z3ctable.columns import I18nColumn
+from collective.eeafaceted.z3ctable.columns import IconsColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
 from collective.eeafaceted.z3ctable.columns import PrettyLinkWithAdditionalInfosColumn
 from collective.eeafaceted.z3ctable.columns import RelationPrettyLinkColumn
@@ -612,6 +613,17 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(
             js_variables(),
             'var no_selected_items = "Please select at least one element.";\n')
+
+    def test_IconsColumn(self):
+        table = self.faceted_z3ctable_view
+        column = IconsColumn(self.portal, self.portal.REQUEST, table)
+        column.attrName = u'Subject'
+        tt = api.content.create(container=self.eea_folder, type='testingtype',
+                                id='testingtype', title='My testing type', subject=(u'01', u'02'))
+        brain = self.portal.portal_catalog(UID=tt.UID())[0]
+        self.assertEqual(column.renderCell(brain),
+                         u'<img title="01" class="" src="http://nohost/plone/01" /><br />'
+                         u'<img title="02" class="" src="http://nohost/plone/02" />')
 
 
 class BrainsWithoutBatchTable(Table):

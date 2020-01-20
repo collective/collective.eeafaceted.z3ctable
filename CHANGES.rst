@@ -11,6 +11,8 @@ Changelog
   as it is not present in the `@@view` widgets.
   Display it as any other fields if not empty.
   [gbastien]
+- Added IconsColumn
+  [sgeulette]
 
 2.7 (2019-09-13)
 ----------------
