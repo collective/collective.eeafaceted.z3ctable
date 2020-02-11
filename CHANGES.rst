@@ -13,6 +13,8 @@ Changelog
   [gbastien]
 - Added IconsColumn
   [sgeulette]
+- Ignored EMPTY_STRING in VocabularyColumn
+  [sgeulette]
 
 2.7 (2019-09-13)
 ----------------

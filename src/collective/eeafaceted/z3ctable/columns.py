@@ -350,10 +350,11 @@ class VocabularyColumn(BaseColumn):
 
     # named utility
     vocabulary = None
+    ignored_value = EMPTY_STRING
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value:
+        if not value or value == self.ignored_value:
             return u'-'
 
         # caching when several same values in same column
