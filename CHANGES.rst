@@ -2,7 +2,13 @@ Changelog
 =========
 
 
-2.8 (unreleased)
+2.9 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
+2.8 (2020-02-06)
 ----------------
 
 - Managed correctly a field not yet set.
