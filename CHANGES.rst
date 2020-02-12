@@ -5,7 +5,8 @@ Changelog
 2.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Ignored EMPTY_STRING in VocabularyColumn
+  [sgeulette]
 
 
 2.8 (2020-02-06)
@@ -18,8 +19,6 @@ Changelog
   Display it as any other fields if not empty.
   [gbastien]
 - Added IconsColumn
-  [sgeulette]
-- Ignored EMPTY_STRING in VocabularyColumn
   [sgeulette]
 
 2.7 (2019-09-13)
