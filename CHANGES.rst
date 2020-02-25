@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.9 (unreleased)
+2.9 (2020-02-25)
 ----------------
 
 - Ignored EMPTY_STRING in VocabularyColumn
