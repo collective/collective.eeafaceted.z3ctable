@@ -7,13 +7,11 @@ Changelog
 
 - Nothing changed yet.
 
-
 2.9 (2020-02-25)
 ----------------
 
 - Ignored EMPTY_STRING in VocabularyColumn
   [sgeulette]
-
 
 2.8 (2020-02-06)
 ----------------
@@ -47,7 +45,6 @@ Changelog
     - use `collective.excelexport` datagridfield exportable to render a
       `datagridfield` because widget rendering is way too slow...
     - added `collective.excelexport` as a dependency.
-
   [gbastien]
 
 2.5 (2019-08-02)
