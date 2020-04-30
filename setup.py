@@ -42,6 +42,7 @@ setup(
         'collective.excelexport',
         'eea.facetednavigation>10.0',
         'plone.api>=1.3.0',
+        'plone.formwidget.namedfile>=2.0.2',
         'setuptools',
         'z3c.table',
     ],

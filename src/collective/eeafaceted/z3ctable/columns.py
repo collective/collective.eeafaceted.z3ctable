@@ -637,9 +637,6 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
     def additional_infos(self, item):
         """ """
         res = u''
-        # Need to patch url for links to downloadable files to work...
-        old_url = self.request.getURL()
-
         # caching
         obj = self._getObject(item)
         # display description if relevant
@@ -649,7 +646,6 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 res = u'<div class="discreet"><label class="horizontal">Description</label>' \
                     '<div>{0}</div></div>'.format(description)
         if not self.use_caching or getattr(self, '_cached_view', None) is None:
-            self.request.set('URL', self.context.absolute_url() + '/view')
             view = obj.restrictedTraverse('view')
             self._cached_view = view
             view.update()
@@ -689,8 +685,6 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                     _rendered_value = widget.render()
                 res += self.ai_widget_render_pattern.format(
                     translated_label, _rendered_value, css_class, field_css_class)
-        # unpatch URL
-        self.request.set('URL', old_url)
         return res
 
     def _render_datagridfield(self, view, widget):
