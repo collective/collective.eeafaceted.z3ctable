@@ -5,7 +5,10 @@ Changelog
 2.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- In `PrettyLinkWithAdditionalInfosColumn`, removed to setup around current URL
+  that was necessary for displaying image and files correctly but instead,
+  require `plone.formwidget.namedfile>=2.0.2` that solves the problem.
+  [gbastien]
 
 2.9 (2020-02-25)
 ----------------
