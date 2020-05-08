@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.10 (unreleased)
+2.10 (2020-05-08)
 -----------------
 
 - In `PrettyLinkWithAdditionalInfosColumn`, removed to setup around current URL
