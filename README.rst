@@ -1,10 +1,8 @@
 .. image:: https://travis-ci.org/collective/collective.eeafaceted.z3ctable.svg?branch=master
    :target: https://travis-ci.org/collective/collective.eeafaceted.z3ctable
 
-.. image:: https://coveralls.io/repos/github/collective/collective.eeafaceted.z3ctable/badge.svg
-  :target: https://coveralls.io/github/collective/collective.eeafaceted.z3ctable
-
-
+.. image:: https://coveralls.io/repos/collective/collective.eeafaceted.z3ctable/badge.svg
+  :target: https://coveralls.io/collective/collective.eeafaceted.z3ctable
 
 
 ==============================
