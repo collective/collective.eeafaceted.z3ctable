@@ -10,6 +10,9 @@ Changelog
 - Bugfix in `PrettyLinkWithAdditionalInfosColumn`, sometimes the widget's
   context was the previous row object.
   [gbastien]
+- Added parameter `PrettyLinkWithAdditionalInfosColumn.simplified_datagridfield`
+  and set it to `False` by default.
+  [gbastien]
 
 2.10 (2020-05-08)
 -----------------

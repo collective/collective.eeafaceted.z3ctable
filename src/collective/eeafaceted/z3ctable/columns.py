@@ -621,6 +621,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
     ai_highlighted_fields = []
     ai_highligh_css_class = "highlight"
     ai_generate_css_class_fields = []
+    simplified_datagridfield = False
 
     def get_ai_excluded_fields(self):
         """ """
@@ -661,7 +662,9 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 converter = IDataConverter(widget)
                 value = getattr(view.context, widget.__name__, None)
                 if value:
-                    if HAS_Z3CFORM_DATAGRIDFIELD and isinstance(widget, DataGridField):
+                    if self.simplified_datagridfield and \
+                       HAS_Z3CFORM_DATAGRIDFIELD and \
+                       isinstance(widget, DataGridField):
                         widget._value = value
                     else:
                         converted = converter.toWidgetValue(getattr(view.context, widget.__name__))
@@ -680,7 +683,9 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 field_css_class = self._field_css_class(widget)
                 translated_label = translate(widget.label, context=self.request)
                 # render the widget
-                if HAS_Z3CFORM_DATAGRIDFIELD and isinstance(widget, DataGridField):
+                if self.simplified_datagridfield and \
+                   HAS_Z3CFORM_DATAGRIDFIELD and \
+                   isinstance(widget, DataGridField):
                     _rendered_value = self._render_datagridfield(view, widget)
                 else:
                     _rendered_value = widget.render()
