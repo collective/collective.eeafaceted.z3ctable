@@ -657,6 +657,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
             view = self._cached_view
             view.context = obj
             for widget in view.widgets.values():
+                widget.context = view.context
                 converter = IDataConverter(widget)
                 value = getattr(view.context, widget.__name__, None)
                 if value:
