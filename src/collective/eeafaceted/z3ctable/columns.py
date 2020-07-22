@@ -616,7 +616,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
     # additional infos config
     ai_widget_render_pattern = u'<div class="discreet {2} {3}">' \
-        u'<label class="horizontal">{0}</label>\n<div>{1}</div></div>'
+        u'<label class="horizontal">{0}</label>\n<div class="{4}">{1}</div></div>'
     ai_excluded_fields = []
     ai_highlighted_fields = []
     ai_highligh_css_class = "highlight"
@@ -644,7 +644,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
             description = obj.description
             if description:
                 res = u'<div class="discreet"><label class="horizontal">Description</label>' \
-                    '<div>{0}</div></div>'.format(description)
+                    '<div class="type-textarea-widget">{0}</div></div>'.format(description)
         if not self.use_caching or getattr(self, '_cached_view', None) is None:
             view = obj.restrictedTraverse('view')
             self._cached_view = view
@@ -683,8 +683,9 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                     _rendered_value = self._render_datagridfield(view, widget)
                 else:
                     _rendered_value = widget.render()
+                field_type_css_class = "type-{0}".format(widget.klass.split(' ')[0])
                 res += self.ai_widget_render_pattern.format(
-                    translated_label, _rendered_value, css_class, field_css_class)
+                    translated_label, _rendered_value, css_class, field_css_class, field_type_css_class)
         return res
 
     def _render_datagridfield(self, view, widget):
@@ -695,11 +696,12 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
         # format exportable value
         _rendered_value = u'<div class="table-col-datagrid-header">{0}'.format(_rendered_value)
         _rendered_value = _rendered_value.replace(
-            ' : ', ' : </div><div class="table-col-datagrid-value">&nbsp;')
+            ' : ', ' :&nbsp;</div><div class="table-col-datagrid-value">')
+        # end of row
         _rendered_value = _rendered_value.replace(
-            '\n', '</div><br /><div class="table-col-datagrid-header">')
+            '\n', '</div><br/><br/><div class="table-col-datagrid-header">')
         _rendered_value = _rendered_value.replace(
-            ' / ', '&nbsp;</div>&nbsp;<div class="table-col-datagrid-header">')
+            ' / ', '</div><br/><div class="table-col-datagrid-header">')
         _rendered_value = u'{0}</div>'.format(_rendered_value)
         return _rendered_value
 

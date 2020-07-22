@@ -5,8 +5,8 @@ Changelog
 2.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Render `DataGridField` in `PrettyLinkWithAdditionalInfosColumn` vertically.
+  [gbastien]
 
 2.10 (2020-05-08)
 -----------------
