@@ -13,6 +13,9 @@ Changelog
 - Added parameter `PrettyLinkWithAdditionalInfosColumn.simplified_datagridfield`
   and set it to `False` by default.
   [gbastien]
+- Moved `MemberIdColumn.get_user_fullname` out of `MemberIdColumn` so it can be
+  easily used from outside.
+  [gbastien]
 
 2.10 (2020-05-08)
 -----------------
