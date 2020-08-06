@@ -51,7 +51,7 @@ class TestColumns(IntegrationTestCase):
         """
         self.faceted_z3ctable_view.initColumns()
         default_columns = sorted([col.__name__ for col in self.faceted_z3ctable_view.columns])
-        self.assertEquals(
+        self.assertEqual(
             default_columns,
             [u'CreationDate',
              u'Creator',
@@ -71,16 +71,16 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # the table is in charge of generating correct column name and header
         table.nameColumn(column, 'Title')
-        self.assertEquals(column.__name__, u'Title')
-        self.assertEquals(column.header, u'header_Title')
+        self.assertEqual(column.__name__, u'Title')
+        self.assertEqual(column.header, u'header_Title')
         # a CSS class for <TH> and <TD> is generated using the attrName
-        self.assertEquals(column.cssClasses,
-                          {'th': 'th_header_Title',
-                           'td': 'td_cell_Title'})
+        self.assertEqual(column.cssClasses,
+                         {'th': 'th_header_Title',
+                          'td': 'td_cell_Title'})
         # a method getCSSClasses receiving a brain is implemented
         # by default it returns cssClasses but it is made to be overrided
-        self.assertEquals(column.getCSSClasses(brain), column.cssClasses)
-        self.assertEquals(column.renderCell(brain), brain.Title)
+        self.assertEqual(column.getCSSClasses(brain), column.cssClasses)
+        self.assertEqual(column.renderCell(brain), brain.Title)
 
     def test_HeaderColumn(self):
         """The header will behave correctly with the faceted query, especially regarding sorting."""
@@ -92,25 +92,25 @@ class TestColumns(IntegrationTestCase):
         column.sort_index = 'sortable_title'
         # render the headerCell
         self.maxDiff = None
-        self.assertEquals(column.renderHeadCell(),
-                          u'<span>Title</span><a class="sort_arrow_disabled" '
-                          u'href="http:/#c2=sortable_title" title="Sort ascending">&#9650;</a><a '
-                          u'class="sort_arrow_disabled" href="http:/#c2=sortable_title&reversed=on" '
-                          u'title="Sort descending"><span>&#9660;</span></a>')
+        self.assertEqual(column.renderHeadCell(),
+                         u'<span>Title</span><a class="sort_arrow_disabled" '
+                         u'href="http:/#c2=sortable_title" title="Sort ascending">&#9650;</a><a '
+                         u'class="sort_arrow_disabled" href="http:/#c2=sortable_title&reversed=on" '
+                         u'title="Sort descending"><span>&#9660;</span></a>')
         # if column.sort_index = -1, it means that it is not sortable, header is rendered accordingly
         column.sort_index = -1
         # header_Title translated
-        self.assertEquals(column.renderHeadCell(), u'Title')
+        self.assertEqual(column.renderHeadCell(), u'Title')
         # we may also inject JS in the header using column.header_js
         column.header_js = '<script type="text/javascript">console.log("Hello world!");</script>'
-        self.assertEquals(column.renderHeadCell(),
-                          u'<script type="text/javascript">console.log("Hello world!");</script>Title')
+        self.assertEqual(column.renderHeadCell(),
+                         u'<script type="text/javascript">console.log("Hello world!");</script>Title')
         # we may also use an image as header using column.header_image
         # remove header_js to ease test reading although this can be used together
         column.header_js = u''
         column.header_image = 'image.png'
-        self.assertEquals(column.renderHeadCell(),
-                          u'<img src="http://nohost/plone/image.png" title="Title" />')
+        self.assertEqual(column.renderHeadCell(),
+                         u'<img src="http://nohost/plone/image.png" title="Title" />')
 
     def test_AwakeObjectGetAttrColumn(self):
         """This will wake the given catalog brain and getattr the attrName on it.
@@ -121,10 +121,10 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if column.attrName is not an attribute, it will return u''
         column.attrName = 'someUnexistingAttribute'
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), u'-')
         # now an existing attribute
         column.attrName = '_at_uid'
-        self.assertEquals(column.renderCell(brain), self.eea_folder._at_uid)
+        self.assertEqual(column.renderCell(brain), self.eea_folder._at_uid)
 
     def test_AwakeObjectMethodColumn(self):
         """This will wake the given catalog brain and call the attrName on it.
@@ -137,15 +137,15 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if column.attrName is not a method, it will return u''
         column.attrName = 'someUnexistingMethod'
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), u'-')
         # now an existing method
         column.attrName = 'UID'
-        self.assertEquals(column.renderCell(brain), self.eea_folder.UID())
+        self.assertEqual(column.renderCell(brain), self.eea_folder.UID())
         # we can also pass parameters
         column.attrName = 'Description'
-        self.assertEquals(column.renderCell(brain), DESCR_TEXT)
+        self.assertEqual(column.renderCell(brain), DESCR_TEXT)
         column.params = {'mimetype': 'text/html'}
-        self.assertEquals(column.renderCell(brain), u'<p>{0}</p>'.format(DESCR_TEXT))
+        self.assertEqual(column.renderCell(brain), u'<p>{0}</p>'.format(DESCR_TEXT))
 
     def test_RelationTitleColumn(self):
         """ """
@@ -178,13 +178,13 @@ class TestColumns(IntegrationTestCase):
         self.eea_folder.reindexObject(idxs=['created', 'CreationDate', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if no attrName, u'-' is returned
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), u'-')
         # right, use CreationDate as attrName
         column.attrName = 'CreationDate'
         self.assertIn(column.renderCell(brain), (u'May 05, 2015', '2015-05-05'))
         # test with an ignored value
         column.ignored_value = brain.CreationDate
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), u'-')
         column.ignored_value = None
         # test the long_format parameter
         column.long_format = True
@@ -210,7 +210,7 @@ class TestColumns(IntegrationTestCase):
         column.long_format = True
         self.assertIn(column.renderCell(self.eea_folder), (u'May 07, 2015', '2015-05-07'))
         column.time_only = True
-        self.assertEquals(column.renderCell(self.eea_folder), u'')
+        self.assertEqual(column.renderCell(self.eea_folder), u'')
 
     def test_I18nColumn(self):
         """This column will translate the value."""
@@ -218,10 +218,10 @@ class TestColumns(IntegrationTestCase):
         column = I18nColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if no attrName, u'-' is returned
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), u'-')
         # right, use 'Type' as attrName
         column.attrName = 'Type'
-        self.assertEquals(column.renderCell(brain), u'Folder')
+        self.assertEqual(column.renderCell(brain), u'Folder')
 
     def test_BooleanColumn(self):
         """This column will translate the values False or True."""
@@ -234,8 +234,8 @@ class TestColumns(IntegrationTestCase):
         folderish_brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         not_folderish_brain = self.portal.portal_catalog(UID=tt.UID())[0]
         column.attrName = 'is_folderish'
-        self.assertEquals(column.renderCell(folderish_brain), 'boolean_value_True')
-        self.assertEquals(column.renderCell(not_folderish_brain), 'boolean_value_False')
+        self.assertEqual(column.renderCell(folderish_brain), 'boolean_value_True')
+        self.assertEqual(column.renderCell(not_folderish_brain), 'boolean_value_False')
 
     def test_BrowserViewCallColumn(self):
         """This column will call a given view and display the result."""
@@ -246,7 +246,7 @@ class TestColumns(IntegrationTestCase):
         self.assertRaises(KeyError, column.renderCell, brain)
         # right, use a view_name
         column.view_name = u'testing-browsercall-view'
-        self.assertEquals(column.renderCell(brain), CALL_RESULT)
+        self.assertEqual(column.renderCell(brain), CALL_RESULT)
 
     def test_BrowserViewCallColumnContextWithPrivateSublevels(self):
         """Test that using the column works if some sublevels of the
@@ -259,8 +259,8 @@ class TestColumns(IntegrationTestCase):
                                        id='subfolder',
                                        title='Subfolder')
         api.content.transition(subfolder, 'publish')
-        self.assertEquals(api.content.get_state(self.eea_folder), 'private')
-        self.assertEquals(api.content.get_state(subfolder), 'published')
+        self.assertEqual(api.content.get_state(self.eea_folder), 'private')
+        self.assertEqual(api.content.get_state(subfolder), 'published')
         # eea_folder is not viewable by a Member but subfolder is viewable
         new_user = api.user.create('test@test.be', 'new_user', 'Password_12')
         login(self.portal, new_user.getId())
@@ -269,7 +269,7 @@ class TestColumns(IntegrationTestCase):
         # call the column
         brain = self.portal.portal_catalog(UID=subfolder.UID())[0]
         column.view_name = u'testing-browsercall-view'
-        self.assertEquals(column.renderCell(brain), CALL_RESULT)
+        self.assertEqual(column.renderCell(brain), CALL_RESULT)
 
     def test_VocabularyColumn(self):
         """This column uses a vocabulary to get the value to display for a given key."""
@@ -279,7 +279,7 @@ class TestColumns(IntegrationTestCase):
         column = VocabularyColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # no attrName, u'-' is returned
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), u'-')
 
         column.attrName = 'Title'
         # a vocabulary is required
@@ -292,24 +292,24 @@ class TestColumns(IntegrationTestCase):
 
         # mono valued vocabulary
         # an attrName but key not found in vocab, the key is returned
-        self.assertEquals(column.renderCell(brain), u'unexisting_key')
+        self.assertEqual(column.renderCell(brain), u'unexisting_key')
         # existing key
         self.eea_folder.setTitle('existing_key1')
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'Existing v\xe9lue 1')
+        self.assertEqual(column.renderCell(brain), u'Existing v\xe9lue 1')
 
         # multiValued vocabulary
         self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'Existing v\xe9lue 1, Existing v\xe9lue 2')
+        self.assertEqual(column.renderCell(brain), u'Existing v\xe9lue 1, Existing v\xe9lue 2')
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain),
-                          u'Existing v\xe9lue 1, unexisting_key, Existing v\xe9lue 2')
+        self.assertEqual(column.renderCell(brain),
+                         u'Existing v\xe9lue 1, unexisting_key, Existing v\xe9lue 2')
 
     def test_AbbrColumn(self):
         """This column uses 2 vocabularies to generate an <abbr> tag where first vocabulary
@@ -350,33 +350,33 @@ class TestColumns(IntegrationTestCase):
         # use a valid vocabulary and test
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
-        self.assertEquals(column.renderCell(brain), u'unexisting_key')
+        self.assertEqual(column.renderCell(brain), u'unexisting_key')
 
         # mono valued vocabulary
         # an attrName but key not found in vocab, the key is returned
-        self.assertEquals(column.renderCell(brain), u'unexisting_key')
+        self.assertEqual(column.renderCell(brain), u'unexisting_key')
         # existing key
         self.eea_folder.setTitle('existing_key1')
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain),
-                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
+        self.assertEqual(column.renderCell(brain),
+                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
 
         # multiValued vocabulary
         self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain),
-                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
-                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
+        self.assertEqual(column.renderCell(brain),
+                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
+                         u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain),
-                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
-                          u"unexisting_key, "
-                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
+        self.assertEqual(column.renderCell(brain),
+                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
+                         u"unexisting_key, "
+                         u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
 
     def test_MemberIdColumn(self):
         """This column will display the fullname of the given metadata."""
@@ -386,17 +386,17 @@ class TestColumns(IntegrationTestCase):
         table = self.faceted_z3ctable_view
         column = MemberIdColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'Full Name')
+        self.assertEqual(column.renderCell(brain), u'Full Name')
         # if user is not found, the stored value is returned
         self.eea_folder.setCreators(u'removed_user')
         self.eea_folder.reindexObject(idxs=['Creator', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'removed_user')
+        self.assertEqual(column.renderCell(brain), u'removed_user')
         # if no value, it returns u'-'
         # memberId taken into account could be in any brain metadata, use Description
         column.attrName = 'Description'
-        self.assertEquals(brain.Description, '')
-        self.assertEquals(column.renderCell(brain), u'-')
+        self.assertEqual(brain.Description, '')
+        self.assertEqual(column.renderCell(brain), u'-')
 
     def test_ColorColumn(self):
         """A column that will just contain a CSS class made to display a color."""
@@ -404,11 +404,11 @@ class TestColumns(IntegrationTestCase):
         column = ColorColumn(self.portal, self.portal.REQUEST, table)
         column.attrName = 'getId'
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'<div title="eea_folder">&nbsp;</div>')
+        self.assertEqual(column.renderCell(brain), u'<div title="eea_folder">&nbsp;</div>')
         # getCSSClasses depends on the 'cssClassPrefix' parameter
-        self.assertEquals(column.getCSSClasses(brain), {'td': 'column_getId_eea_folder'})
+        self.assertEqual(column.getCSSClasses(brain), {'td': 'column_getId_eea_folder'})
         column.cssClassPrefix = 'another'
-        self.assertEquals(column.getCSSClasses(brain), {'td': 'another_getId_eea_folder'})
+        self.assertEqual(column.getCSSClasses(brain), {'td': 'another_getId_eea_folder'})
         # no header is displayed for a ColorColumn
         self.assertTrue(column.renderHeadCell().startswith("<span>&nbsp;&nbsp;&nbsp;</span>"))
 
@@ -417,34 +417,34 @@ class TestColumns(IntegrationTestCase):
         table = self.faceted_z3ctable_view
         column = CheckBoxColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderHeadCell(),
-                          u'<input type="checkbox" id="select_unselect_items" '
-                          'onClick="toggleCheckboxes(\'select_item\')" '
-                          'title="Select/unselect all" checked />')
-        self.assertEquals(column.renderCell(brain),
-                          u'<input type="checkbox" name="select_item" value="%s" checked />' % brain.UID)
+        self.assertEqual(column.renderHeadCell(),
+                         u'<input type="checkbox" id="select_unselect_items" '
+                         'onClick="toggleCheckboxes(\'select_item\')" '
+                         'title="Select/unselect all" checked />')
+        self.assertEqual(column.renderCell(brain),
+                         u'<input type="checkbox" name="select_item" value="%s" checked />' % brain.UID)
         # column could be unchecked by default
         column.checked_by_default = False
-        self.assertEquals(column.renderHeadCell(),
-                          u'<input type="checkbox" id="select_unselect_items" '
-                          'onClick="toggleCheckboxes(\'select_item\')" '
-                          'title="Select/unselect all" />')
-        self.assertEquals(column.renderCell(brain),
-                          u'<input type="checkbox" name="select_item" value="%s" />' % brain.UID)
+        self.assertEqual(column.renderHeadCell(),
+                         u'<input type="checkbox" id="select_unselect_items" '
+                         'onClick="toggleCheckboxes(\'select_item\')" '
+                         'title="Select/unselect all" />')
+        self.assertEqual(column.renderCell(brain),
+                         u'<input type="checkbox" name="select_item" value="%s" />' % brain.UID)
         # name can be changed
         column.name = u'select_element'
-        self.assertEquals(column.renderHeadCell(),
-                          u'<input type="checkbox" id="select_unselect_items" '
-                          'onClick="toggleCheckboxes(\'select_element\')" '
-                          'title="Select/unselect all" />')
-        self.assertEquals(column.renderCell(brain),
-                          u'<input type="checkbox" name="select_element" value="%s" />' % brain.UID)
+        self.assertEqual(column.renderHeadCell(),
+                         u'<input type="checkbox" id="select_unselect_items" '
+                         'onClick="toggleCheckboxes(\'select_element\')" '
+                         'title="Select/unselect all" />')
+        self.assertEqual(column.renderCell(brain),
+                         u'<input type="checkbox" name="select_element" value="%s" />' % brain.UID)
         # attrName can be changed
         column.attrName = 'getId'
-        self.assertEquals(column.renderCell(brain),
-                          u'<input type="checkbox" name="select_element" value="eea_folder" />')
+        self.assertEqual(column.renderCell(brain),
+                         u'<input type="checkbox" name="select_element" value="eea_folder" />')
         # a custom CSS class is generated
-        self.assertEquals(column.getCSSClasses(brain), {'td': 'select_element_checkbox'})
+        self.assertEqual(column.getCSSClasses(brain), {'td': 'select_element_checkbox'})
 
     def test_TitleColumn(self):
         """A base column using 'Title' metadata but rendered as a link to the element."""
@@ -454,13 +454,13 @@ class TestColumns(IntegrationTestCase):
         # attrName is set during table.setUpColumns
         column.attrName = 'Title'
         # this column use 'sortable_title' as sort_index
-        self.assertEquals(column.sort_index, 'sortable_title')
+        self.assertEqual(column.sort_index, 'sortable_title')
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain), u'<a href="{0}">{1}</a>'.format(brain.getURL(),
-                                                                                    brain.Title))
+        self.assertEqual(column.renderCell(brain),
+                         u'<a href="{0}">{1}</a>'.format(brain.getURL(), brain.Title))
         # if brain has no Title, '-' is used
         brain.Title = ''
-        self.assertEquals(column.renderCell(brain), u'<a href="{0}">-</a>'.format(brain.getURL()))
+        self.assertEqual(column.renderCell(brain), u'<a href="{0}">-</a>'.format(brain.getURL()))
 
     def test_PrettyLinkColumn(self):
         """A base column rendering imio.prettylink."""
@@ -471,12 +471,12 @@ class TestColumns(IntegrationTestCase):
         column.attrName = 'Title'
         table.nameColumn(column, 'Title')
         # this column use 'sortable_title' as sort_index
-        self.assertEquals(column.sort_index, 'sortable_title')
+        self.assertEqual(column.sort_index, 'sortable_title')
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEquals(column.renderCell(brain),
-                          IPrettyLink(self.eea_folder).getLink())
+        self.assertEqual(column.renderCell(brain),
+                         IPrettyLink(self.eea_folder).getLink())
         # a pretty_link class is defined for the th
-        self.assertEquals(column.cssClasses, {'td': 'pretty_link', 'th': 'th_header_Title'})
+        self.assertEqual(column.cssClasses, {'td': 'pretty_link', 'th': 'th_header_Title'})
 
     def test_PrettyLinkWithAdditionalInfosColumn(self):
         """A base column rendering imio.prettylink and additional informations."""
@@ -485,7 +485,7 @@ class TestColumns(IntegrationTestCase):
         # attrName is set during table.setUpColumns
         column.attrName = 'Title'
         # this column use 'sortable_title' as sort_index
-        self.assertEquals(column.sort_index, 'sortable_title')
+        self.assertEqual(column.sort_index, 'sortable_title')
         # this column only works with DX content types
         tt = api.content.create(
             container=self.eea_folder,
@@ -548,7 +548,7 @@ class TestColumns(IntegrationTestCase):
                          column.renderCell(brain))
         # a pretty_link class is defined for the td
         table.nameColumn(column, 'rel_items')
-        self.assertEquals(column.cssClasses, {'td': 'pretty_link', 'th': 'th_header_rel_items'})
+        self.assertEqual(column.cssClasses, {'td': 'pretty_link', 'th': 'th_header_rel_items'})
 
     def test_ActionsColumn(self):
         """Render the @@actions_panel view."""
@@ -556,7 +556,7 @@ class TestColumns(IntegrationTestCase):
         column = ActionsColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.portal.eea_folder.UID())[0]
         # it is a BrowserViewCallColumn with some fixed parameters
-        self.assertEquals(column.view_name, 'actions_panel')
+        self.assertEqual(column.view_name, 'actions_panel')
         rendered_column = column.renderCell(brain)
         # common parts are there : 'edit', 'Delete', 'history'
         self.assertIn("/edit", rendered_column)
@@ -572,11 +572,11 @@ class TestColumns(IntegrationTestCase):
                                title='My testing type {0}'.format(i))
         # create a batch with every elements
         brains = self.portal.portal_catalog(portal_type='testingtype')
-        self.assertEquals(len(brains), 8)
+        self.assertEqual(len(brains), 8)
 
         # without batch
         table = BrainsWithoutBatchTable(self.portal, self.portal.REQUEST)
-        self.assertEquals(len(table.values), 8)
+        self.assertEqual(len(table.values), 8)
         column = ElementNumberColumn(self.portal, self.portal.REQUEST, table)
         self.assertEqual(column.renderCell(table.values[0]), 1)
         self.assertEqual(column.renderCell(table.values[1]), 2)

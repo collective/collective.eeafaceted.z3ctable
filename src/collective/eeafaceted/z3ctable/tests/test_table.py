@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import lxml.html
 from collective.eeafaceted.z3ctable.columns import BaseColumn
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from eea.facetednavigation.interfaces import ICriteria
 from plone.batching import Batch
+
+import lxml.html
 
 
 class TestTable(IntegrationTestCase):
@@ -14,13 +15,13 @@ class TestTable(IntegrationTestCase):
            of the faceted 'sorting' criterion."""
         table = self.faceted_z3ctable_view
         # it is initialized together with the table and stored in table.sorting_criterion_name
-        self.assertEquals(table._sortingCriterionName(), u'c2')
-        self.assertEquals(table._sortingCriterionName(), table.sorting_criterion_name)
+        self.assertEqual(table._sortingCriterionName(), u'c2')
+        self.assertEqual(table._sortingCriterionName(), table.sorting_criterion_name)
         # and it is actually the faceted sorting criterion
-        self.assertEquals(ICriteria(table.context).get('c2').widget, u'sorting')
+        self.assertEqual(ICriteria(table.context).get('c2').widget, u'sorting')
         # remove this widget, when no 'sorting' criterion found, entire sorting ability is disabled
         ICriteria(table.context).delete('c2')
-        self.assertEquals(table._sortingCriterionName(), None)
+        self.assertEqual(table._sortingCriterionName(), None)
 
     def test_Table_render_table(self):
         """Test the renderRow method that makes it possible for a single column
@@ -29,17 +30,17 @@ class TestTable(IntegrationTestCase):
         # build a Batch and render the table
         brains = self.portal.portal_catalog(portal_type='Folder')
         # 1 brain
-        self.assertEquals(len(brains), 1)
+        self.assertEqual(len(brains), 1)
         batch = Batch(brains, size=5)
         rendered_table = lxml.html.fromstring(table.render_table(batch))
         # we have one table with 7 columns and 1 row
         # 1 row
-        self.assertEquals(len(rendered_table.find('tbody').findall('tr')), 1)
+        self.assertEqual(len(rendered_table.find('tbody').findall('tr')), 1)
         # 9 columns
-        self.assertEquals(len(rendered_table.find('tbody').find('tr').findall('td')), 9)
+        self.assertEqual(len(rendered_table.find('tbody').find('tr').findall('td')), 9)
         # the brain is actually displayed in the table
         brain = brains[0]
-        self.assertEquals(rendered_table.find('tbody').find('tr').find('td').text_content(), brain.Title)
+        self.assertEqual(rendered_table.find('tbody').find('tr').find('td').text_content(), brain.Title)
 
     def test_Table_CSS_on_tr_from_cell(self):
         """table.renderRow was overrided to take into account 'tr' CSS classes defined on a column."""
@@ -57,7 +58,7 @@ class TestTable(IntegrationTestCase):
         table.setUpColumns = lambda *x: [__import__('zope').component.hooks.getSite().REQUEST.get('column'), ]
         rendered_table = lxml.html.fromstring(table.render_table(batch))
         # the class is applied to the <tr>, in addition to the 'odd' class
-        self.assertEquals(rendered_table.find('tbody').find('tr').attrib['class'], 'odd special_tr_class')
+        self.assertEqual(rendered_table.find('tbody').find('tr').attrib['class'], 'odd special_tr_class')
 
     def test_columns_ordering(self):
         """table.orderColumns take the ignoreColumnWeight parameter into account
@@ -70,7 +71,7 @@ class TestTable(IntegrationTestCase):
         table.initColumns()
 
         columns = [col.__name__ for col in table.columns]
-        self.assertEquals(columns, table._getViewFields())
+        self.assertEqual(columns, table._getViewFields())
 
         weights = [col.__class__.weight for col in table.columns]
         ordered_weights = sorted(weights)
@@ -86,4 +87,4 @@ class TestTable(IntegrationTestCase):
 
         weights = [col.__class__.weight for col in table.columns]
         ordered_weights = sorted(weights)
-        self.assertEquals(weights, ordered_weights)
+        self.assertEqual(weights, ordered_weights)
