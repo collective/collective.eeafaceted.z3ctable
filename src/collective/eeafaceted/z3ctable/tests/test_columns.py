@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
 from collective.eeafaceted.z3ctable.columns import ActionsColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
@@ -22,6 +23,7 @@ from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.tests.views import CALL_RESULT
 from datetime import date
 from datetime import datetime
+from imio.prettylink.interfaces import IPrettyLink
 from plone import api
 from plone.app.testing import login
 from plone.batching import Batch
@@ -31,7 +33,6 @@ from z3c.table.table import Table
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
-from imio.prettylink.interfaces import IPrettyLink
 
 
 class TestColumns(IntegrationTestCase):
@@ -490,15 +491,30 @@ class TestColumns(IntegrationTestCase):
             container=self.eea_folder,
             type='testingtype',
             title='My testing type',
+            description='My description',
             bool_field=False)
         brain = self.portal.portal_catalog(UID=tt.UID())[0]
         # no additional informations defined so nothing more than pretty link is returned
-        self.assertEquals(column.renderCell(brain), IPrettyLink(tt).getLink())
+        self.assertTrue(column.renderCell(brain).startswith(IPrettyLink(tt).getLink()))
         # define some informations
         tt.afield = u'My field content'
+        rendered = column.renderCell(brain)
         self.assertTrue(
             '<span id="form-widgets-afield" class="text-widget textline-field">My field content</span>'
-            in column.renderCell(brain))
+            in rendered)
+        # ai_extra_fields, by default id, UID and description
+        self.assertTrue(
+            '<div class="discreet"><label class="horizontal">Id</label>'
+            '<div class="type-textarea-widget">my-testing-type</div></div>'
+            in rendered)
+        self.assertTrue(
+            '<div class="discreet"><label class="horizontal">Uid</label>'
+            '<div class="type-textarea-widget">{0}</div></div>'.format(brain.UID)
+            in rendered)
+        self.assertTrue(
+            '<div class="discreet"><label class="horizontal">Description</label>'
+            '<div class="type-textarea-widget">My description</div></div>'
+            in rendered)
 
     def test_RelationPrettyLinkColumn(self):
         """Test the RelationPrettyLinkColumn, it will render IPrettyLink.getLink."""

@@ -138,6 +138,7 @@ class IntegrationTestCase(unittest.TestCase):
 
     def setUp(self):
         super(IntegrationTestCase, self).setUp()
+        self.maxDiff = None
         self.portal = self.layer['portal']
         self.eea_folder = self.portal.get('eea_folder')
         self.faceted_z3ctable_view = self.eea_folder.restrictedTraverse('faceted-table-view')
