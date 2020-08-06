@@ -619,6 +619,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
     ai_widget_render_pattern = u'<div class="discreet {2} {3}">' \
         u'<label class="horizontal">{0}</label>\n<div class="{4}">{1}</div></div>'
     ai_excluded_fields = []
+    ai_extra_fields = ['id', 'UID', 'description']
     ai_highlighted_fields = []
     ai_highligh_css_class = "highlight"
     ai_generate_css_class_fields = []
@@ -641,12 +642,15 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
         res = u''
         # caching
         obj = self._getObject(item)
-        # display description if relevant
-        if base_hasattr(obj, 'description'):
-            description = obj.description
-            if description:
-                res = u'<div class="discreet"><label class="horizontal">Description</label>' \
-                    '<div class="type-textarea-widget">{0}</div></div>'.format(description)
+        # Manage ai_extra_fields
+        for extra_field in self.ai_extra_fields:
+            if base_hasattr(obj, extra_field):
+                value = getattr(obj, extra_field)
+                if callable(value):
+                    value = value()
+                if value:
+                    res += u'<div class="discreet"><label class="horizontal">{0}</label>' \
+                        '<div class="type-textarea-widget">{1}</div></div>'.format(extra_field.capitalize(), value)
         if not self.use_caching or getattr(self, '_cached_view', None) is None:
             view = obj.restrictedTraverse('view')
             self._cached_view = view

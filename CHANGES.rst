@@ -16,6 +16,10 @@ Changelog
 - Moved `MemberIdColumn.get_user_fullname` out of `MemberIdColumn` so it can be
   easily used from outside.
   [gbastien]
+- Added `PrettyLinkWithAdditionalInfosColumn.ai_extra_fields`, that
+  let's include extra data not present in schema, by default this will include
+  `id`, `UID` and `description`.
+  [gbastien]
 
 2.10 (2020-05-08)
 -----------------
