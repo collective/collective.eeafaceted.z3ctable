@@ -1,6 +1,6 @@
 graft src/collective
 graft docs
-include *.cfg *.rst *.in
+include *.cfg *.rst *.in *.txt
 include *.py
 include Makefile
 recursive-include docs *.GPL

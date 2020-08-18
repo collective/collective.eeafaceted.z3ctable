@@ -25,6 +25,7 @@ setup(
         "Framework :: Plone :: 4.3",
         "Framework :: Plone :: 5.0",
         "Framework :: Plone :: 5.1",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python :: 2.7",
     ],
     keywords='Python Zope Plone',
