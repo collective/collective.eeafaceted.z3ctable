@@ -5,8 +5,8 @@ Changelog
 2.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `PrettyLinkWithAdditionalInfosColumn`, use IDataManager to get widget value.
+  [gbastien]
 
 2.11 (2020-08-18)
 -----------------

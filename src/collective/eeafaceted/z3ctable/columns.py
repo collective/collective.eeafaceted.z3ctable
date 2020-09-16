@@ -9,8 +9,10 @@ from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.interfaces import IDataConverter
+from z3c.form.interfaces import IDataManager
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
+from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implements
@@ -639,7 +641,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
     def additional_infos(self, item):
         """ """
-        res = u''
+        res = u'<div class="additional-infos">'
         # caching
         obj = self._getObject(item)
         # Manage ai_extra_fields
@@ -665,14 +667,15 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
             for widget in view.widgets.values():
                 widget.context = view.context
                 converter = IDataConverter(widget)
-                value = getattr(view.context, widget.__name__, None)
+                dm = getMultiAdapter((view.context, widget.field), IDataManager)
+                value = dm.get()
                 if value:
                     if self.simplified_datagridfield and \
                        HAS_Z3CFORM_DATAGRIDFIELD and \
                        isinstance(widget, DataGridField):
                         widget._value = value
                     else:
-                        converted = converter.toWidgetValue(getattr(view.context, widget.__name__))
+                        converted = converter.toWidgetValue(value)
                         # special behavior for datagridfield where setting the value
                         # will updateWidgets and is slow/slow/slow...
                         widget.value = converted
@@ -697,6 +700,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 field_type_css_class = "type-{0}".format(widget.klass.split(' ')[0])
                 res += self.ai_widget_render_pattern.format(
                     translated_label, _rendered_value, css_class, field_css_class, field_type_css_class)
+        res += "</div>"
         return res
 
     def _render_datagridfield(self, view, widget):
