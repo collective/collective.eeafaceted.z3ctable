@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.12 (unreleased)
+2.12 (2020-10-02)
 -----------------
 
 - In `PrettyLinkWithAdditionalInfosColumn`, use IDataManager to get widget value.
