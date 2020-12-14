@@ -54,7 +54,7 @@ class BaseColumn(column.GetAttrColumn):
     # we can inject some javascript in the header
     header_js = None
     # header help message
-    header_help = u"tralala"
+    header_help = None
     # enable caching, needs to be implemented by Column
     use_caching = True
 
@@ -111,8 +111,12 @@ class BaseColumnHeader(SortingColumnHeader):
             header = self.column.header_js + header
         # include help message
         if self.column.header_help:
+            header_help = translate(
+                self.column.header_help,
+                domain='collective.eeafaceted.z3ctable',
+                context=self.request)
             header = u'<acronym title="{0}">{1}</acronym>'.format(
-                self.column.header_help, header)
+                header_help, header)
         # a column can specifically declare that it is not sortable
         # by setting sort_index to -1
         if not self.column.sort_index == -1:
@@ -499,7 +503,7 @@ class CheckBoxColumn(BaseColumn):
 
     def renderCell(self, item):
         """ """
-        return u'<input type="checkbox" name="%s" value="%s" %s/>' \
+        return u'<label class="select-item-label"><input type="checkbox" name="%s" value="%s" %s/></label>' \
             % (self.name, self.getValue(item), self.checked_by_default and "checked " or "")
 
     def getCSSClasses(self, item):
