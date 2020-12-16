@@ -8,6 +8,9 @@ Changelog
 - Added possibility to define a `header_help` message that will be displayed
   when hovering header title.
   [gbastien]
+- Added `<label>` tag around input for the `CheckBoxColumn` so it can be syled
+  to ease checkbox selection on click.
+  [gbastien]
 
 2.12 (2020-10-02)
 -----------------

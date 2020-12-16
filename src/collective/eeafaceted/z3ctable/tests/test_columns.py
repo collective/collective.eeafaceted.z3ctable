@@ -425,30 +425,38 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
-                         'onClick="toggleCheckboxes(\'select_item\')" '
-                         'title="Select/unselect all" checked />')
+                         u'onClick="toggleCheckboxes(\'select_item\')" '
+                         u'title="Select/unselect all" checked />')
         self.assertEqual(column.renderCell(brain),
-                         u'<input type="checkbox" name="select_item" value="%s" checked />' % brain.UID)
+                         u'<label class="select-item-label">'
+                         u'<input type="checkbox" name="select_item" value="%s" checked />'
+                         u'</label>' % brain.UID)
         # column could be unchecked by default
         column.checked_by_default = False
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
-                         'onClick="toggleCheckboxes(\'select_item\')" '
-                         'title="Select/unselect all" />')
+                         u'onClick="toggleCheckboxes(\'select_item\')" '
+                         u'title="Select/unselect all" />')
         self.assertEqual(column.renderCell(brain),
-                         u'<input type="checkbox" name="select_item" value="%s" />' % brain.UID)
+                         u'<label class="select-item-label">'
+                         u'<input type="checkbox" name="select_item" value="%s" />'
+                         u'</label>' % brain.UID)
         # name can be changed
         column.name = u'select_element'
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
-                         'onClick="toggleCheckboxes(\'select_element\')" '
-                         'title="Select/unselect all" />')
+                         u'onClick="toggleCheckboxes(\'select_element\')" '
+                         u'title="Select/unselect all" />')
         self.assertEqual(column.renderCell(brain),
-                         u'<input type="checkbox" name="select_element" value="%s" />' % brain.UID)
+                         u'<label class="select-item-label">'
+                         u'<input type="checkbox" name="select_element" value="%s" />'
+                         u'</label>' % brain.UID)
         # attrName can be changed
         column.attrName = 'getId'
         self.assertEqual(column.renderCell(brain),
-                         u'<input type="checkbox" name="select_element" value="eea_folder" />')
+                         u'<label class="select-item-label">'
+                         u'<input type="checkbox" name="select_element" value="eea_folder" />'
+                         u'</label>')
         # a custom CSS class is generated
         self.assertEqual(column.getCSSClasses(brain), {'td': 'select_element_checkbox'})
 
