@@ -111,6 +111,12 @@ class TestColumns(IntegrationTestCase):
         column.header_image = 'image.png'
         self.assertEqual(column.renderHeadCell(),
                          u'<img src="http://nohost/plone/image.png" title="Title" />')
+        # define a help message
+        column.header_help = u'My help message'
+        self.assertEqual(column.renderHeadCell(),
+                         u'<acronym title="My help message">'
+                         u'<img src="http://nohost/plone/image.png" title="Title" />'
+                         u'</acronym>')
 
     def test_AwakeObjectGetAttrColumn(self):
         """This will wake the given catalog brain and getattr the attrName on it.
