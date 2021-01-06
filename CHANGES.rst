@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.13 (unreleased)
+2.13 (2021-01-06)
 -----------------
 
 - Added possibility to define a `header_help` message that will be displayed
