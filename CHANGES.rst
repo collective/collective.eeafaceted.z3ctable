@@ -5,8 +5,10 @@ Changelog
 2.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Fixed the `CheckBoxColumn`, add a name to the select all/nothing checkbox so
+  it is possible to have several checkbox columns (on same table or when
+  displaying several tables on same page).
+  [gbastien]
 
 2.13 (2021-01-06)
 -----------------

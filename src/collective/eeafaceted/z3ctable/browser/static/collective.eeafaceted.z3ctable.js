@@ -1,6 +1,6 @@
 // (un)select every checkboxes
 function toggleCheckboxes(checkBoxId) {
-    checkbox = $('input#select_unselect_items');
+    checkbox = $('input#select_unselect_items[name="' + checkBoxId + '"]');
     if (checkbox[0].checked) {
         $('input[name="' + checkBoxId + '"]').each(function() {
             this.checked = true;
@@ -17,7 +17,7 @@ function toggleCheckboxes(checkBoxId) {
 function selectedCheckBoxes(checkBoxId) {
     selected_boxes = [];
     i = 0;
-    $('input[name="' + checkBoxId + '"]').each(function() {
+    $('input[name="' + checkBoxId + '"]:not(#select_unselect_items)').each(function() {
         if (this.checked) {
             selected_boxes[i] = this.value;
             i = i + 1;
