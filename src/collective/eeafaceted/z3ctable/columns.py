@@ -499,7 +499,7 @@ class CheckBoxColumn(BaseColumn):
                           context=self.request,
                           default="Select/unselect all")
         return u'<input type="checkbox" id="select_unselect_items" onClick="toggleCheckboxes(\'{0}\')" ' \
-               u'title="{1}" {2} name="{0}"/>'.format(
+               u'title="{1}" name="{0}" {2}/>'.format(
                    self.name, title, self.checked_by_default and "checked " or "")
 
     def renderCell(self, item):

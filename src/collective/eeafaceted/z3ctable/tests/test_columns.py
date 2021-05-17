@@ -426,7 +426,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
                          u'onClick="toggleCheckboxes(\'select_item\')" '
-                         u'title="Select/unselect all" checked />')
+                         u'title="Select/unselect all" name="select_item" checked />')
         self.assertEqual(column.renderCell(brain),
                          u'<label class="select-item-label">'
                          u'<input type="checkbox" name="select_item" value="%s" checked />'
@@ -436,7 +436,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
                          u'onClick="toggleCheckboxes(\'select_item\')" '
-                         u'title="Select/unselect all" />')
+                         u'title="Select/unselect all" name="select_item" />')
         self.assertEqual(column.renderCell(brain),
                          u'<label class="select-item-label">'
                          u'<input type="checkbox" name="select_item" value="%s" />'
@@ -446,7 +446,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
                          u'onClick="toggleCheckboxes(\'select_element\')" '
-                         u'title="Select/unselect all" />')
+                         u'title="Select/unselect all" name="select_element" />')
         self.assertEqual(column.renderCell(brain),
                          u'<label class="select-item-label">'
                          u'<input type="checkbox" name="select_element" value="%s" />'
