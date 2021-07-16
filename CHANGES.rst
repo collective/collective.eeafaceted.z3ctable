@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.14 (unreleased)
+2.14 (2021-07-16)
 -----------------
 
 - Fixed the `CheckBoxColumn`, add a name to the select all/nothing checkbox so
