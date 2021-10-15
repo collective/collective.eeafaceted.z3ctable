@@ -5,8 +5,13 @@ Changelog
 2.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Renamed parameter passed to `PrettyLinkWithAdditionalInfosColumn.getPrettyLink`
+  from `item` to `obj` as it is actually the `obj` that is received and not the `item`.
+  [gbastien]
+- Added attribute `PrettyLinkWithAdditionalInfosColumn.ai_included_fields`,
+  by default it displayed every non empty fields, with this parameter it is
+  possible to select which fields to display.
+  [gbastien]
 
 2.14 (2021-07-16)
 -----------------

@@ -611,11 +611,11 @@ class PrettyLinkColumn(TitleColumn):
         """ """
         return None
 
-    def getPrettyLink(self, item):
-        pl = IPrettyLink(item)
+    def getPrettyLink(self, obj):
+        pl = IPrettyLink(obj)
         for k, v in self.params.items():
             setattr(pl, k, v)
-        pl.contentValue = self.contentValue(item)
+        pl.contentValue = self.contentValue(obj)
         return pl.getLink()
 
     def renderCell(self, item):
@@ -631,12 +631,18 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
     # additional infos config
     ai_widget_render_pattern = u'<div class="discreet {2} {3}">' \
         u'<label class="horizontal">{0}</label>\n<div class="{4}">{1}</div></div>'
+    # "*" means every non empty fields
+    ai_included_fields = "*"
     ai_excluded_fields = []
     ai_extra_fields = ['id', 'UID', 'description']
     ai_highlighted_fields = []
     ai_highligh_css_class = "highlight"
     ai_generate_css_class_fields = []
     simplified_datagridfield = False
+
+    def get_ai_included_fields(self):
+        """ """
+        return self.ai_included_fields
 
     def get_ai_excluded_fields(self):
         """ """
@@ -696,6 +702,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
         for widget in widgets:
             if widget.__name__ not in self.get_ai_excluded_fields() and \
+               (self.ai_included_fields == "*" or widget.__name__ in self.get_ai_included_fields()) and \
                widget.value not in (None, '', '--NOVALUE--', u'', (), [], (''), [''], ['--NOVALUE--']):
                 widget_name = widget.__name__
                 css_class = widget_name in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
