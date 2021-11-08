@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.15 (unreleased)
+2.15 (2021-11-08)
 -----------------
 
 - Renamed parameter passed to `PrettyLinkWithAdditionalInfosColumn.getPrettyLink`
