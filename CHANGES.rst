@@ -20,7 +20,7 @@ Changelog
 - In `DateColumn.renderCell`, no need to manage a `DateTime` as it is supported
   by `api.portal.get_localized_time`.
   [gbastien]
-- Fix Py3 TypeError
+- Fix Py3 Errors
   [fngaha]
 
 2.24 (2023-10-19)
