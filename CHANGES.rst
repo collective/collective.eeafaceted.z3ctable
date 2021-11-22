@@ -5,7 +5,7 @@ Changelog
 2.18 (unreleased)
 -----------------
 
-- Fix Py3 TypeError
+- Fix Py3 Errors
   [fngaha]
 
 
