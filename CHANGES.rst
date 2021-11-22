@@ -5,7 +5,8 @@ Changelog
 2.18 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Fix Py3 TypeError
+  [fngaha]
 
 
 2.17 (2022-05-13)

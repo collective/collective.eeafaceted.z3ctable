@@ -15,7 +15,7 @@ from z3c.table.header import SortingColumnHeader
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
-from zope.interface import implements
+from zope.interface import implements, implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 import os
@@ -42,9 +42,8 @@ EMPTY_STRING = '__empty_string__'
 EMPTY_DATE = date(1950, 1, 1)
 
 
+@implementer(IFacetedColumn)
 class BaseColumn(column.GetAttrColumn):
-
-    implements(IFacetedColumn)
 
     sort_index = None
     # as we use setUpColumns, weight is 1 for every columns
