@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from collective.eeafaceted.z3ctable.interfaces import IFacetedTable
+from datetime import datetime
+from datetime import timedelta
 from eea.facetednavigation.interfaces import ICriteria
 from plone import api
 from Products.Five.browser import BrowserView
@@ -26,6 +28,7 @@ class ExtendedCSSTable(SequenceTable):
     row_id_prefix = ''
 
     def renderTable(self):
+        self.debug = bool(self.request.form.get('debug[]', False))
         rendered_table = super(ExtendedCSSTable, self).renderTable()
         if rendered_table and self.table_id:
             # include 'id' when 'class' defined
@@ -75,9 +78,35 @@ class ExtendedCSSTable(SequenceTable):
         cssClass = self.getCSSSortClass(column, cssClass)
         cssClass = self.getCSSClass('td', cssClass)
         colspanStr = colspan and ' colspan="%s"' % colspan or ''
-        return u'\n      <td%s%s>%s</td>' % (cssClass,
-                                             colspanStr,
-                                             column.renderCell(item))
+        start = datetime.now()
+        renderedCell = column.renderCell(item)
+        if self.debug:
+            if not hasattr(column, 'cumulative_time'):
+                column.cumulative_time = timedelta(0)
+            end = datetime.now()
+            difference = end - start
+            column.cumulative_time += difference
+            # not last row?
+            if item.UID != self.batch[self.batch.length - 1].UID:
+                renderedCell = u'\n      <td%s%s>%s<br>%f</td>' % (
+                    cssClass, colspanStr, renderedCell,
+                    difference.total_seconds())
+            else:
+                if column != self.columns[-1]:
+                    renderedCell = u'\n      <td%s%s>%s<br>%f<br><strong>%f</strong></td>' % (
+                        cssClass, colspanStr, renderedCell,
+                        difference.total_seconds(), column.cumulative_time.total_seconds())
+                else:
+                    total_time = sum([col.cumulative_time for col in self.columns], timedelta(0))
+                    renderedCell = u'\n      <td%s%s>%s<br>%f<br><strong>%f<br>Total: %f</strong></td>' % (
+                        cssClass, colspanStr, renderedCell,
+                        difference.total_seconds(),
+                        column.cumulative_time.total_seconds(),
+                        total_time.total_seconds())
+        else:
+            renderedCell = u'\n      <td%s%s>%s</td>' % (
+                cssClass, colspanStr, renderedCell)
+        return renderedCell
 
 
 class FacetedTableView(BrowserView, ExtendedCSSTable):

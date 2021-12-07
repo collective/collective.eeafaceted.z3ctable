@@ -5,8 +5,10 @@ Changelog
 2.16 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added debug mode when displaying results, this will display the time to
+  render each cell, each column (total of every cells) and a global table total.
+  Just add `debug=true` to the URL
+  [gbastien]
 
 2.15 (2021-11-08)
 -----------------
