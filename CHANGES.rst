@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.16 (unreleased)
+2.16 (2022-01-03)
 -----------------
 
 - Added debug mode when displaying results, this will display the time to
