@@ -30,3 +30,5 @@ docs/html
 include
 lib
 !src/collective
+pyvenv.cfg
+.idea
