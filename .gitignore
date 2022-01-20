@@ -7,7 +7,6 @@
 *.EGG
 *.egg-info
 *.EGG-INFO
-.*.cfg
 bin/
 build/
 develop-eggs/
@@ -30,3 +29,5 @@ docs/html
 include
 lib
 !src/collective
+pyvenv.cfg
+.idea

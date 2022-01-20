@@ -2,8 +2,8 @@
 
 """ Sorting form aware widget"""
 
-from eea.facetednavigation.widgets.sorting.widget import Widget
 from eea.facetednavigation.widgets.sorting.interfaces import ISortingSchema
+from eea.facetednavigation.widgets.sorting.widget import Widget
 
 
 class ISortingFormAwareSchema(ISortingSchema):

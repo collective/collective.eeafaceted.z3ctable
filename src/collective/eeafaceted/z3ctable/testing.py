@@ -69,6 +69,7 @@ class NakedPloneLayer(PloneSandboxLayer):
         """Tear down Zope."""
         z2.uninstallProduct(app, 'collective.eeafaceted.z3ctable')
 
+
 NAKED_PLONE_FIXTURE = NakedPloneLayer(
     name="NAKED_PLONE_FIXTURE"
 )

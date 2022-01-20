@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.eeafaceted.z3ctable import _
+from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
 from DateTime import DateTime
@@ -126,8 +126,8 @@ class BaseColumnHeader(SortingColumnHeader):
                 faceted_url = self.faceted_url
                 query_string = self.query_string
                 if order_arrow:
-                    contray_sort_order = (self.table.query.get('sort_order', 'ascending') == 'ascending' and
-                                          'descending' or 'ascending')
+                    query = self.table.query.get('sort_order', 'ascending')
+                    contray_sort_order = (query == 'ascending' and 'descending' or 'ascending')
                     contray_sort_order_msgid = "Sort {0}".format(contray_sort_order)
                     sort_msg = translate(contray_sort_order_msgid,
                                          domain='collective.eeafaceted.z3ctable',
@@ -167,8 +167,7 @@ class BaseColumnHeader(SortingColumnHeader):
         query = self.request_query
         sort_on_name = self.table.sorting_criterion_name
 
-        if (self.table.query.get('sort_on', '') == self.sort_on or
-            self.table.sortOn == self.column.id) and \
+        if (self.table.query.get('sort_on', '') == self.sort_on or self.table.sortOn == self.column.id) and \
            self.table.query.get('sort_order', 'ascending') == 'ascending':
             query.update({'reversed': 'on'})
         elif 'reversed' in query:

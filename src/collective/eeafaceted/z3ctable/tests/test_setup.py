@@ -3,7 +3,6 @@
 
 from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.testing import NAKED_PLONE_INTEGRATION
-
 from plone import api
 from plone.app.testing import applyProfile
 

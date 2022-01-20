@@ -1,5 +1,6 @@
-from zope.publisher.browser import BrowserView
 from zope.i18n import translate as _
+from zope.publisher.browser import BrowserView
+
 
 TEMPLATE = """\
 var no_selected_items = "%(no_selected_items)s";

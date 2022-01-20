@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
-from zope.viewlet.interfaces import IViewletManager
 from plone.theme.interfaces import IDefaultPloneLayer
-
 from z3c.table.interfaces import IColumn
 from z3c.table.interfaces import ITable
+from zope.viewlet.interfaces import IViewletManager
 
 
 class ICollectiveEeafacetedZ3ctableLayer(IDefaultPloneLayer):

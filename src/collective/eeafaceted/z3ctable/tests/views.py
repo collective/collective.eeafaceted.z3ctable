@@ -2,6 +2,7 @@
 
 from Products.Five.browser import BrowserView
 
+
 CALL_RESULT = 'Browser view call result'
 
 
