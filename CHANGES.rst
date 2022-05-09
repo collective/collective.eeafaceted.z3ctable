@@ -5,8 +5,8 @@ Changelog
 2.17 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Doing an unrestricted object get to increase performance.
+  [sgeulette]
 
 2.16 (2022-01-03)
 -----------------

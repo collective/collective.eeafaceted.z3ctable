@@ -76,8 +76,7 @@ class BaseColumn(column.GetAttrColumn):
         if not hasattr(self.table, '_v_cached_objects'):
             self.table._v_cached_objects = {}
         if itemUID not in self.table._v_cached_objects:
-            self.table._v_cached_objects[itemUID] = item.getObject()
-
+            self.table._v_cached_objects[itemUID] = item._unrestrictedGetObject()
         return self.table._v_cached_objects[itemUID]
 
     def _get_cached_result(self, value):
