@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.17 (unreleased)
+2.17 (2022-05-13)
 -----------------
 
 - Doing an unrestricted object get to increase performance.
