@@ -18,6 +18,7 @@ from zope.i18n import translate
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 
+import html
 import os
 import pkg_resources
 import urllib
@@ -57,6 +58,8 @@ class BaseColumn(column.GetAttrColumn):
     header_help = None
     # enable caching, needs to be implemented by Column
     use_caching = True
+    # escape
+    escape = True
 
     @property
     def cssClasses(self):
@@ -346,6 +349,8 @@ class BrowserViewCallColumn(BaseColumn):
     sort_index = -1
     params = {}
     view_name = None
+    # manage escape manually
+    escape = False
 
     def renderCell(self, item):
         if not self.view_name:
@@ -407,6 +412,8 @@ class AbbrColumn(VocabularyColumn):
 
     # named utility
     full_vocabulary = None
+    # manage escape manually
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -446,8 +453,8 @@ class AbbrColumn(VocabularyColumn):
                 tag_title = self._cached_full_vocab_instance.getTerm(v).title
                 tag_title = tag_title.replace("'", "&#39;")
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(
-                    safe_unicode(tag_title),
-                    safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title)))
+                    html.escape(safe_unicode(tag_title)),
+                    html.escape(safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title))))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
@@ -489,6 +496,8 @@ class CheckBoxColumn(BaseColumn):
     checked_by_default = True
     attrName = 'UID'
     weight = 100
+    # not necessary to escape, everything is generated
+    escape = False
 
     def renderHeadCell(self):
         """ """
@@ -595,6 +604,9 @@ class TitleColumn(BaseColumn):
 class PrettyLinkColumn(TitleColumn):
     """A column that displays the IPrettyLink.getLink column.
        This rely on imio.prettylink."""
+
+    # manage escape manually
+    escape = False
 
     params = {}
 
