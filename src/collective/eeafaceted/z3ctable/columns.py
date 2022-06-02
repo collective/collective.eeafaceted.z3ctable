@@ -349,8 +349,6 @@ class BrowserViewCallColumn(BaseColumn):
     sort_index = -1
     params = {}
     view_name = None
-    # manage escape manually
-    escape = False
 
     def renderCell(self, item):
         if not self.view_name:
@@ -367,6 +365,8 @@ class VocabularyColumn(BaseColumn):
     # named utility
     vocabulary = None
     ignored_value = EMPTY_STRING
+    # we escape here
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -396,7 +396,7 @@ class VocabularyColumn(BaseColumn):
         res = []
         for v in value:
             try:
-                res.append(safe_unicode(self._cached_vocab_instance.getTerm(v).title))
+                res.append(html.escape(safe_unicode(self._cached_vocab_instance.getTerm(v).title)))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
@@ -412,7 +412,8 @@ class AbbrColumn(VocabularyColumn):
 
     # named utility
     full_vocabulary = None
-    # manage escape manually
+    separator = u', '
+    # we manage escape here manually
     escape = False
 
     def renderCell(self, item):
@@ -457,9 +458,9 @@ class AbbrColumn(VocabularyColumn):
                     html.escape(safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title))))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
-                res.append(safe_unicode(v))
+                res.append(html.escape(safe_unicode(v)))
 
-        res = ', '.join(res)
+        res = self.separator.join(res)
         if self.use_caching:
             self._store_cached_result(value, res)
         return res
@@ -566,7 +567,7 @@ class ElementNumberColumn(BaseColumn):
             # this column may also be used with more classical z3c.table
             # where there is no batch and we display the entire table
             values_uids = [v.UID for v in self.table.values]
-        return start + values_uids.index(item.UID)
+        return str(start + values_uids.index(item.UID))
 
 
 ############################################################
@@ -605,7 +606,7 @@ class PrettyLinkColumn(TitleColumn):
     """A column that displays the IPrettyLink.getLink column.
        This rely on imio.prettylink."""
 
-    # manage escape manually
+    # escape is managed by imio.prettylink
     escape = False
 
     params = {}
