@@ -5,8 +5,11 @@ Changelog
 2.18 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `BaseColumn.escape = True` so content is escaped.
+  Manage escape manually for the `VocabularyColumn` and the `AbbrColumn`,
+  set it to `False` for `CheckBoxColumn` that is entirely generated, set it to
+  `False` for `PrettyLinkColumnNothing` as `imio.prettylink` manages it itself.
+  [gbastien]
 
 2.17 (2022-05-13)
 -----------------
