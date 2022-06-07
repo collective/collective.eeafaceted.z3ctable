@@ -297,6 +297,8 @@ class DateColumn(BaseColumn):
     long_format = False
     time_only = False
     ignored_value = EMPTY_DATE
+    # not necessary to escape, everything is generated
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -552,6 +554,8 @@ class DxWidgetRenderColumn(BaseColumn):
 
 class ElementNumberColumn(BaseColumn):
     header = u''
+    # not necessary to escape, everything is generated
+    escape = False
 
     def renderCell(self, item):
         """ """
@@ -567,7 +571,7 @@ class ElementNumberColumn(BaseColumn):
             # this column may also be used with more classical z3c.table
             # where there is no batch and we display the entire table
             values_uids = [v.UID for v in self.table.values]
-        return str(start + values_uids.index(item.UID))
+        return start + values_uids.index(item.UID)
 
 
 ############################################################
@@ -593,13 +597,15 @@ class TitleColumn(BaseColumn):
     header = _('header_Title')
     sort_index = 'sortable_title'
     weight = 0
+    # we manage escape here manually
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
         if not value:
             value = u'-'
         value = safe_unicode(value)
-        return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
+        return u'<a href="{0}">{1}</a>'.format(item.getURL(), html.escape(value))
 
 
 class PrettyLinkColumn(TitleColumn):
