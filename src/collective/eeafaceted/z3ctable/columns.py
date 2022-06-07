@@ -776,6 +776,8 @@ class ActionsColumn(BrowserViewCallColumn):
                 'jQuery(document).ready(preventDefaultClickTransition);</script>'
     view_name = 'actions_panel'
     params = {'showHistory': True, 'showActions': True}
+    # not necessary to escape, everything is generated
+    escape = False
 
 
 class IconsColumn(BaseColumn):
