@@ -367,7 +367,7 @@ class VocabularyColumn(BaseColumn):
     # named utility
     vocabulary = None
     ignored_value = EMPTY_STRING
-    # we escape here
+    # we manage escape here manually
     escape = False
 
     def renderCell(self, item):
@@ -384,11 +384,12 @@ class VocabularyColumn(BaseColumn):
         # the vocabulary instance is cached
         if not hasattr(self, '_cached_vocab_instance'):
             if not self.vocabulary:
-                raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(self.attrName))
+                raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(
+                    self.attrName))
             factory = queryUtility(IVocabularyFactory, self.vocabulary)
             if not factory:
-                raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
-                                                                                                   self.attrName))
+                raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(
+                    self.vocabulary, self.attrName))
 
             self._cached_vocab_instance = factory(self.context)
 
@@ -477,17 +478,19 @@ class ColorColumn(I18nColumn):
     # Hide the head cell but fill it with spaces so it does
     # not shrink to nothing if table is too large
     header = u'&nbsp;&nbsp;&nbsp;'
+    # we manage escape here manually
+    escape = False
 
     def renderCell(self, item):
         """Display a message."""
         translated_msg = super(ColorColumn, self).renderCell(item)
-        return u'<div title="{0}">&nbsp;</div>'.format(translated_msg)
+        return u'<div title="{0}">&nbsp;</div>'.format(html.escape(translated_msg))
 
     def getCSSClasses(self, item):
         """Generate a CSS class to apply on the TD depending on the value."""
         return {'td': "{0}_{1}_{2}".format(self.cssClassPrefix,
                                            str(self.attrName),
-                                           self.getValue(item))}
+                                           html.escape(self.getValue(item)))}
 
 
 class CheckBoxColumn(BaseColumn):
