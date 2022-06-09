@@ -34,7 +34,6 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
 
-
 import html
 
 
