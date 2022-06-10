@@ -13,6 +13,7 @@ from zope.component import getAdapters
 from zope.component import queryMultiAdapter
 from zope.interface import implements
 
+import html
 import logging
 import traceback
 
@@ -80,6 +81,8 @@ class ExtendedCSSTable(SequenceTable):
         colspanStr = colspan and ' colspan="%s"' % colspan or ''
         start = datetime.now()
         renderedCell = column.renderCell(item)
+        if column.escape:
+            renderedCell = html.escape(renderedCell)
         if self.debug:
             if not hasattr(column, 'cumulative_time'):
                 column.cumulative_time = timedelta(0)

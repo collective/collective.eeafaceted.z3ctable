@@ -34,6 +34,8 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
 
+import html
+
 
 class TestColumns(IntegrationTestCase):
 
@@ -652,6 +654,19 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(column.renderCell(brain),
                          u'<img title="01" class="" src="http://nohost/plone/01" /> '
                          u'<img title="02" class="" src="http://nohost/plone/02" />')
+
+    def test_escape(self):
+        table = self.faceted_z3ctable_view
+        column = BaseColumn(self.portal, self.portal.REQUEST, table)
+        column.attrName = u'Title'
+        malicious = 'Malicious"><script>alert(document.domain)</script>'
+        self.portal.eea_folder.setTitle(malicious)
+        self.portal.eea_folder.reindexObject()
+        brains = self.portal.portal_catalog(UID=self.portal.eea_folder.UID())
+        batch = Batch(brains, size=5)
+        table.update(batch)
+        self.assertFalse(malicious in table.render())
+        self.assertTrue(html.escape(malicious) in table.render())
 
 
 class BrainsWithoutBatchTable(Table):

@@ -18,6 +18,7 @@ from zope.i18n import translate
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 
+import html
 import os
 import pkg_resources
 import urllib
@@ -57,6 +58,8 @@ class BaseColumn(column.GetAttrColumn):
     header_help = None
     # enable caching, needs to be implemented by Column
     use_caching = True
+    # escape
+    escape = True
 
     @property
     def cssClasses(self):
@@ -294,6 +297,8 @@ class DateColumn(BaseColumn):
     long_format = False
     time_only = False
     ignored_value = EMPTY_DATE
+    # not necessary to escape, everything is generated
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -362,6 +367,8 @@ class VocabularyColumn(BaseColumn):
     # named utility
     vocabulary = None
     ignored_value = EMPTY_STRING
+    # we manage escape here manually
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -377,11 +384,12 @@ class VocabularyColumn(BaseColumn):
         # the vocabulary instance is cached
         if not hasattr(self, '_cached_vocab_instance'):
             if not self.vocabulary:
-                raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(self.attrName))
+                raise KeyError('A "vocabulary" must be defined for column "{0}" !'.format(
+                    self.attrName))
             factory = queryUtility(IVocabularyFactory, self.vocabulary)
             if not factory:
-                raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
-                                                                                                   self.attrName))
+                raise KeyError('The vocabulary "{0}" used for column "{1}" was not found !'.format(
+                    self.vocabulary, self.attrName))
 
             self._cached_vocab_instance = factory(self.context)
 
@@ -391,7 +399,7 @@ class VocabularyColumn(BaseColumn):
         res = []
         for v in value:
             try:
-                res.append(safe_unicode(self._cached_vocab_instance.getTerm(v).title))
+                res.append(html.escape(safe_unicode(self._cached_vocab_instance.getTerm(v).title)))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(safe_unicode(v))
@@ -407,6 +415,9 @@ class AbbrColumn(VocabularyColumn):
 
     # named utility
     full_vocabulary = None
+    separator = u', '
+    # we manage escape here manually
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
@@ -446,13 +457,13 @@ class AbbrColumn(VocabularyColumn):
                 tag_title = self._cached_full_vocab_instance.getTerm(v).title
                 tag_title = tag_title.replace("'", "&#39;")
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(
-                    safe_unicode(tag_title),
-                    safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title)))
+                    html.escape(safe_unicode(tag_title)),
+                    html.escape(safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title))))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
-                res.append(safe_unicode(v))
+                res.append(html.escape(safe_unicode(v)))
 
-        res = ', '.join(res)
+        res = self.separator.join(res)
         if self.use_caching:
             self._store_cached_result(value, res)
         return res
@@ -467,17 +478,19 @@ class ColorColumn(I18nColumn):
     # Hide the head cell but fill it with spaces so it does
     # not shrink to nothing if table is too large
     header = u'&nbsp;&nbsp;&nbsp;'
+    # we manage escape here manually
+    escape = False
 
     def renderCell(self, item):
         """Display a message."""
         translated_msg = super(ColorColumn, self).renderCell(item)
-        return u'<div title="{0}">&nbsp;</div>'.format(translated_msg)
+        return u'<div title="{0}">&nbsp;</div>'.format(html.escape(translated_msg))
 
     def getCSSClasses(self, item):
         """Generate a CSS class to apply on the TD depending on the value."""
         return {'td': "{0}_{1}_{2}".format(self.cssClassPrefix,
                                            str(self.attrName),
-                                           self.getValue(item))}
+                                           html.escape(self.getValue(item)))}
 
 
 class CheckBoxColumn(BaseColumn):
@@ -489,6 +502,8 @@ class CheckBoxColumn(BaseColumn):
     checked_by_default = True
     attrName = 'UID'
     weight = 100
+    # not necessary to escape, everything is generated
+    escape = False
 
     def renderHeadCell(self):
         """ """
@@ -542,6 +557,8 @@ class DxWidgetRenderColumn(BaseColumn):
 
 class ElementNumberColumn(BaseColumn):
     header = u''
+    # not necessary to escape, everything is generated
+    escape = False
 
     def renderCell(self, item):
         """ """
@@ -583,18 +600,23 @@ class TitleColumn(BaseColumn):
     header = _('header_Title')
     sort_index = 'sortable_title'
     weight = 0
+    # we manage escape here manually
+    escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
         if not value:
             value = u'-'
         value = safe_unicode(value)
-        return u'<a href="{0}">{1}</a>'.format(item.getURL(), value)
+        return u'<a href="{0}">{1}</a>'.format(item.getURL(), html.escape(value))
 
 
 class PrettyLinkColumn(TitleColumn):
     """A column that displays the IPrettyLink.getLink column.
        This rely on imio.prettylink."""
+
+    # escape is managed by imio.prettylink
+    escape = False
 
     params = {}
 
@@ -763,6 +785,8 @@ class ActionsColumn(BrowserViewCallColumn):
                 'jQuery(document).ready(preventDefaultClickTransition);</script>'
     view_name = 'actions_panel'
     params = {'showHistory': True, 'showActions': True}
+    # not necessary to escape, everything is generated
+    escape = False
 
 
 class IconsColumn(BaseColumn):
