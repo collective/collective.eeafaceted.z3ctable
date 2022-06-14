@@ -16,7 +16,7 @@ long_description = \
 
 setup(
     name='collective.eeafaceted.z3ctable',
-    version='2.18.dev0',
+    version='2.18',
     description="Package proposant un type de colonne compatible avec eea.facetednavigation",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
