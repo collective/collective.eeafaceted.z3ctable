@@ -119,7 +119,7 @@ class FacetedTableView(BrowserView, ExtendedCSSTable):
     startBatchingAt = 9999
     cssClassEven = u'odd'
     cssClassOdd = u'even'
-    cssClasses = {'table': 'faceted-table-results listing nosort'}
+    cssClasses = {'table': 'faceted-table-results table table-striped table-bordered nosort'}
     ignoreColumnWeight = False  # when set to True, keep columns ordered as returned by '_getViewFields'
     table_id = 'faceted_table'
     row_id_prefix = 'row_'
