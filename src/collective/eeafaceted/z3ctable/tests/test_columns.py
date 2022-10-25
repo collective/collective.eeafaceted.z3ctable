@@ -437,7 +437,7 @@ class TestColumns(IntegrationTestCase):
         column.checked_by_default = False
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
-                         u'onClick="toggleCheckboxes(\'select_item\')" '
+                         u'onClick="toggleCheckboxes(this, \'select_item\')" '
                          u'title="Select/unselect all" name="select_item" />')
         self.assertEqual(column.renderCell(brain),
                          u'<label class="select-item-label">'
@@ -447,7 +447,7 @@ class TestColumns(IntegrationTestCase):
         column.name = u'select_element'
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
-                         u'onClick="toggleCheckboxes(\'select_element\')" '
+                         u'onClick="toggleCheckboxes(this, \'select_element\')" '
                          u'title="Select/unselect all" name="select_element" />')
         self.assertEqual(column.renderCell(brain),
                          u'<label class="select-item-label">'
