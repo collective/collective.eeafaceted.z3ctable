@@ -427,7 +427,7 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderHeadCell(),
                          u'<input type="checkbox" id="select_unselect_items" '
-                         u'onClick="toggleCheckboxes(\'select_item\')" '
+                         u'onClick="toggleCheckboxes(this, \'select_item\')" '
                          u'title="Select/unselect all" name="select_item" checked />')
         self.assertEqual(column.renderCell(brain),
                          u'<label class="select-item-label">'
