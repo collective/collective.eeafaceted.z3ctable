@@ -1,7 +1,7 @@
 // (un)select every checkboxes
-function toggleCheckboxes(checkbox, checkBoxId) {
+function toggleCheckboxes(checkbox, checkBoxId, attrName="name", selector="=") {
     if (checkbox.checked) {
-        $('input[name="' + checkBoxId + '"]').each(function() {
+        $('input[' + attrName + selector + '"' + checkBoxId + '"]').each(function() {
             if (this.checked == false) {
                 this.checked = true;
                 this.dispatchEvent(new Event('click'));
@@ -9,7 +9,7 @@ function toggleCheckboxes(checkbox, checkBoxId) {
         });
     }
     else {
-        $('input[name="' + checkBoxId + '"]').each(function() {
+        $('input[' + attrName + selector + '"' + checkBoxId + '"]').each(function() {
             if (this.checked == true) {
                 this.checked = false;
                 this.dispatchEvent(new Event('click'));
