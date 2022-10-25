@@ -511,7 +511,7 @@ class CheckBoxColumn(BaseColumn):
                           domain='collective.eeafaceted.z3ctable',
                           context=self.request,
                           default="Select/unselect all")
-        return u'<input type="checkbox" id="select_unselect_items" onClick="toggleCheckboxes(\'{0}\')" ' \
+        return u'<input type="checkbox" id="select_unselect_items" onClick="toggleCheckboxes(this, \'{0}\')" ' \
                u'title="{1}" name="{0}" {2}/>'.format(
                    self.name, title, self.checked_by_default and "checked " or "")
 

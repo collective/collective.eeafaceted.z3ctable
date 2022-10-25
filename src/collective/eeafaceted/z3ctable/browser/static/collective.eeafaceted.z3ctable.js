@@ -1,14 +1,19 @@
 // (un)select every checkboxes
-function toggleCheckboxes(checkBoxId) {
-    checkbox = $('input#select_unselect_items[name="' + checkBoxId + '"]');
-    if (checkbox[0].checked) {
+function toggleCheckboxes(checkbox, checkBoxId) {
+    if (checkbox.checked) {
         $('input[name="' + checkBoxId + '"]').each(function() {
-            this.checked = true;
+            if (this.checked == false) {
+                this.checked = true;
+                this.dispatchEvent(new Event('click'));
+            }
         });
     }
     else {
         $('input[name="' + checkBoxId + '"]').each(function() {
-            this.checked = false;
+            if (this.checked == true) {
+                this.checked = false;
+                this.dispatchEvent(new Event('click'));
+            }
         });
     }
 }
