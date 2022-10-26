@@ -5,8 +5,10 @@ Changelog
 2.19 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Extended JS function `toggleCheckboxes` to pass the select/unselect checkbox
+  as first parameter and trigger the click event when checkboxes checked or unchecked.
+  This changes nothing here but makes this function more useable in other contexts.
+  [gbastien]
 
 2.18 (2022-06-14)
 -----------------
