@@ -10,7 +10,7 @@ Changelog
   This changes nothing here but makes this function more useable in other contexts.
   [gbastien]
 - JS function `preventDefaultClickTransition` was renamed to
-  `preventDefaultClickTransition` in `imio.actionspanel>=1.62`.
+  `preventDefaultClick` in `imio.actionspanel>=1.62`.
   [gbastien]
 
 2.18 (2022-06-14)
