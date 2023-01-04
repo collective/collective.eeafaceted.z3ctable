@@ -9,6 +9,9 @@ Changelog
   as first parameter and trigger the click event when checkboxes checked or unchecked.
   This changes nothing here but makes this function more useable in other contexts.
   [gbastien]
+- JS function `preventDefaultClickTransition` was renamed to
+  `preventDefaultClick` in `imio.actionspanel>=1.62`.
+  [gbastien]
 
 2.18 (2022-06-14)
 -----------------
