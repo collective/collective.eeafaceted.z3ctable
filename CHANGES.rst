@@ -12,6 +12,8 @@ Changelog
 - JS function `preventDefaultClickTransition` was renamed to
   `preventDefaultClick` in `imio.actionspanel>=1.62`.
   [gbastien]
+- Do not break in `I18nColumn` when translating a string with special chars.
+  [gbastien]
 
 2.18 (2022-06-14)
 -----------------

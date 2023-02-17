@@ -222,6 +222,8 @@ class TestColumns(IntegrationTestCase):
 
     def test_I18nColumn(self):
         """This column will translate the value."""
+        self.eea_folder.setTitle("héhé")
+        self.eea_folder.reindexObject()
         table = self.faceted_z3ctable_view
         column = I18nColumn(self.portal, self.portal.REQUEST, table)
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
@@ -230,6 +232,9 @@ class TestColumns(IntegrationTestCase):
         # right, use 'Type' as attrName
         column.attrName = 'Type'
         self.assertEqual(column.renderCell(brain), u'Folder')
+        # does not break when translating string with special characters
+        column.attrName = 'Title'
+        self.assertEqual(column.renderCell(brain), u'h\xe9h\xe9')
 
     def test_BooleanColumn(self):
         """This column will translate the values False or True."""

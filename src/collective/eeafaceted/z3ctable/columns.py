@@ -327,7 +327,9 @@ class I18nColumn(BaseColumn):
         value = self.getValue(item)
         if value == self.defaultValue:
             return u'-'
-        return translate("{0}{1}".format(self.msgid_prefix, value),
+        # make sure msgid is unicode in case it contains special characters
+        msgid = safe_unicode("{0}{1}".format(self.msgid_prefix, value))
+        return translate(msgid,
                          domain=self.i18n_domain,
                          context=self.request)
 
