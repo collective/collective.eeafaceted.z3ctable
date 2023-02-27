@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.19 (unreleased)
+2.19 (2023-02-27)
 -----------------
 
 - Extended JS function `toggleCheckboxes` to pass the select/unselect checkbox
