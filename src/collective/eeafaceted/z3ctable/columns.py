@@ -18,7 +18,7 @@ from z3c.table.header import SortingColumnHeader
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
-from zope.interface import implements, implementer
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 import html
