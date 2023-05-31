@@ -11,7 +11,7 @@ from z3c.table.interfaces import INoneCell
 from z3c.table.table import SequenceTable
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
-from zope.interface import implements, implementer
+from zope.interface import implementer
 
 import html
 import logging
