@@ -813,7 +813,7 @@ class IconsColumn(BaseColumn):
 
     def renderCell(self, item):
         tags = []
-        for val in self.values(item):
+        for val in self.values(item) or []:
             tag = u"""<img title="{}" class="{}" src="{}" />""".format(self.titleValue(item, val),
                                                                        self.classValue(item, val),
                                                                        self.srcValue(item, val))

@@ -5,8 +5,8 @@ Changelog
 2.20 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Corrected iteration problem if gotten value for column is None.
+  [sgeulette]
 
 2.19 (2023-02-27)
 -----------------
