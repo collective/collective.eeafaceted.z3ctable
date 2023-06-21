@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.20 (unreleased)
+2.20 (2023-06-21)
 -----------------
 
 - Corrected iteration problem if gotten value for column is None.
