@@ -10,6 +10,8 @@ from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
+from z3c.relationfield.schema import RelationChoice
+from z3c.relationfield.schema import RelationList
 from z3c.table import column
 from z3c.table.header import SortingColumnHeader
 from zope.component import getMultiAdapter
@@ -705,15 +707,20 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
             view.context = obj
             for widget in view.widgets.values():
                 widget.context = view.context
-                converter = IDataConverter(widget)
                 dm = getMultiAdapter((view.context, widget.field), IDataManager)
                 value = dm.get()
                 if value:
+                    # special management for RelationField
+                    # avoid to update widget when not necessary
+                    if isinstance(widget.field, (RelationChoice, RelationList)):
+                        widget.update()
+
                     if self.simplified_datagridfield and \
                        HAS_Z3CFORM_DATAGRIDFIELD and \
                        isinstance(widget, DataGridField):
                         widget._value = value
                     else:
+                        converter = IDataConverter(widget)
                         converted = converter.toWidgetValue(value)
                         # special behavior for datagridfield where setting the value
                         # will updateWidgets and is slow/slow/slow...
@@ -721,7 +728,6 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 else:
                     widget.value = None
             widgets = view.widgets.values()
-
         for widget in widgets:
             if widget.__name__ not in self.get_ai_excluded_fields() and \
                (self.ai_included_fields == "*" or widget.__name__ in self.get_ai_included_fields()) and \

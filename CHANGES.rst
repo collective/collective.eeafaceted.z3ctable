@@ -5,8 +5,9 @@ Changelog
 2.21 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `PrettyLinkWithAdditionalInfosColumn`, in the cached view, update widget
+  when it is a `RelationChoice/RelationList` to get correct value.
+  [gbastien]
 
 2.20 (2023-06-21)
 -----------------
