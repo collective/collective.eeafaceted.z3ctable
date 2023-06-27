@@ -1,5 +1,5 @@
-.. image:: https://github.com/IMIO/collective.eeafaceted.z3ctable/actions/workflows/main.yml/badge.svg?branch=master
-    :target: https://github.com/IMIO/collective.eeafaceted.z3ctable/actions/workflows/main.yml
+.. image:: https://github.com/collective/collective.eeafaceted.z3ctable/actions/workflows/main.yml/badge.svg?branch=master
+    :target: https://github.com/collective/collective.eeafaceted.z3ctable/actions/workflows/main.yml
 
 .. image:: https://coveralls.io/repos/collective/collective.eeafaceted.z3ctable/badge.svg
   :target: https://coveralls.io/collective/collective.eeafaceted.z3ctable
