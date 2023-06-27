@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.21 (unreleased)
+2.21 (2023-06-27)
 -----------------
 
 - In `PrettyLinkWithAdditionalInfosColumn`, in the cached view, update widget
