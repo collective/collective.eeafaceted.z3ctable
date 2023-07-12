@@ -5,6 +5,7 @@ from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
 from DateTime import DateTime
+from imio.helpers.content import get_user_fullname
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
@@ -270,16 +271,6 @@ class RelationTitleColumn(BaseColumn):
             return self.target_display(targets)
 
 
-def get_user_fullname(username):
-    """Get fullname without using getMemberInfo that is slow slow slow..."""
-    storage = api.portal.get_tool('acl_users').mutable_properties._storage
-    data = storage.get(username, None)
-    if data is not None:
-        return data.get('fullname', '') or username
-    else:
-        return username
-
-
 class MemberIdColumn(BaseColumn):
     """ """
     attrName = 'Creator'
@@ -466,8 +457,9 @@ class AbbrColumn(VocabularyColumn):
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
                 res.append(html.escape(safe_unicode(v)))
-
-        res = self.separator.join(res)
+        # manage separator without "join" to move the separator inside the <abbr></abbr>
+        res = [v.replace('</abbr>', self.separator + '</abbr>') for v in res[:-1]] + res[-1:]
+        res = ''.join(res)
         if self.use_caching:
             self._store_cached_result(value, res)
         return res

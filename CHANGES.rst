@@ -5,8 +5,10 @@ Changelog
 2.22 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Rely on `imio.helpers.content.get_user_fullname` that manages fallback to
+  `getMemberInfo` if fullname not found in mutable_properties.
+  This needs to rely on `imio.helpers` that is now a dependency.
+  [gbastien]
 
 2.21 (2023-06-27)
 -----------------

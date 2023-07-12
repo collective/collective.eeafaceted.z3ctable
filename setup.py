@@ -10,9 +10,8 @@ import os
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-long_description = \
-    read('README.rst') + \
-    read('CHANGES.rst')
+
+long_description = read('README.rst') + read('CHANGES.rst')
 
 setup(
     name='collective.eeafaceted.z3ctable',
@@ -43,6 +42,7 @@ setup(
         'Plone',
         'collective.excelexport',
         'eea.facetednavigation>10.0',
+        'imio.helpers',
         'plone.api>=1.3.0',
         'plone.formwidget.namedfile>=2.0.2',
         'setuptools',
