@@ -456,7 +456,8 @@ class AbbrColumn(VocabularyColumn):
                     html.escape(safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title))))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
-                res.append(html.escape(safe_unicode(v)))
+                tag_title = html.escape(safe_unicode(v))
+                res.append(u"<abbr title='{0}'>{1}</abbr>".format(tag_title, tag_title))
         # manage separator without "join" to move the separator inside the <abbr></abbr>
         res = [v.replace('</abbr>', self.separator + '</abbr>') for v in res[:-1]] + res[-1:]
         res = ''.join(res)

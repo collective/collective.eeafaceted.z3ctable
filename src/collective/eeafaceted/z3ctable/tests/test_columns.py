@@ -363,11 +363,11 @@ class TestColumns(IntegrationTestCase):
         # use a valid vocabulary and test
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
-        self.assertEqual(column.renderCell(brain), u'unexisting_key')
+        self.assertEqual(column.renderCell(brain), u"<abbr title='unexisting_key'>unexisting_key</abbr>")
 
         # mono valued vocabulary
         # an attrName but key not found in vocab, the key is returned
-        self.assertEqual(column.renderCell(brain), u'unexisting_key')
+        self.assertEqual(column.renderCell(brain), u"<abbr title='unexisting_key'>unexisting_key</abbr>")
         # existing key
         self.eea_folder.setTitle('existing_key1')
         self.eea_folder.reindexObject(idxs=['Title', ])
@@ -380,15 +380,15 @@ class TestColumns(IntegrationTestCase):
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderCell(brain),
-                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
+                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderCell(brain),
-                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>, "
-                         u"unexisting_key, "
+                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1, </abbr>"
+                         u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
 
     def test_MemberIdColumn(self):
