@@ -17,7 +17,6 @@ Package proposant un type de colonne compatible avec eea.facetednavigation
 
 * `Source code @ GitHub <https://github.com/collective/collective.eeafaceted.z3ctable>`_
 * `Releases @ PyPI <http://pypi.python.org/pypi/collective.eeafaceted.z3ctable>`_
-* `Continuous Integration @ Travis-CI <http://travis-ci.org/collective/collective.eeafaceted.z3ctable>`_
 
 Installation
 ============
