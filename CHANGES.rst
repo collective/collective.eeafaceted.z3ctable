@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.22 (unreleased)
+2.22 (2023-08-24)
 -----------------
 
 - Rely on `imio.helpers.content.get_user_fullname` that manages fallback to
