@@ -466,6 +466,36 @@ class AbbrColumn(VocabularyColumn):
         return res
 
 
+class AwakeObjectVocabularyColumn(VocabularyColumn):
+    """Column that will wake the object then getattr attrName on it."""
+
+    # column not sortable by default, give a catalog index if so
+    sort_index = -1
+
+    def getValue(self, item):
+        obj = self._getObject(item)
+        try:
+            result = getattr(obj, self.attrName)
+            return safe_unicode(result)
+        except AttributeError:
+            return u'-'
+
+
+class AwakeObjectAbbrColumn(AbbrColumn):
+    """Column that will wake the object then getattr attrName on it."""
+
+    # column not sortable by default, give a catalog index if so
+    sort_index = -1
+
+    def getValue(self, item):
+        obj = self._getObject(item)
+        try:
+            result = getattr(obj, self.attrName)
+            return safe_unicode(result)
+        except AttributeError:
+            return u'-'
+
+
 class ColorColumn(I18nColumn):
     """A column that is aimed to display a background color
        and a help message on hover."""
