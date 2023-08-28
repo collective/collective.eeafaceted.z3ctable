@@ -473,12 +473,7 @@ class AwakeObjectVocabularyColumn(VocabularyColumn):
     sort_index = -1
 
     def getValue(self, item):
-        obj = self._getObject(item)
-        try:
-            result = getattr(obj, self.attrName)
-            return safe_unicode(result)
-        except AttributeError:
-            return u'-'
+        return safe_unicode(getattr(self._getObject(item), self.attrName))
 
 
 class AwakeObjectAbbrColumn(AbbrColumn):
@@ -488,12 +483,7 @@ class AwakeObjectAbbrColumn(AbbrColumn):
     sort_index = -1
 
     def getValue(self, item):
-        obj = self._getObject(item)
-        try:
-            result = getattr(obj, self.attrName)
-            return safe_unicode(result)
-        except AttributeError:
-            return u'-'
+        return safe_unicode(getattr(self._getObject(item), self.attrName))
 
 
 class ColorColumn(I18nColumn):
