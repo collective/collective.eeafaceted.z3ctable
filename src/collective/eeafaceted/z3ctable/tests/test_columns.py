@@ -403,6 +403,9 @@ class TestColumns(IntegrationTestCase):
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
         self.assertEqual(column.renderCell(brain), u"Existing v\xe9lue 1")
+        # will raise if attrName does not exist
+        column.attrName = "unknown"
+        self.assertEqual(column.renderCell(brain), u'-')
 
     def test_AwakeObjectAbbrColumn(self):
         """AbbrColumn where we awake object to get attrName attribute."""
@@ -415,6 +418,9 @@ class TestColumns(IntegrationTestCase):
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
         self.assertEqual(column.renderCell(brain),
                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
+        # will raise if attrName does not exist
+        column.attrName = "unknown"
+        self.assertEqual(column.renderCell(brain), u'-')
 
     def test_MemberIdColumn(self):
         """This column will display the fullname of the given metadata."""

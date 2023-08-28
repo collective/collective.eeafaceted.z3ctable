@@ -9,6 +9,9 @@ Changelog
   behavior as `VocabularyColumn` and `AbbrColumn` but `attrName` is get on awaken
   object instead brain metadata, this avoids adding a `portal_catalog` metadata.
   [gbastien]
+- In `AwakeObject` columns, use `imio.helpers.content.base_getattr` instead
+  `getattr` to avoid problems with acquisiton.
+  [gbastien]
 
 2.22 (2023-08-24)
 -----------------

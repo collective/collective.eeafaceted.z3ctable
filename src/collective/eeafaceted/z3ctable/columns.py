@@ -5,6 +5,7 @@ from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
 from DateTime import DateTime
+from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
@@ -209,12 +210,7 @@ class AwakeObjectGetAttrColumn(BaseColumn):
     sort_index = -1
 
     def renderCell(self, item):
-        obj = self._getObject(item)
-        try:
-            result = getattr(obj, self.attrName)
-            return safe_unicode(result)
-        except AttributeError:
-            return u'-'
+        return safe_unicode(base_getattr(self._getObject(item), self.attrName)) or u'-'
 
 
 class AwakeObjectMethodColumn(BaseColumn):
@@ -227,9 +223,8 @@ class AwakeObjectMethodColumn(BaseColumn):
     def renderCell(self, item):
         obj = self._getObject(item)
         try:
-            result = getattr(obj, self.attrName)(**self.params)
-            return safe_unicode(result)
-        except AttributeError:
+            return safe_unicode(base_getattr(obj, self.attrName)(**self.params)) or u'-'
+        except TypeError:
             return u'-'
 
 
@@ -473,7 +468,7 @@ class AwakeObjectVocabularyColumn(VocabularyColumn):
     sort_index = -1
 
     def getValue(self, item):
-        return safe_unicode(getattr(self._getObject(item), self.attrName))
+        return safe_unicode(base_getattr(self._getObject(item), self.attrName))
 
 
 class AwakeObjectAbbrColumn(AbbrColumn):
@@ -483,7 +478,7 @@ class AwakeObjectAbbrColumn(AbbrColumn):
     sort_index = -1
 
     def getValue(self, item):
-        return safe_unicode(getattr(self._getObject(item), self.attrName))
+        return safe_unicode(base_getattr(self._getObject(item), self.attrName))
 
 
 class ColorColumn(I18nColumn):
