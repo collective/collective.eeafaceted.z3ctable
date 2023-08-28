@@ -464,7 +464,7 @@ class AbbrColumn(VocabularyColumn):
 class AwakeObjectVocabularyColumn(VocabularyColumn):
     """Column that will wake the object then getattr attrName on it."""
 
-    # column not sortable by default, give a catalog index if so
+    # column not sortable by default, give a catalog index if necessary
     sort_index = -1
 
     def getValue(self, item):
@@ -474,7 +474,7 @@ class AwakeObjectVocabularyColumn(VocabularyColumn):
 class AwakeObjectAbbrColumn(AbbrColumn):
     """Column that will wake the object then getattr attrName on it."""
 
-    # column not sortable by default, give a catalog index if so
+    # column not sortable by default, give a catalog index if necessary
     sort_index = -1
 
     def getValue(self, item):
