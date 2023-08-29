@@ -5,6 +5,7 @@ from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
 from DateTime import DateTime
+from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
@@ -209,12 +210,7 @@ class AwakeObjectGetAttrColumn(BaseColumn):
     sort_index = -1
 
     def renderCell(self, item):
-        obj = self._getObject(item)
-        try:
-            result = getattr(obj, self.attrName)
-            return safe_unicode(result)
-        except AttributeError:
-            return u'-'
+        return safe_unicode(base_getattr(self._getObject(item), self.attrName)) or u'-'
 
 
 class AwakeObjectMethodColumn(BaseColumn):
@@ -227,9 +223,8 @@ class AwakeObjectMethodColumn(BaseColumn):
     def renderCell(self, item):
         obj = self._getObject(item)
         try:
-            result = getattr(obj, self.attrName)(**self.params)
-            return safe_unicode(result)
-        except AttributeError:
+            return safe_unicode(base_getattr(obj, self.attrName)(**self.params)) or u'-'
+        except TypeError:
             return u'-'
 
 
@@ -464,6 +459,26 @@ class AbbrColumn(VocabularyColumn):
         if self.use_caching:
             self._store_cached_result(value, res)
         return res
+
+
+class AwakeObjectVocabularyColumn(VocabularyColumn):
+    """Column that will wake the object then getattr attrName on it."""
+
+    # column not sortable by default, give a catalog index if necessary
+    sort_index = -1
+
+    def getValue(self, item):
+        return safe_unicode(base_getattr(self._getObject(item), self.attrName))
+
+
+class AwakeObjectAbbrColumn(AbbrColumn):
+    """Column that will wake the object then getattr attrName on it."""
+
+    # column not sortable by default, give a catalog index if necessary
+    sort_index = -1
+
+    def getValue(self, item):
+        return safe_unicode(base_getattr(self._getObject(item), self.attrName))
 
 
 class ColorColumn(I18nColumn):

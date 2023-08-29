@@ -2,8 +2,10 @@
 
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
 from collective.eeafaceted.z3ctable.columns import ActionsColumn
+from collective.eeafaceted.z3ctable.columns import AwakeObjectAbbrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
+from collective.eeafaceted.z3ctable.columns import AwakeObjectVocabularyColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
 from collective.eeafaceted.z3ctable.columns import BooleanColumn
 from collective.eeafaceted.z3ctable.columns import BrowserViewCallColumn
@@ -390,6 +392,35 @@ class TestColumns(IntegrationTestCase):
                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1, </abbr>"
                          u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
+
+    def test_AwakeObjectVocabularyColumn(self):
+        """VocabularyColumn where we awake object to get attrName attribute."""
+        self.eea_folder.setTitle(u'existing_key1')
+        table = self.faceted_z3ctable_view
+        column = AwakeObjectVocabularyColumn(self.portal, self.portal.REQUEST, table)
+        column.attrName = 'title'
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
+        self.assertEqual(column.renderCell(brain), u"Existing v\xe9lue 1")
+        # will raise if attrName does not exist
+        column.attrName = "unknown"
+        self.assertEqual(column.renderCell(brain), u'-')
+
+    def test_AwakeObjectAbbrColumn(self):
+        """AbbrColumn where we awake object to get attrName attribute."""
+        self.eea_folder.setTitle(u'existing_key1')
+        table = self.faceted_z3ctable_view
+        column = AwakeObjectAbbrColumn(self.portal, self.portal.REQUEST, table)
+        column.attrName = 'title'
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
+        column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
+        self.assertEqual(column.renderCell(brain),
+                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
+        # will raise if attrName does not exist
+        column.attrName = "unknown"
+        self.assertEqual(column.renderCell(brain), u'-')
 
     def test_MemberIdColumn(self):
         """This column will display the fullname of the given metadata."""
