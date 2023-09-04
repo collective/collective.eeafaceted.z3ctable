@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.23 (unreleased)
+2.23 (2023-09-04)
 -----------------
 
 - Added `AwakeObjectVocabularyColumn` and `AwakeObjectAbbrColumn`, having same
