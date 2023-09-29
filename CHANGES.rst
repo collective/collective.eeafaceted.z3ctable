@@ -5,8 +5,13 @@ Changelog
 2.24 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `PrettyLinkWithAdditionalInfosColumn.ai_reloaded_fields` functionnality:
+  this will force update cached widget and remove its terms if any, this is
+  useful when using a context aware vocabulary.
+  [gbastien]
+- Removed the `PrettyLinkWithAdditionalInfosColumn` `get_ai_xxx` accessors,
+  access the attribute directly instead.
+  [gbastien]
 
 2.23 (2023-09-04)
 -----------------

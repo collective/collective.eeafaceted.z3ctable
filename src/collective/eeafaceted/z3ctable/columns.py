@@ -667,18 +667,12 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
     ai_included_fields = "*"
     ai_excluded_fields = []
     ai_extra_fields = ['id', 'UID', 'description']
+    # as we use caching, we avoid widget.update except if field name found here
+    ai_reloaded_fields = []
     ai_highlighted_fields = []
     ai_highligh_css_class = "highlight"
     ai_generate_css_class_fields = []
     simplified_datagridfield = False
-
-    def get_ai_included_fields(self):
-        """ """
-        return self.ai_included_fields
-
-    def get_ai_excluded_fields(self):
-        """ """
-        return self.ai_excluded_fields
 
     def _field_css_class(self, widget):
         """Compute a field CSS class based on field name and value."""
@@ -720,7 +714,10 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 if value:
                     # special management for RelationField
                     # avoid to update widget when not necessary
-                    if isinstance(widget.field, (RelationChoice, RelationList)):
+                    if isinstance(widget.field, (RelationChoice, RelationList)) or \
+                       widget.field.__name__ in self.ai_reloaded_fields:
+                        if widget.field.__name__ in self.ai_reloaded_fields:
+                            widget.terms = None
                         widget.update()
 
                     if self.simplified_datagridfield and \
@@ -737,8 +734,8 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                     widget.value = None
             widgets = view.widgets.values()
         for widget in widgets:
-            if widget.__name__ not in self.get_ai_excluded_fields() and \
-               (self.ai_included_fields == "*" or widget.__name__ in self.get_ai_included_fields()) and \
+            if widget.__name__ not in self.ai_excluded_fields and \
+               (self.ai_included_fields == "*" or widget.__name__ in self.ai_included_fields) and \
                widget.value not in (None, '', '--NOVALUE--', u'', (), [], (''), [''], ['--NOVALUE--']):
                 widget_name = widget.__name__
                 css_class = widget_name in self.ai_highlighted_fields and self.ai_highligh_css_class or ''
