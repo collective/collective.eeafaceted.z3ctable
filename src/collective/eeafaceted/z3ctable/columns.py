@@ -64,6 +64,15 @@ class BaseColumn(column.GetAttrColumn):
     use_caching = True
     # escape
     escape = True
+    # get value from object instead brain?
+    the_object = False
+
+    def getValue(self, item):
+        """ """
+        if self.the_object:
+            return safe_unicode(base_getattr(self._getObject(item), self.attrName))
+        else:
+            return super(BaseColumn, self).getValue(item)
 
     @property
     def cssClasses(self):
@@ -75,7 +84,7 @@ class BaseColumn(column.GetAttrColumn):
         return self.cssClasses
 
     def renderCell(self, item):
-        return getattr(item, self.attrName.decode('utf8'))
+        return self.getValue(item) or u'-'
 
     def _getObject(self, item):
         """Caching for getObject."""
@@ -202,15 +211,6 @@ class BaseColumnHeader(SortingColumnHeader):
             else:
                 return '&#9660;'
         return u''
-
-
-class AwakeObjectGetAttrColumn(BaseColumn):
-    """Column that will wake the object then getattr attrName on it."""
-    # column not sortable
-    sort_index = -1
-
-    def renderCell(self, item):
-        return safe_unicode(base_getattr(self._getObject(item), self.attrName)) or u'-'
 
 
 class AwakeObjectMethodColumn(BaseColumn):
@@ -459,26 +459,6 @@ class AbbrColumn(VocabularyColumn):
         if self.use_caching:
             self._store_cached_result(value, res)
         return res
-
-
-class AwakeObjectVocabularyColumn(VocabularyColumn):
-    """Column that will wake the object then getattr attrName on it."""
-
-    # column not sortable by default, give a catalog index if necessary
-    sort_index = -1
-
-    def getValue(self, item):
-        return safe_unicode(base_getattr(self._getObject(item), self.attrName))
-
-
-class AwakeObjectAbbrColumn(AbbrColumn):
-    """Column that will wake the object then getattr attrName on it."""
-
-    # column not sortable by default, give a catalog index if necessary
-    sort_index = -1
-
-    def getValue(self, item):
-        return safe_unicode(base_getattr(self._getObject(item), self.attrName))
 
 
 class ColorColumn(I18nColumn):

@@ -12,6 +12,11 @@ Changelog
 - Removed the `PrettyLinkWithAdditionalInfosColumn` `get_ai_xxx` accessors,
   access the attribute directly instead.
   [gbastien]
+- Added attribute `BaseColumn.the_object=False`, this means that we are getting
+  the information on the object and not on the brain.
+  Removed recently added columns `AwakeObjectVocabularyColumn` and
+  `AwakeObjectAbbrColumn`, simply use `the_object=True` in this case.
+  [gbastien]
 
 2.23 (2023-09-04)
 -----------------

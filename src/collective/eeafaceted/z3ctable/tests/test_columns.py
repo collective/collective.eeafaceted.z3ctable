@@ -2,10 +2,7 @@
 
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
 from collective.eeafaceted.z3ctable.columns import ActionsColumn
-from collective.eeafaceted.z3ctable.columns import AwakeObjectAbbrColumn
-from collective.eeafaceted.z3ctable.columns import AwakeObjectGetAttrColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
-from collective.eeafaceted.z3ctable.columns import AwakeObjectVocabularyColumn
 from collective.eeafaceted.z3ctable.columns import BaseColumn
 from collective.eeafaceted.z3ctable.columns import BooleanColumn
 from collective.eeafaceted.z3ctable.columns import BrowserViewCallColumn
@@ -122,11 +119,12 @@ class TestColumns(IntegrationTestCase):
                          u'<img src="http://nohost/plone/image.png" title="Title" />'
                          u'</acronym>')
 
-    def test_AwakeObjectGetAttrColumn(self):
+    def test_TheObjectBaseColumn(self):
         """This will wake the given catalog brain and getattr the attrName on it.
            This is used when displaying in a column an attribute that is not a catalog metadata."""
         table = self.faceted_z3ctable_view
-        column = AwakeObjectGetAttrColumn(self.portal, self.portal.REQUEST, table)
+        column = BaseColumn(self.portal, self.portal.REQUEST, table)
+        column.the_object = True
         # we will use the 'eea_faceted' folder as a brain
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if column.attrName is not an attribute, it will return u''
@@ -393,11 +391,12 @@ class TestColumns(IntegrationTestCase):
                          u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
 
-    def test_AwakeObjectVocabularyColumn(self):
+    def test_TheObjectVocabularyColumn(self):
         """VocabularyColumn where we awake object to get attrName attribute."""
         self.eea_folder.setTitle(u'existing_key1')
         table = self.faceted_z3ctable_view
-        column = AwakeObjectVocabularyColumn(self.portal, self.portal.REQUEST, table)
+        column = VocabularyColumn(self.portal, self.portal.REQUEST, table)
+        column.the_object = True
         column.attrName = 'title'
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
@@ -407,11 +406,12 @@ class TestColumns(IntegrationTestCase):
         column.attrName = "unknown"
         self.assertEqual(column.renderCell(brain), u'-')
 
-    def test_AwakeObjectAbbrColumn(self):
+    def test_TheObjectAbbrColumn(self):
         """AbbrColumn where we awake object to get attrName attribute."""
         self.eea_folder.setTitle(u'existing_key1')
         table = self.faceted_z3ctable_view
-        column = AwakeObjectAbbrColumn(self.portal, self.portal.REQUEST, table)
+        column = AbbrColumn(self.portal, self.portal.REQUEST, table)
+        column.the_object = True
         column.attrName = 'title'
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
