@@ -213,15 +213,6 @@ class BaseColumnHeader(SortingColumnHeader):
         return u''
 
 
-class AwakeObjectGetAttrColumn(BaseColumn):
-    """Column that will wake the object then getattr attrName on it."""
-    # column not sortable
-    sort_index = -1
-
-    def renderCell(self, item):
-        return safe_unicode(base_getattr(self._getObject(item), self.attrName)) or u'-'
-
-
 class AwakeObjectMethodColumn(BaseColumn):
     """Column that will wake the object then call attrName on it."""
     # column not sortable
