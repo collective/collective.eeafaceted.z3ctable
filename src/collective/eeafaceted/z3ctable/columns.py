@@ -84,7 +84,7 @@ class BaseColumn(column.GetAttrColumn):
         return self.cssClasses
 
     def renderCell(self, item):
-        return getattr(item, self.attrName.decode('utf8'))
+        return self.getValue(item) or u'-'
 
     def _getObject(self, item):
         """Caching for getObject."""
