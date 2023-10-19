@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.24 (unreleased)
+2.24 (2023-10-19)
 -----------------
 
 - Added `PrettyLinkWithAdditionalInfosColumn.ai_reloaded_fields` functionnality:
