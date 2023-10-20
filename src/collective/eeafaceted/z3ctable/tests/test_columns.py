@@ -22,6 +22,7 @@ from collective.eeafaceted.z3ctable.testing import IntegrationTestCase
 from collective.eeafaceted.z3ctable.tests.views import CALL_RESULT
 from datetime import date
 from datetime import datetime
+from DateTime import DateTime
 from imio.prettylink.interfaces import IPrettyLink
 from plone import api
 from plone.app.testing import login
@@ -86,7 +87,6 @@ class TestColumns(IntegrationTestCase):
     def test_HeaderColumn(self):
         """The header will behave correctly with the faceted query, especially regarding sorting."""
         table = self.faceted_z3ctable_view
-        # use the CreationDateC
         column = BaseColumn(self.portal, self.portal.REQUEST, table)
         table.nameColumn(column, 'Title')
         # if column is sortable, header is rendered with relevant arrows
@@ -187,15 +187,19 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if no attrName, u'-' is returned
         self.assertEqual(column.renderCell(brain), u'-')
-        # right, use CreationDate as attrName
-        column.attrName = 'CreationDate'
-        self.assertIn(column.renderCell(brain), (u'May 05, 2015', '2015-05-05'))
+        # right, use a DateTime as attrName
+        self.eea_folder.a_DateTime = DateTime('2023/10/20 15:15')
+        column.attrName = 'a_DateTime'
+        column.the_object = True
+        self.assertEqual(column.renderCell(brain), u'Oct 20, 2023')
+        column.long_format = True
+        self.assertEqual(column.renderCell(brain), u'Oct 20, 2023 03:15 PM')
+        column.the_object = False
         # test with an ignored value
         column.ignored_value = brain.CreationDate
         self.assertEqual(column.renderCell(brain), u'-')
         column.ignored_value = None
         # test the long_format parameter
-        column.long_format = True
         self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30'))
         column.time_only = True
         self.assertIn(column.renderCell(brain), (u'12:30', u'12:30 PM'))

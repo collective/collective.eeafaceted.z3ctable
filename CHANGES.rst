@@ -5,8 +5,9 @@ Changelog
 2.25 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `DateColumn.renderCell`, no need to manage a `DateTime` as it is supported
+  by `api.portal.get_localized_time`.
+  [gbastien]
 
 2.24 (2023-10-19)
 -----------------

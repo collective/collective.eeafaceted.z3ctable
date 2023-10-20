@@ -290,15 +290,14 @@ class DateColumn(BaseColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if isinstance(value, DateTime):
-            value = value.asdatetime().date()
         if not value or value == 'None' or value == self.ignored_value:
             return u'-'
         if self.use_caching:
             res = self._get_cached_result(value)
             if res:
                 return res
-        res = api.portal.get_localized_time(datetime=value, long_format=self.long_format, time_only=self.time_only)
+        res = api.portal.get_localized_time(
+            datetime=value, long_format=self.long_format, time_only=self.time_only)
         if self.use_caching:
             self._store_cached_result(value, res)
         return res
