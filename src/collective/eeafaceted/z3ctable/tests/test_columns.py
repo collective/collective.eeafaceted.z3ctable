@@ -200,6 +200,7 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(column.renderCell(brain), u'-')
         column.ignored_value = None
         # test the long_format parameter
+        column.attrName = 'CreationDate'
         self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30'))
         column.time_only = True
         self.assertIn(column.renderCell(brain), (u'12:30', u'12:30 PM'))
