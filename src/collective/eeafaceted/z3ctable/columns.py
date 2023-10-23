@@ -4,7 +4,6 @@ from collective.eeafaceted.z3ctable import _
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
-from DateTime import DateTime
 from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
 from plone import api
