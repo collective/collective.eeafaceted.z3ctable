@@ -41,7 +41,7 @@ setup(
     install_requires=[
         'Plone',
         'collective.excelexport',
-        'eea.facetednavigation<16.0',
+        'eea.facetednavigation>=16.0',
         'imio.helpers',
         'plone.api>=1.3.0',
         'plone.formwidget.namedfile>=2.0.2',
