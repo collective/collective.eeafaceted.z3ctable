@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>3</version>
+  <dependencies>
+    <dependency>profile-collective.eeafaceted.z3ctable:universal</dependency>
+  </dependencies>
+</metadata>
