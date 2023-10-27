@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.25 (unreleased)
+2.25 (2023-10-27)
 -----------------
 
 - In `DateColumn.renderCell`, no need to manage a `DateTime` as it is supported
