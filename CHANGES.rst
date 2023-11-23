@@ -5,8 +5,8 @@ Changelog
 2.26 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Take into account `VocabularyColumn.ignored_value` in `AbbrColumn`.
+  [gbastien]
 
 2.25 (2023-10-27)
 -----------------

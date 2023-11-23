@@ -11,6 +11,7 @@ from collective.eeafaceted.z3ctable.columns import ColorColumn
 from collective.eeafaceted.z3ctable.columns import DateColumn
 from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.columns import ElementNumberColumn
+from collective.eeafaceted.z3ctable.columns import EMPTY_STRING
 from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import IconsColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
@@ -395,6 +396,12 @@ class TestColumns(IntegrationTestCase):
                          u"<abbr title='Full existing value 1'>Existing v\xe9lue 1, </abbr>"
                          u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
+        # ignored_value
+        self.assertEqual(column.ignored_value, EMPTY_STRING)
+        self.eea_folder.setTitle(EMPTY_STRING)
+        self.eea_folder.reindexObject(idxs=['Title', ])
+        brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
+        self.assertEqual(column.renderCell(brain), u'-')
 
     def test_TheObjectVocabularyColumn(self):
         """VocabularyColumn where we awake object to get attrName attribute."""
