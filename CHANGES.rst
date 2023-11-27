@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.26 (unreleased)
+2.26 (2023-11-27)
 -----------------
 
 - Take into account `VocabularyColumn.ignored_value` in `AbbrColumn`.
