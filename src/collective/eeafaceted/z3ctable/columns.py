@@ -275,8 +275,7 @@ class MemberIdColumn(BaseColumn):
         value = self.getValue(item)
         if not value or value == self.ignored_value:
             return u'-'
-        value = get_user_fullname(value)
-        return safe_unicode(value)
+        return safe_unicode(get_user_fullname(value))
 
 
 class DateColumn(BaseColumn):
