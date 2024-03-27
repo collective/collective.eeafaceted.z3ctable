@@ -12,7 +12,6 @@
     <five:registerPackage package="." initialize=".initialize" />
 
     <!-- Include configuration for dependencies listed in setup.py -->
-    <includeDependencies package="." />
     <include zcml:condition="installed imio.actionspanel" package="imio.actionspanel"/>
     <include package="imio.helpers"/>
     <include zcml:condition="installed imio.prettylink" package="imio.prettylink"/>

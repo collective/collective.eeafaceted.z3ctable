@@ -33,6 +33,7 @@
       permission="zope2.View"
       />
 
+    <include package="eea.facetednavigation" file="permissions.zcml" />
     <browser:page
       for="eea.facetednavigation.interfaces.IFacetedNavigable"
       name="default_collection_widgets.xml"
