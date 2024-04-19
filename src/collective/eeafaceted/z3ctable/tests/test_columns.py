@@ -414,6 +414,11 @@ class TestColumns(IntegrationTestCase):
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
         self.assertEqual(column.renderCell(brain), u"Existing v\xe9lue 1")
+        # if a callable is defined, it is called
+        self.eea_folder.setTitle([u'existing_key1', u'existing_key2'])
+        self.eea_folder.reindexObject()
+        column.attrName = 'Title'
+        self.assertEqual(column.renderCell(brain), u'Existing v\xe9lue 1, Existing v\xe9lue 2')
         # will raise if attrName does not exist
         column.attrName = "unknown"
         self.assertEqual(column.renderCell(brain), u'-')

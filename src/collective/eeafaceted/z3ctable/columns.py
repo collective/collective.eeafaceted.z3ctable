@@ -69,7 +69,10 @@ class BaseColumn(column.GetAttrColumn):
     def getValue(self, item):
         """ """
         if self.the_object:
-            return safe_unicode(base_getattr(self._getObject(item), self.attrName))
+            attr = safe_unicode(base_getattr(self._getObject(item), self.attrName))
+            if callable(attr):
+                return attr()
+            return attr
         else:
             return super(BaseColumn, self).getValue(item)
 

@@ -5,8 +5,8 @@ Changelog
 2.27 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- When `the_object=True`, `attrName` may be a callable.
+  [gbastien]
 
 2.26 (2023-11-27)
 -----------------
