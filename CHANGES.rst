@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.27 (unreleased)
+2.27 (2024-05-27)
 -----------------
 
 - When `the_object=True`, `attrName` may be a callable.
