@@ -5,8 +5,8 @@ Changelog
 2.28 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Python 3 compatibility.
+  [gbastien]
 
 2.27 (2024-05-27)
 -----------------
