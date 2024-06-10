@@ -18,7 +18,7 @@ from z3c.table.header import SortingColumnHeader
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 import html
@@ -38,6 +38,8 @@ try:
     api.env.get_distribution('collective.z3cform.datagridfield')
     from collective.z3cform.datagridfield.datagridfield import DataGridField
     HAS_Z3CFORM_DATAGRIDFIELD = True
+except ImportError:
+    HAS_Z3CFORM_DATAGRIDFIELD = False
 except pkg_resources.DistributionNotFound:
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
@@ -46,9 +48,8 @@ EMPTY_STRING = '__empty_string__'
 EMPTY_DATE = date(1950, 1, 1)
 
 
+@implementer(IFacetedColumn)
 class BaseColumn(column.GetAttrColumn):
-
-    implements(IFacetedColumn)
 
     sort_index = None
     # as we use setUpColumns, weight is 1 for every columns
