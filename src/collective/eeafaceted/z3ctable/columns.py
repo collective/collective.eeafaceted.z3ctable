@@ -38,6 +38,8 @@ try:
     api.env.get_distribution('collective.z3cform.datagridfield')
     from collective.z3cform.datagridfield.datagridfield import DataGridField
     HAS_Z3CFORM_DATAGRIDFIELD = True
+except ImportError:
+    HAS_Z3CFORM_DATAGRIDFIELD = False
 except pkg_resources.DistributionNotFound:
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
