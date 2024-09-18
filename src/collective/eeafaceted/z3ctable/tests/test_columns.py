@@ -10,7 +10,6 @@ from collective.eeafaceted.z3ctable.columns import ColorColumn
 from collective.eeafaceted.z3ctable.columns import DateColumn
 from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.columns import ElementNumberColumn
-from collective.eeafaceted.z3ctable.columns import EMPTY_STRING
 from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import IconsColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
@@ -25,6 +24,7 @@ from datetime import datetime
 from DateTime import DateTime
 from imio.helpers import EMPTY_DATE
 from imio.helpers import EMPTY_DATETIME
+from imio.helpers import EMPTY_STRING
 from imio.prettylink.interfaces import IPrettyLink
 from plone import api
 from plone.app.testing import login
@@ -310,7 +310,14 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # no attrName, u'-' is returned
         self.assertEqual(column.renderCell(brain), u'-')
-
+        column.the_object = True
+        column.attrName = "an_attribute"
+        # ignored values
+        for val in (None, "None", EMPTY_STRING, [EMPTY_STRING]):
+            self.eea_folder.an_attribute = val
+            self.assertEqual(column.getValue(brain), val)
+            self.assertEqual(column.renderCell(brain), u'-')
+        column.the_object = False
         column.attrName = 'Title'
         # a vocabulary is required
         self.assertRaises(KeyError, column.renderCell, brain)
@@ -408,7 +415,7 @@ class TestColumns(IntegrationTestCase):
                          u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
         # ignored_value
-        self.assertEqual(column.ignored_value, EMPTY_STRING)
+        self.assertIn(EMPTY_STRING, column.ignored_values)
         self.eea_folder.setTitle(EMPTY_STRING)
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]

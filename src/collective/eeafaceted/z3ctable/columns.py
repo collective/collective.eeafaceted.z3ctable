@@ -365,13 +365,13 @@ class VocabularyColumn(BaseColumn):
 
     # named utility
     vocabulary = None
-    ignored_value = EMPTY_STRING
+    ignored_values = [EMPTY_STRING, [EMPTY_STRING], 'None']
     # we manage escape here manually
     escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == self.ignored_value:
+        if not value or value in self.ignored_values:
             return u'-'
 
         # caching when several same values in same column
@@ -420,7 +420,7 @@ class AbbrColumn(VocabularyColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == self.ignored_value:
+        if not value or value in self.ignored_values:
             return u'-'
 
         # caching when several same values in same column
