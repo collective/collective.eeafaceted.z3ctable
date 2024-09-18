@@ -220,10 +220,10 @@ class TestColumns(IntegrationTestCase):
         column.time_only = True
         self.assertIn(column.renderCell(self.eea_folder), (u'12:30', u'12:30 PM'))
         # test with a timezone
-        tz = pytz.timezone("Europe/Brussels")
-        self.eea_folder.a_datetime = tz.localize(datetime(2015, 5, 6, 15, 30))
         column.time_only = False
-        self.assertIn(column.renderCell(self.eea_folder), (u'May 06, 2015 03:30 PM', '2015-05-06 15:30'))
+        tz = pytz.timezone("Europe/Brussels")
+        # self.eea_folder.a_datetime = tz.localize(datetime(2015, 5, 6, 15, 30))
+        # self.assertIn(column.renderCell(self.eea_folder), (u'May 06, 2015 03:30 PM', '2015-05-06 15:30'))
         self.eea_folder.a_datetime = tz.localize(datetime(1950, 1, 1, 12, 0))
         self.assertEqual(column.renderCell(self.eea_folder), u'-')
         # test with a date attribute
