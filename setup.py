@@ -42,7 +42,7 @@ setup(
         'Plone',
         'collective.excelexport',
         'eea.facetednavigation<16.0',
-        'imio.helpers',
+        'imio.helpers>=1.0.0',
         'plone.api>=1.3.0',
         'plone.formwidget.namedfile>=2.0.2',
         'setuptools',
