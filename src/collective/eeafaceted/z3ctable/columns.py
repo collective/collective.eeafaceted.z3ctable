@@ -1,9 +1,12 @@
 # encoding: utf-8
-
 from collective.eeafaceted.z3ctable import _
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
-from datetime import date
+from datetime import datetime
+from DateTime.DateTime import DateTime
+from imio.helpers import EMPTY_DATE
+from imio.helpers import EMPTY_DATETIME
+from imio.helpers import EMPTY_STRING
 from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
 from plone import api
@@ -40,10 +43,6 @@ try:
     HAS_Z3CFORM_DATAGRIDFIELD = True
 except pkg_resources.DistributionNotFound:
     HAS_Z3CFORM_DATAGRIDFIELD = False
-
-
-EMPTY_STRING = '__empty_string__'
-EMPTY_DATE = date(1950, 1, 1)
 
 
 class BaseColumn(column.GetAttrColumn):
@@ -285,13 +284,23 @@ class DateColumn(BaseColumn):
     """ """
     long_format = False
     time_only = False
-    ignored_value = EMPTY_DATE
+    ignored_values = ['None', EMPTY_DATE, EMPTY_DATETIME]
     # not necessary to escape, everything is generated
     escape = False
 
+    def getValue(self, item):
+        """ """
+        value = super(DateColumn, self).getValue(item)
+        if isinstance(value, DateTime):
+            return value.asdatetime()
+        return value
+
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == 'None' or value == self.ignored_value:
+        test_value = value
+        if isinstance(test_value, datetime):
+            test_value = test_value.replace(tzinfo=None)  # we remove tzinfo to compare
+        if not test_value or test_value in self.ignored_values:
             return u'-'
         if self.use_caching:
             res = self._get_cached_result(value)

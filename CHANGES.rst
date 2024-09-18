@@ -5,6 +5,8 @@ Changelog
 2.28 (unreleased)
 -----------------
 
+- Improved column `colums.DateColumn` by converting DateTime to compare correctly with ignored_values.
+  [sgeulette]
 - Python 3 compatibility.
   [gbastien]
 
