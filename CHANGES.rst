@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.28 (unreleased)
+2.28 (2024-09-18)
 -----------------
 
 - Modified `columns.VocabularyColumn` column by handling multiple ignored_values.
