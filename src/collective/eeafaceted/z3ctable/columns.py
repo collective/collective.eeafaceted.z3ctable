@@ -2,10 +2,10 @@
 
 from collective.eeafaceted.z3ctable import _
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
+from collective.eeafaceted.z3ctable.utils import base_getattr
+from collective.eeafaceted.z3ctable.utils import get_user_fullname
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
-from imio.helpers.content import base_getattr
-from imio.helpers.content import get_user_fullname
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode

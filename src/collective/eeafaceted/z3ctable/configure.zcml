@@ -13,7 +13,6 @@
 
     <!-- Include configuration for dependencies listed in setup.py -->
     <include zcml:condition="installed imio.actionspanel" package="imio.actionspanel"/>
-    <include package="imio.helpers"/>
     <include zcml:condition="installed imio.prettylink" package="imio.prettylink"/>
 
     <!-- Include sub-packages that use their own configure.zcml files. -->
