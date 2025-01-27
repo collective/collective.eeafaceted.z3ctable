@@ -15,7 +15,6 @@ from zope.interface import implementer
 
 import html
 import logging
-import traceback
 
 
 logger = logging.getLogger('collective.eeafaceted.z3ctable')
@@ -143,11 +142,8 @@ class FacetedTableView(BrowserView, ExtendedCSSTable):
         except Exception as exc:
             # in case an error occured, catch it or it freezes the web page
             # because faceted JS disable page and error raised does not unlock
-            traceback.print_exc(None)
-            logger.error(exc)
-            return "An error occured (%s %s), this should not happen, " \
-                "try to go back to the home page." % \
-                (exc.__class__.__name__, exc.message)
+            logger.error("Cound not render table", exc_info=True)
+            return "An error occured, this should not happen, try to go back to the home page."
 
     def _sortingCriterionName(self):
         """Find the sorting criterion and store the name in the request so
