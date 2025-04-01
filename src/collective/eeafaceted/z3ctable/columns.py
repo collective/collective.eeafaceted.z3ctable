@@ -6,6 +6,8 @@ from collective.eeafaceted.z3ctable.utils import base_getattr
 from collective.eeafaceted.z3ctable.utils import get_user_fullname
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import date
+from importlib.metadata import distribution
+from importlib.metadata import PackageNotFoundError
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
@@ -23,24 +25,23 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import html
 import os
-import pkg_resources
 import urllib
 
 
 try:
-    api.env.get_distribution('imio.prettylink')
+    distribution("imio.prettylink")
     from imio.prettylink.interfaces import IPrettyLink
+
     HAS_PRETTYLINK = True
-except pkg_resources.DistributionNotFound:
+except PackageNotFoundError:
     HAS_PRETTYLINK = False
 
 try:
-    api.env.get_distribution('collective.z3cform.datagridfield')
+    distribution("collective.z3cform.datagridfield")
     from collective.z3cform.datagridfield.datagridfield import DataGridField
+
     HAS_Z3CFORM_DATAGRIDFIELD = True
-except ImportError:
-    HAS_Z3CFORM_DATAGRIDFIELD = False
-except pkg_resources.DistributionNotFound:
+except PackageNotFoundError:
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
 
