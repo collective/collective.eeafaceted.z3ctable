@@ -5,6 +5,13 @@ from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.eeafaceted.z3ctable.utils import base_getattr
 from collective.eeafaceted.z3ctable.utils import get_user_fullname
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
+from datetime import datetime
+from DateTime.DateTime import DateTime
+from imio.helpers import EMPTY_DATE
+from imio.helpers import EMPTY_DATETIME
+from imio.helpers import EMPTY_STRING
+from imio.helpers.content import base_getattr
+from imio.helpers.content import get_user_fullname
 from datetime import date
 from importlib.metadata import distribution
 from importlib.metadata import PackageNotFoundError
@@ -23,7 +30,6 @@ from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
-
 
 import html
 import os
@@ -46,12 +52,10 @@ except PackageNotFoundError:
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
 
-EMPTY_STRING = '__empty_string__'
-EMPTY_DATE = date(1950, 1, 1)
-
-
 @implementer(IFacetedColumn)
 class BaseColumn(column.GetAttrColumn):
+
+    implements(IFacetedColumn)
 
     sort_index = None
     # as we use setUpColumns, weight is 1 for every columns
@@ -288,13 +292,23 @@ class DateColumn(BaseColumn):
     """ """
     long_format = False
     time_only = False
-    ignored_value = EMPTY_DATE
+    ignored_values = ['None', EMPTY_DATE, EMPTY_DATETIME]
     # not necessary to escape, everything is generated
     escape = False
 
+    def getValue(self, item):
+        """ """
+        value = super(DateColumn, self).getValue(item)
+        if isinstance(value, DateTime):
+            return value.asdatetime()
+        return value
+
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == 'None' or value == self.ignored_value:
+        test_value = value
+        if isinstance(test_value, datetime):
+            test_value = test_value.replace(tzinfo=None)  # we remove tzinfo to compare
+        if not test_value or test_value in self.ignored_values:
             return u'-'
         if self.use_caching:
             res = self._get_cached_result(value)
@@ -359,13 +373,13 @@ class VocabularyColumn(BaseColumn):
 
     # named utility
     vocabulary = None
-    ignored_value = EMPTY_STRING
+    ignored_values = [EMPTY_STRING, [EMPTY_STRING], 'None']
     # we manage escape here manually
     escape = False
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == self.ignored_value:
+        if not value or value in self.ignored_values:
             return u'-'
 
         # caching when several same values in same column
@@ -414,7 +428,7 @@ class AbbrColumn(VocabularyColumn):
 
     def renderCell(self, item):
         value = self.getValue(item)
-        if not value or value == self.ignored_value:
+        if not value or value in self.ignored_values:
             return u'-'
 
         # caching when several same values in same column

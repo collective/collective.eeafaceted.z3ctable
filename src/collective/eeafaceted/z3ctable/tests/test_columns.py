@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from collective.eeafaceted.z3ctable.columns import AbbrColumn
 from collective.eeafaceted.z3ctable.columns import ActionsColumn
 from collective.eeafaceted.z3ctable.columns import AwakeObjectMethodColumn
@@ -11,7 +10,6 @@ from collective.eeafaceted.z3ctable.columns import ColorColumn
 from collective.eeafaceted.z3ctable.columns import DateColumn
 from collective.eeafaceted.z3ctable.columns import DxWidgetRenderColumn
 from collective.eeafaceted.z3ctable.columns import ElementNumberColumn
-from collective.eeafaceted.z3ctable.columns import EMPTY_STRING
 from collective.eeafaceted.z3ctable.columns import I18nColumn
 from collective.eeafaceted.z3ctable.columns import IconsColumn
 from collective.eeafaceted.z3ctable.columns import MemberIdColumn
@@ -24,6 +22,9 @@ from collective.eeafaceted.z3ctable.tests.views import CALL_RESULT
 from datetime import date
 from datetime import datetime
 from DateTime import DateTime
+from imio.helpers import EMPTY_DATE
+from imio.helpers import EMPTY_DATETIME
+from imio.helpers import EMPTY_STRING
 from imio.prettylink.interfaces import IPrettyLink
 from plone import api
 from plone.app.testing import login
@@ -36,6 +37,7 @@ from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
 
 import html
+import pytz
 
 
 class TestColumns(IntegrationTestCase):
@@ -195,18 +197,20 @@ class TestColumns(IntegrationTestCase):
         self.assertEqual(column.renderCell(brain), u'Oct 20, 2023')
         column.long_format = True
         self.assertEqual(column.renderCell(brain), u'Oct 20, 2023 03:15 PM')
-        column.the_object = False
         # test with an ignored value
-        column.ignored_value = brain.CreationDate
-        self.assertEqual(column.renderCell(brain), u'-')
-        column.ignored_value = None
+        column.attrName = "an_attribute"
+        for val in (None, "None", EMPTY_DATE, EMPTY_DATETIME):
+            self.eea_folder.an_attribute = val
+            self.assertEqual(column.getValue(brain), val)
+            self.assertEqual(column.renderCell(brain), u'-')
         # test the long_format parameter
+        column.the_object = False
         column.attrName = 'CreationDate'
         self.assertIn(column.renderCell(brain), (u'May 05, 2015 12:30 PM', '2015-05-05 12:30'))
         column.time_only = True
         self.assertIn(column.renderCell(brain), (u'12:30', u'12:30 PM'))
         # test with a datetime attribute
-        self.eea_folder.a_datetime = datetime(2015, 05, 06, 12, 30)
+        self.eea_folder.a_datetime = datetime(2015, 5, 6, 12, 30)
         column.attrName = 'a_datetime'
         column.long_format = False
         column.time_only = False
@@ -215,8 +219,15 @@ class TestColumns(IntegrationTestCase):
         self.assertIn(column.renderCell(self.eea_folder), (u'May 06, 2015 12:30 PM', '2015-05-06 12:30'))
         column.time_only = True
         self.assertIn(column.renderCell(self.eea_folder), (u'12:30', u'12:30 PM'))
+        # test with a timezone
+        column.time_only = False
+        tz = pytz.timezone("Europe/Brussels")
+        # self.eea_folder.a_datetime = tz.localize(datetime(2015, 5, 6, 15, 30))
+        # self.assertIn(column.renderCell(self.eea_folder), (u'May 06, 2015 03:30 PM', '2015-05-06 15:30'))
+        self.eea_folder.a_datetime = tz.localize(datetime(1950, 1, 1, 12, 0))
+        self.assertEqual(column.renderCell(self.eea_folder), u'-')
         # test with a date attribute
-        self.eea_folder.a_date = date(2015, 05, 07)
+        self.eea_folder.a_date = date(2015, 5, 7)
         column.attrName = 'a_date'
         column.long_format = False
         column.time_only = False
@@ -299,7 +310,14 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # no attrName, u'-' is returned
         self.assertEqual(column.renderCell(brain), u'-')
-
+        column.the_object = True
+        column.attrName = "an_attribute"
+        # ignored values
+        for val in (None, "None", EMPTY_STRING, [EMPTY_STRING]):
+            self.eea_folder.an_attribute = val
+            self.assertEqual(column.getValue(brain), val)
+            self.assertEqual(column.renderCell(brain), u'-')
+        column.the_object = False
         column.attrName = 'Title'
         # a vocabulary is required
         self.assertRaises(KeyError, column.renderCell, brain)
@@ -397,7 +415,7 @@ class TestColumns(IntegrationTestCase):
                          u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
                          u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
         # ignored_value
-        self.assertEqual(column.ignored_value, EMPTY_STRING)
+        self.assertIn(EMPTY_STRING, column.ignored_values)
         self.eea_folder.setTitle(EMPTY_STRING)
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]

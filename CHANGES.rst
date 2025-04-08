@@ -2,7 +2,23 @@ Changelog
 =========
 
 
-2.27 (unreleased)
+2.29 (unreleased)
+-----------------
+
+- Nothing changed yet.
+
+
+2.28 (2024-09-18)
+-----------------
+
+- Modified `columns.VocabularyColumn` column by handling multiple ignored_values.
+  [sgeulette]
+- Improved `colums.DateColumn` column by converting DateTime to compare correctly with ignored_values.
+  [sgeulette]
+- Python 3 compatibility.
+  [gbastien]
+
+2.27 (2024-05-27)
 -----------------
 
 - When `the_object=True`, `attrName` may be a callable.
