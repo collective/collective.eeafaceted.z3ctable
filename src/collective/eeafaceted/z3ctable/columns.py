@@ -11,6 +11,7 @@ from importlib.metadata import PackageNotFoundError
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
+from six.moves.urllib.parse import urlencode
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
 from z3c.relationfield.schema import RelationChoice
@@ -23,9 +24,9 @@ from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
+
 import html
 import os
-import urllib
 
 
 try:
@@ -197,7 +198,7 @@ class BaseColumnHeader(SortingColumnHeader):
         # make sure we handle multiple valued parameters correctly
         # eea.facetednavigation needs this : ?b_start=0&c6=state1&c6=state2
         # not ?b_start=0&c6:list=state1&c6:list=state2 nor ?b_start=0&c6=state1+state2
-        return urllib.urlencode(query, doseq=True)
+        return urlencode(query, doseq=True)
 
     @property
     def request_query(self):
