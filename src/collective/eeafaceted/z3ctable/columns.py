@@ -1,4 +1,5 @@
 # encoding: utf-8
+from importlib.metadata import PackageNotFoundError
 
 from collective.eeafaceted.z3ctable import _
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
@@ -33,21 +34,16 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import html
 import os
-
 try:
-    api.env.get_distribution("imio.prettylink")
     from imio.prettylink.interfaces import IPrettyLink
-
     HAS_PRETTYLINK = True
-except:
+except (PackageNotFoundError, ImportError):
     HAS_PRETTYLINK = False
 
 try:
-    api.env.get_distribution("collective.z3cform.datagridfield")
     from collective.z3cform.datagridfield.datagridfield import DataGridField
-
     HAS_Z3CFORM_DATAGRIDFIELD = True
-except:
+except (PackageNotFoundError, ImportError):
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
 
