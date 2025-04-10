@@ -9,3 +9,6 @@ def post_install(context):
     """Post install script"""
     if isNotCurrentProfile(context):
         return
+
+def uninstall(context):
+    pass

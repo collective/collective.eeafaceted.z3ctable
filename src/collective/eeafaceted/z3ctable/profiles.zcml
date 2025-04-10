@@ -48,6 +48,14 @@
         handler=".setuphandlers.post_install">
     </genericsetup:importStep>
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="collective.eeafaceted.z3ctable (uninstall)"
+        directory="profiles/uninstall"
+        description="Uninstalls the collective.eeafaceted.z3ctable add-on."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler=".setuphandlers.uninstall" />
+
     <genericsetup:upgradeSteps
         source="1"
         destination="2"

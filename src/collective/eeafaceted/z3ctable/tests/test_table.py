@@ -34,14 +34,16 @@ class TestTable(IntegrationTestCase):
         batch = Batch(brains, size=5)
         rendered_table = lxml.html.fromstring(table.render_table(batch))
         # we have one table with 7 columns and 1 row
-        rows = rendered_table.xpath('//table//tbody//tr')
+        rows = rendered_table.xpath('//table//tbody/tr')
         # 1 row
         self.assertEqual(len(rows), 1)
+        columns = rendered_table.xpath('//table//thead/tr/th')
         # 9 columns
-        self.assertEqual(len(rows.findall('td')), 9)
+        self.assertEqual(len(columns), 9)
         # the brain is actually displayed in the table
         brain = brains[0]
-        self.assertEqual(rows.find('td').text_content(), brain.Title)
+        cell = rendered_table.xpath('//table//tbody/tr/td')[0]
+        self.assertEqual(cell.text_content(), brain.Title)
 
     def test_Table_CSS_on_tr_from_cell(self):
         """table.renderRow was overrided to take into account 'tr' CSS classes defined on a column."""
