@@ -183,7 +183,7 @@ class TestColumns(IntegrationTestCase):
         column = DateColumn(self.portal, self.portal.REQUEST, table)
         column.use_caching = False
         # test with a DateTime attribute
-        self.eea_folder.setCreationDate('2015/05/05 12:30')
+        self.eea_folder.creation_date = DateTime('2015/05/05 12:30')
         self.eea_folder.reindexObject(idxs=['created', 'CreationDate', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if no attrName, u'-' is returned
