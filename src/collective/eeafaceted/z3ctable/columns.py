@@ -1,6 +1,4 @@
 # encoding: utf-8
-from importlib.metadata import PackageNotFoundError
-
 from collective.eeafaceted.z3ctable import _
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
 from collective.eeafaceted.z3ctable.utils import base_getattr
@@ -13,9 +11,7 @@ from imio.helpers import EMPTY_DATETIME
 from imio.helpers import EMPTY_STRING
 from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
-from datetime import date
-# from importlib.metadata import distribution
-# from importlib.metadata import PackageNotFoundError
+from importlib.metadata import PackageNotFoundError
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
@@ -41,7 +37,7 @@ except (PackageNotFoundError, ImportError):
     HAS_PRETTYLINK = False
 
 try:
-    from collective.z3cform.datagridfield.datagridfield import DataGridField
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldWidget
     HAS_Z3CFORM_DATAGRIDFIELD = True
 except (PackageNotFoundError, ImportError):
     HAS_Z3CFORM_DATAGRIDFIELD = False
@@ -711,7 +707,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
                     if self.simplified_datagridfield and \
                        HAS_Z3CFORM_DATAGRIDFIELD and \
-                       isinstance(widget, DataGridField):
+                       isinstance(widget, DataGridFieldWidget):
                         widget._value = value
                     else:
                         converter = IDataConverter(widget)
@@ -733,7 +729,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 # render the widget
                 if self.simplified_datagridfield and \
                    HAS_Z3CFORM_DATAGRIDFIELD and \
-                   isinstance(widget, DataGridField):
+                   isinstance(widget, DataGridFieldWidget):
                     _rendered_value = self._render_datagridfield(view, widget)
                 else:
                     _rendered_value = widget.render()
