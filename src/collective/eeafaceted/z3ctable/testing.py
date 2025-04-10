@@ -2,6 +2,7 @@
 """Base module for unittesting."""
 
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
+from eea.facetednavigation.subtypes.interfaces import IPossibleFacetedNavigable
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
@@ -13,16 +14,19 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from plone.formwidget.contenttree import ObjPathSourceBinder
+# from plone.formwidget.contenttree import ObjPathSourceBinder
 from plone.supermodel import model
 from plone.testing import z2
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import schema
+from zope.component import getMultiAdapter
 from zope.globalrequest.local import setLocal
 
 import collective.eeafaceted.z3ctable
 import unittest
+
+from zope.interface import alsoProvides
 
 
 class ITestingType(model.Schema):
@@ -40,14 +44,14 @@ class ITestingType(model.Schema):
 
     rel_item = RelationChoice(
         title=u"Rel item",
-        source=ObjPathSourceBinder(),
+        vocabulary="plone.app.vocabularies.Catalog",
         required=False,
     )
 
     rel_items = RelationList(
         title=u"Related Items",
         default=[],
-        value_type=RelationChoice(title=u"Related", source=ObjPathSourceBinder()),
+        value_type=RelationChoice(title=u"Related", vocabulary="plone.app.vocabularies.Catalog"),
         required=False,
     )
 
@@ -101,7 +105,10 @@ class CollectiveEeafacetedZ3ctableLayer(NakedPloneLayer):
         )
         eea_folder.reindexObject()
 
-        eea_folder.restrictedTraverse('@@faceted_subtyper').enable()
+        alsoProvides(eea_folder, IPossibleFacetedNavigable)
+        subtyper = getMultiAdapter((eea_folder, eea_folder.REQUEST), name=u'faceted_subtyper')
+        subtyper.enable()
+
         IFacetedLayout(eea_folder).update_layout('faceted-table-items')
 
         # Commit so that the test browser sees these objects

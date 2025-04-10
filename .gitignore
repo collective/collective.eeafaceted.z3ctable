@@ -28,6 +28,7 @@ src/*
 docs/html
 include
 lib
+lib64
 !src/collective
 pyvenv.cfg
 .idea

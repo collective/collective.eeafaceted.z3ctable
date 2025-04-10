@@ -13,8 +13,8 @@ from imio.helpers import EMPTY_STRING
 from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
 from datetime import date
-from importlib.metadata import distribution
-from importlib.metadata import PackageNotFoundError
+# from importlib.metadata import distribution
+# from importlib.metadata import PackageNotFoundError
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
@@ -34,28 +34,25 @@ from zope.schema.interfaces import IVocabularyFactory
 import html
 import os
 
-
 try:
-    distribution("imio.prettylink")
+    api.env.get_distribution("imio.prettylink")
     from imio.prettylink.interfaces import IPrettyLink
 
     HAS_PRETTYLINK = True
-except PackageNotFoundError:
+except:
     HAS_PRETTYLINK = False
 
 try:
-    distribution("collective.z3cform.datagridfield")
+    api.env.get_distribution("collective.z3cform.datagridfield")
     from collective.z3cform.datagridfield.datagridfield import DataGridField
 
     HAS_Z3CFORM_DATAGRIDFIELD = True
-except PackageNotFoundError:
+except:
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
 
 @implementer(IFacetedColumn)
 class BaseColumn(column.GetAttrColumn):
-
-    implements(IFacetedColumn)
 
     sort_index = None
     # as we use setUpColumns, weight is 1 for every columns
@@ -260,7 +257,7 @@ class RelationTitleColumn(BaseColumn):
 
     def target_display(self, obj):
         """ Return an html link """
-        return u'<a href="{0}">{1}</a>'.format(obj.absolute_url(), obj.Title().decode('utf8'))
+        return u'<a href="{0}">{1}</a>'.format(obj.absolute_url(), obj.Title())
 
     def renderCell(self, item):
         targets = self.getLinkedObjects(item)
@@ -363,8 +360,7 @@ class BrowserViewCallColumn(BaseColumn):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
 
-        # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
-        path = os.path.join(item.getPath(), self.view_name).encode('utf-8')
+        path = os.path.join(item.getPath(), self.view_name)
         return self.table.portal.unrestrictedTraverse(path)(**self.params)
 
 
@@ -401,7 +397,7 @@ class VocabularyColumn(BaseColumn):
             self._cached_vocab_instance = factory(self.context)
 
         # make sure we have an iterable
-        if not hasattr(value, '__iter__'):
+        if isinstance(value, str):
             value = [value]
         res = []
         for v in value:
@@ -456,7 +452,7 @@ class AbbrColumn(VocabularyColumn):
             self._cached_full_vocab_instance = full_factory(self.context)
 
         # make sure we have an iterable
-        if not hasattr(value, '__iter__'):
+        if isinstance(value, str):
             value = [value]
         res = []
         for v in value:

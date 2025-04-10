@@ -8,6 +8,6 @@ CALL_RESULT = 'Browser view call result'
 
 class TestingBrowserCallView(BrowserView):
 
-    def index(self):
+    def __call__(self):
         """ """
         return CALL_RESULT
