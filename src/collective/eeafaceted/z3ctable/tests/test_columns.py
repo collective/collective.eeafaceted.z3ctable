@@ -619,10 +619,12 @@ class TestColumns(IntegrationTestCase):
                          u"<span class='pretty_link_content state-private'>Folder 1</span></a>",
                          column.renderCell(brain))
         column.params = {'showContentIcon': True}
-        self.assertEqual(u"<a class='pretty_link' title='Folder 1' "
-                         u"href='http://nohost/plone/fold1' target='_self'>"
-                         u"<span class='pretty_link_content state-private contenttype-Folder'>Folder 1</span></a>",
-                         column.renderCell(brain))
+        self.assertEqual(("<a class='pretty_link' title='Folder 1' href='http://nohost/plone/fold1' target='_self'>"
+                    "<span class='pretty_link_icons'>"
+                    "<img title='Folder' src='http://nohost/plone/folder' style=\"width: 16px; height: 16px;\" />"
+                    "</span>"
+                    "<span class='pretty_link_content state-private'>Folder 1</span></a>"), column.renderCell(brain))
+
         column.params = {}
         column.attrName = 'rel_items'
         self.assertEqual(u"<ul>\n<li><a class='pretty_link' title='Folder 1' href='http://nohost/plone/fold1' "
