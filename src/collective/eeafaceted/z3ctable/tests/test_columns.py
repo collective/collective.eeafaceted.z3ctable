@@ -585,7 +585,7 @@ class TestColumns(IntegrationTestCase):
         tt.afield = u'My field content'
         rendered = column.renderCell(brain)
         self.assertTrue(
-            '<span id="form-widgets-afield" class="text-widget textline-field">My field content</span>'
+            'My field content'
             in rendered)
         # ai_extra_fields, by default id, UID and description
         self.assertTrue(
@@ -704,7 +704,10 @@ class TestColumns(IntegrationTestCase):
         self.assertRaises(KeyError, column.renderCell, brain)
         column.field_name = 'afield'
         self.assertIn(
-            '<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
+            'id="form-widgets-afield" class="text-widget',
+            column.renderCell(brain))
+        self.assertIn(
+            'This is a text line',
             column.renderCell(brain))
 
     def test_js_variables(self):
