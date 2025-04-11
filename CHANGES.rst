@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-2.29 (unreleased)
+3.0 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Drop support for python 2.7 and Plone 4.3.
+  [wboudabous, aduchene]
+- Plone 6.0 & Plone 6.1 compatibilities.
+  [pbauer, wboudabous, aduchene]
 
 2.28 (2024-09-18)
 -----------------
