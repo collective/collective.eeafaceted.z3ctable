@@ -11,11 +11,10 @@ from z3c.table.interfaces import INoneCell
 from z3c.table.table import SequenceTable
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
-from zope.interface import implements
+from zope.interface import implementer
 
 import html
 import logging
-import traceback
 
 
 logger = logging.getLogger('collective.eeafaceted.z3ctable')
@@ -112,15 +111,14 @@ class ExtendedCSSTable(SequenceTable):
         return renderedCell
 
 
+@implementer(IFacetedTable)
 class FacetedTableView(BrowserView, ExtendedCSSTable):
-
-    implements(IFacetedTable)
 
     # workaround so z3c.table does not manage batching
     startBatchingAt = 9999
     cssClassEven = u'odd'
     cssClassOdd = u'even'
-    cssClasses = {'table': 'faceted-table-results listing nosort'}
+    cssClasses = {'table': 'faceted-table-results table table-striped table-bordered nosort'}
     ignoreColumnWeight = False  # when set to True, keep columns ordered as returned by '_getViewFields'
     table_id = 'faceted_table'
     row_id_prefix = 'row_'
@@ -144,11 +142,8 @@ class FacetedTableView(BrowserView, ExtendedCSSTable):
         except Exception as exc:
             # in case an error occured, catch it or it freezes the web page
             # because faceted JS disable page and error raised does not unlock
-            traceback.print_exc(None)
-            logger.error(exc)
-            return "An error occured (%s %s), this should not happen, " \
-                "try to go back to the home page." % \
-                (exc.__class__.__name__, exc.message)
+            logger.error("Cound not render table", exc_info=True)
+            return "An error occured, this should not happen, try to go back to the home page."
 
     def _sortingCriterionName(self):
         """Find the sorting criterion and store the name in the request so

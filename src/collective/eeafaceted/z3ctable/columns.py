@@ -1,6 +1,8 @@
 # encoding: utf-8
 from collective.eeafaceted.z3ctable import _
 from collective.eeafaceted.z3ctable.interfaces import IFacetedColumn
+from collective.eeafaceted.z3ctable.utils import base_getattr
+from collective.eeafaceted.z3ctable.utils import get_user_fullname
 from collective.excelexport.exportables.dexterityfields import get_exportable_for_fieldname
 from datetime import datetime
 from DateTime.DateTime import DateTime
@@ -9,9 +11,11 @@ from imio.helpers import EMPTY_DATETIME
 from imio.helpers import EMPTY_STRING
 from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
+from importlib.metadata import PackageNotFoundError
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
+from six.moves.urllib.parse import urlencode
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
 from z3c.relationfield.schema import RelationChoice
@@ -21,33 +25,26 @@ from z3c.table.header import SortingColumnHeader
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 import html
 import os
-import pkg_resources
-import urllib
-
-
 try:
-    api.env.get_distribution('imio.prettylink')
     from imio.prettylink.interfaces import IPrettyLink
     HAS_PRETTYLINK = True
-except pkg_resources.DistributionNotFound:
+except (PackageNotFoundError, ImportError):
     HAS_PRETTYLINK = False
 
 try:
-    api.env.get_distribution('collective.z3cform.datagridfield')
-    from collective.z3cform.datagridfield.datagridfield import DataGridField
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldWidget
     HAS_Z3CFORM_DATAGRIDFIELD = True
-except pkg_resources.DistributionNotFound:
+except (PackageNotFoundError, ImportError):
     HAS_Z3CFORM_DATAGRIDFIELD = False
 
 
+@implementer(IFacetedColumn)
 class BaseColumn(column.GetAttrColumn):
-
-    implements(IFacetedColumn)
 
     sort_index = None
     # as we use setUpColumns, weight is 1 for every columns
@@ -194,7 +191,7 @@ class BaseColumnHeader(SortingColumnHeader):
         # make sure we handle multiple valued parameters correctly
         # eea.facetednavigation needs this : ?b_start=0&c6=state1&c6=state2
         # not ?b_start=0&c6:list=state1&c6:list=state2 nor ?b_start=0&c6=state1+state2
-        return urllib.urlencode(query, doseq=True)
+        return urlencode(query, doseq=True)
 
     @property
     def request_query(self):
@@ -252,7 +249,7 @@ class RelationTitleColumn(BaseColumn):
 
     def target_display(self, obj):
         """ Return an html link """
-        return u'<a href="{0}">{1}</a>'.format(obj.absolute_url(), obj.Title().decode('utf8'))
+        return u'<a href="{0}">{1}</a>'.format(obj.absolute_url(), obj.Title())
 
     def renderCell(self, item):
         targets = self.getLinkedObjects(item)
@@ -355,8 +352,7 @@ class BrowserViewCallColumn(BaseColumn):
         if not self.view_name:
             raise KeyError('A "view_name" must be defined for column "{0}" !'.format(self.attrName))
 
-        # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
-        path = os.path.join(item.getPath(), self.view_name).encode('utf-8')
+        path = os.path.join(item.getPath(), self.view_name)
         return self.table.portal.unrestrictedTraverse(path)(**self.params)
 
 
@@ -393,7 +389,7 @@ class VocabularyColumn(BaseColumn):
             self._cached_vocab_instance = factory(self.context)
 
         # make sure we have an iterable
-        if not hasattr(value, '__iter__'):
+        if isinstance(value, str):
             value = [value]
         res = []
         for v in value:
@@ -448,7 +444,7 @@ class AbbrColumn(VocabularyColumn):
             self._cached_full_vocab_instance = full_factory(self.context)
 
         # make sure we have an iterable
-        if not hasattr(value, '__iter__'):
+        if isinstance(value, str):
             value = [value]
         res = []
         for v in value:
@@ -711,7 +707,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
 
                     if self.simplified_datagridfield and \
                        HAS_Z3CFORM_DATAGRIDFIELD and \
-                       isinstance(widget, DataGridField):
+                       isinstance(widget, DataGridFieldWidget):
                         widget._value = value
                     else:
                         converter = IDataConverter(widget)
@@ -733,7 +729,7 @@ class PrettyLinkWithAdditionalInfosColumn(PrettyLinkColumn):
                 # render the widget
                 if self.simplified_datagridfield and \
                    HAS_Z3CFORM_DATAGRIDFIELD and \
-                   isinstance(widget, DataGridField):
+                   isinstance(widget, DataGridFieldWidget):
                     _rendered_value = self._render_datagridfield(view, widget)
                 else:
                     _rendered_value = widget.render()

@@ -132,10 +132,10 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if column.attrName is not an attribute, it will return u''
         column.attrName = 'someUnexistingAttribute'
-        self.assertEqual(column.renderCell(brain), u'-')
+        self.assertEqual(column.renderCell(brain), "-")
         # now an existing attribute
-        column.attrName = '_at_uid'
-        self.assertEqual(column.renderCell(brain), self.eea_folder._at_uid)
+        column.attrName = '_plone.uuid'
+        self.assertEqual(column.renderCell(brain), getattr(self.eea_folder, "_plone.uuid"))
 
     def test_AwakeObjectMethodColumn(self):
         """This will wake the given catalog brain and call the attrName on it.
@@ -155,8 +155,6 @@ class TestColumns(IntegrationTestCase):
         # we can also pass parameters
         column.attrName = 'Description'
         self.assertEqual(column.renderCell(brain), DESCR_TEXT)
-        column.params = {'mimetype': 'text/html'}
-        self.assertEqual(column.renderCell(brain), u'<p>{0}</p>'.format(DESCR_TEXT))
 
     def test_RelationTitleColumn(self):
         """ """
@@ -185,7 +183,7 @@ class TestColumns(IntegrationTestCase):
         column = DateColumn(self.portal, self.portal.REQUEST, table)
         column.use_caching = False
         # test with a DateTime attribute
-        self.eea_folder.setCreationDate('2015/05/05 12:30')
+        self.eea_folder.creation_date = DateTime('2015/05/05 12:30')
         self.eea_folder.reindexObject(idxs=['created', 'CreationDate', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         # if no attrName, u'-' is returned
@@ -334,19 +332,19 @@ class TestColumns(IntegrationTestCase):
         self.eea_folder.setTitle('existing_key1')
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEqual(column.renderCell(brain), u'Existing v\xe9lue 1')
+        self.assertEqual(column.renderCell(brain), u'Existing vélue 1')
 
         # multiValued vocabulary
         self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
-        self.assertEqual(column.renderCell(brain), u'Existing v\xe9lue 1, Existing v\xe9lue 2')
+        self.assertEqual(column.renderCell(brain), u'Existing vélue 1, Existing vélue 2')
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderCell(brain),
-                         u'Existing v\xe9lue 1, unexisting_key, Existing v\xe9lue 2')
+                         u'Existing vélue 1, unexisting_key, Existing vélue 2')
 
     def test_AbbrColumn(self):
         """This column uses 2 vocabularies to generate an <abbr> tag where first vocabulary
@@ -366,15 +364,15 @@ class TestColumns(IntegrationTestCase):
         with self.assertRaises(KeyError) as cm:
             column.renderCell(brain)
         self.assertEqual(
-            cm.exception.message,
-            'A "vocabulary" and a "full_vocabulary" must be defined for column "Title" !')
+            str(cm.exception),
+            '\'A "vocabulary" and a "full_vocabulary" must be defined for column "Title" !\'')
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = None
         with self.assertRaises(KeyError) as cm:
             column.renderCell(brain)
         self.assertEqual(
-            cm.exception.message,
-            'A "vocabulary" and a "full_vocabulary" must be defined for column "Title" !')
+            str(cm.exception),
+            '\'A "vocabulary" and a "full_vocabulary" must be defined for column "Title" !\'')
 
         # both vocabularies must be valid
         column.vocabulary = "some.unknown.vocabulary"
@@ -397,23 +395,23 @@ class TestColumns(IntegrationTestCase):
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderCell(brain),
-                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
+                         u"<abbr title='Full existing value 1'>Existing vélue 1</abbr>")
 
         # multiValued vocabulary
         self.eea_folder.setTitle(('existing_key1', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderCell(brain),
-                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1, </abbr>"
-                         u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
+                         u"<abbr title='Full existing value 1'>Existing vélue 1, </abbr>"
+                         u"<abbr title='Full existing value 2'>Existing vélue 2</abbr>")
         # mixed with unexisting key
         self.eea_folder.setTitle(('existing_key1', 'unexisting_key', 'existing_key2'))
         self.eea_folder.reindexObject(idxs=['Title', ])
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         self.assertEqual(column.renderCell(brain),
-                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1, </abbr>"
+                         u"<abbr title='Full existing value 1'>Existing vélue 1, </abbr>"
                          u"<abbr title='unexisting_key'>unexisting_key, </abbr>"
-                         u"<abbr title='Full existing value 2'>Existing v\xe9lue 2</abbr>")
+                         u"<abbr title='Full existing value 2'>Existing vélue 2</abbr>")
         # ignored_value
         self.assertIn(EMPTY_STRING, column.ignored_values)
         self.eea_folder.setTitle(EMPTY_STRING)
@@ -431,12 +429,12 @@ class TestColumns(IntegrationTestCase):
         brain = self.portal.portal_catalog(UID=self.eea_folder.UID())[0]
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
-        self.assertEqual(column.renderCell(brain), u"Existing v\xe9lue 1")
+        self.assertEqual(column.renderCell(brain), u"Existing vélue 1")
         # if a callable is defined, it is called
         self.eea_folder.setTitle([u'existing_key1', u'existing_key2'])
         self.eea_folder.reindexObject()
         column.attrName = 'Title'
-        self.assertEqual(column.renderCell(brain), u'Existing v\xe9lue 1, Existing v\xe9lue 2')
+        self.assertEqual(column.renderCell(brain), u'Existing vélue 1, Existing vélue 2')
         # will raise if attrName does not exist
         column.attrName = "unknown"
         self.assertEqual(column.renderCell(brain), u'-')
@@ -452,7 +450,7 @@ class TestColumns(IntegrationTestCase):
         column.vocabulary = "collective.eeafaceted.z3ctable.testingvocabulary"
         column.full_vocabulary = "collective.eeafaceted.z3ctable.testingfullvocabulary"
         self.assertEqual(column.renderCell(brain),
-                         u"<abbr title='Full existing value 1'>Existing v\xe9lue 1</abbr>")
+                         u"<abbr title='Full existing value 1'>Existing vélue 1</abbr>")
         # will raise if attrName does not exist
         column.attrName = "unknown"
         self.assertEqual(column.renderCell(brain), u'-')
@@ -587,7 +585,7 @@ class TestColumns(IntegrationTestCase):
         tt.afield = u'My field content'
         rendered = column.renderCell(brain)
         self.assertTrue(
-            '<span id="form-widgets-afield" class="text-widget textline-field">My field content</span>'
+            'My field content'
             in rendered)
         # ai_extra_fields, by default id, UID and description
         self.assertTrue(
@@ -621,10 +619,12 @@ class TestColumns(IntegrationTestCase):
                          u"<span class='pretty_link_content state-private'>Folder 1</span></a>",
                          column.renderCell(brain))
         column.params = {'showContentIcon': True}
-        self.assertEqual(u"<a class='pretty_link' title='Folder 1' "
-                         u"href='http://nohost/plone/fold1' target='_self'>"
-                         u"<span class='pretty_link_content state-private contenttype-Folder'>Folder 1</span></a>",
-                         column.renderCell(brain))
+        self.assertEqual(("<a class='pretty_link' title='Folder 1' href='http://nohost/plone/fold1' target='_self'>"
+                    "<span class='pretty_link_icons'>"
+                    "<img title='Folder' src='http://nohost/plone/folder' style=\"width: 16px; height: 16px;\" />"
+                    "</span>"
+                    "<span class='pretty_link_content state-private'>Folder 1</span></a>"), column.renderCell(brain))
+
         column.params = {}
         column.attrName = 'rel_items'
         self.assertEqual(u"<ul>\n<li><a class='pretty_link' title='Folder 1' href='http://nohost/plone/fold1' "
@@ -704,7 +704,10 @@ class TestColumns(IntegrationTestCase):
         self.assertRaises(KeyError, column.renderCell, brain)
         column.field_name = 'afield'
         self.assertIn(
-            '<span id="form-widgets-afield" class="text-widget textline-field">This is a text line</span>',
+            'id="form-widgets-afield" class="text-widget',
+            column.renderCell(brain))
+        self.assertIn(
+            'This is a text line',
             column.renderCell(brain))
 
     def test_js_variables(self):

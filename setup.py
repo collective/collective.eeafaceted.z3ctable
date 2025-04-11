@@ -15,18 +15,19 @@ long_description = read('README.rst') + '\n\n' + read('CHANGES.rst')
 
 setup(
     name='collective.eeafaceted.z3ctable',
-    version='2.29.dev0',
+    version='3.0.dev0',
     description="Package proposant un type de colonne compatible avec eea.facetednavigation",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
-        "Framework :: Plone :: 4.3",
-        "Framework :: Plone :: 5.0",
-        "Framework :: Plone :: 5.1",
+        "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: 6.1",
         "License :: OSI Approved :: GNU General Public License (GPL)",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
     ],
     keywords='Python Zope Plone',
     author='IMIO',
@@ -41,7 +42,7 @@ setup(
     install_requires=[
         'Plone',
         'collective.excelexport',
-        'eea.facetednavigation<16.0',
+        'eea.facetednavigation',
         'imio.helpers>=1.0.1',
         'plone.api>=1.3.0',
         'plone.formwidget.namedfile>=2.0.2',

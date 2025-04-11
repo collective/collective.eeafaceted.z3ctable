@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-2.29 (unreleased)
+3.0 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Drop support for python 2.7 and Plone 4.3.
+  [wboudabous, aduchene]
+- Plone 6.0 & Plone 6.1 compatibilities.
+  [pbauer, wboudabous, aduchene]
 
 2.28 (2024-09-18)
 -----------------
@@ -36,6 +38,8 @@ Changelog
 - In `DateColumn.renderCell`, no need to manage a `DateTime` as it is supported
   by `api.portal.get_localized_time`.
   [gbastien]
+- Fix Py3 Errors
+  [fngaha]
 
 2.24 (2023-10-19)
 -----------------

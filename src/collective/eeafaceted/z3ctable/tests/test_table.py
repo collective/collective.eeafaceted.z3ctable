@@ -34,13 +34,16 @@ class TestTable(IntegrationTestCase):
         batch = Batch(brains, size=5)
         rendered_table = lxml.html.fromstring(table.render_table(batch))
         # we have one table with 7 columns and 1 row
+        rows = rendered_table.xpath('//table//tbody/tr')
         # 1 row
-        self.assertEqual(len(rendered_table.find('tbody').findall('tr')), 1)
+        self.assertEqual(len(rows), 1)
+        columns = rendered_table.xpath('//table//thead/tr/th')
         # 9 columns
-        self.assertEqual(len(rendered_table.find('tbody').find('tr').findall('td')), 9)
+        self.assertEqual(len(columns), 9)
         # the brain is actually displayed in the table
         brain = brains[0]
-        self.assertEqual(rendered_table.find('tbody').find('tr').find('td').text_content(), brain.Title)
+        cell = rendered_table.xpath('//table//tbody/tr/td')[0]
+        self.assertEqual(cell.text_content(), brain.Title)
 
     def test_Table_CSS_on_tr_from_cell(self):
         """table.renderRow was overrided to take into account 'tr' CSS classes defined on a column."""
@@ -75,7 +78,7 @@ class TestTable(IntegrationTestCase):
 
         weights = [col.__class__.weight for col in table.columns]
         ordered_weights = sorted(weights)
-        self.assertNotEquals(weights, ordered_weights)
+        self.assertNotEqual(weights, ordered_weights)
 
         # when ignoreColumnWeight is set to False, colums are kept ordered
         # by weight on each column
@@ -83,7 +86,7 @@ class TestTable(IntegrationTestCase):
         table.initColumns()
 
         columns = [col.__name__ for col in table.columns]
-        self.assertNotEquals(columns, table._getViewFields())
+        self.assertNotEqual(columns, table._getViewFields())
 
         weights = [col.__class__.weight for col in table.columns]
         ordered_weights = sorted(weights)
