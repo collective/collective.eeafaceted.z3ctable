@@ -15,7 +15,7 @@ jobs:
             plone: 4.3
           - python: 3.10.16
             plone: 6.0
-          - python: 3.12.9
+          - python: 3.12.8
             plone: 6.1
     steps:
       - name: Checkout
@@ -31,7 +31,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-${{ matrix.plone }}.txt
       - name: Cache eggs
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
