@@ -433,17 +433,18 @@ class AbbrColumn(VocabularyColumn):
         if not hasattr(self, '_cached_full_vocab_instance'):
             if not self.vocabulary or not self.full_vocabulary:
                 raise KeyError(
-                    'A "vocabulary" and a "full_vocabulary" must be defined for column "{0}" !'.format(self.attrName))
+                    'A "vocabulary" and a "full_vocabulary" must be defined for column "{0}" !'.format(
+                        self.attrName))
             acronym_factory = queryUtility(IVocabularyFactory, self.vocabulary)
             if not acronym_factory:
                 raise KeyError(
-                    'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.vocabulary,
-                                                                                        self.attrName))
+                    'The vocabulary "{0}" used for column "{1}" was not found !'.format(
+                        self.vocabulary, self.attrName))
             full_factory = queryUtility(IVocabularyFactory, self.full_vocabulary)
             if not full_factory:
                 raise KeyError(
-                    'The vocabulary "{0}" used for column "{1}" was not found !'.format(self.full_vocabulary,
-                                                                                        self.attrName))
+                    'The vocabulary "{0}" used for column "{1}" was not found !'.format(
+                        self.full_vocabulary, self.attrName))
             self._cached_acronym_vocab_instance = acronym_factory(self.context)
             self._cached_full_vocab_instance = full_factory(self.context)
 
@@ -454,13 +455,12 @@ class AbbrColumn(VocabularyColumn):
         for v in value:
             try:
                 tag_title = self._cached_full_vocab_instance.getTerm(v).title
-                tag_title = tag_title.replace("'", "&#39;")
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(
-                    html.escape(safe_unicode(tag_title)),
+                    html.escape(safe_unicode(tag_title)).replace("'", "&apos;"),
                     html.escape(safe_unicode(self._cached_acronym_vocab_instance.getTerm(v).title))))
             except LookupError:
                 # in case an element is not in the vocabulary, add the value
-                tag_title = html.escape(safe_unicode(v))
+                tag_title = html.escape(safe_unicode(v)).replace("'", "&apos;")
                 res.append(u"<abbr title='{0}'>{1}</abbr>".format(tag_title, tag_title))
         # manage separator without "join" to move the separator inside the <abbr></abbr>
         res = [v.replace('</abbr>', self.separator + '</abbr>') for v in res[:-1]] + res[-1:]

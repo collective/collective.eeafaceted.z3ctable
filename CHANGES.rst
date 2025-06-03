@@ -5,8 +5,9 @@ Changelog
 2.29 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Fixed `AbbrColumn` title displaying `&apos;` because `html.escape` was done
+  after replacing `'` by `&apos;`, now `html.escape` is done before.
+  [gbastien]
 
 2.28 (2024-09-18)
 -----------------
