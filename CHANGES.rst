@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.29 (unreleased)
+2.29 (2025-06-06)
 -----------------
 
 - Fixed `AbbrColumn` title displaying `&apos;` because `html.escape` was done
