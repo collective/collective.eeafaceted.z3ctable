@@ -38,7 +38,10 @@ except PackageNotFoundError:
 
 try:
     distribution("collective.z3cform.datagridfield")
-    from collective.z3cform.datagridfield.datagridfield import DataGridField
+    try:
+        from collective.z3cform.datagridfield.datagridfield import DataGridField
+    except ImportError:
+        from collective.z3cform.datagridfield.datagridfield import DataGridFieldWidget as DataGridField
 
     HAS_Z3CFORM_DATAGRIDFIELD = True
 except PackageNotFoundError:
