@@ -9,6 +9,8 @@
         directory="static"
     />
 
+    <include package="eea.facetednavigation" />
+
     <faceted:widget factory=".widgets.SortingFormAwareAbstractWidget"
                     schema=".widgets.ISortingFormAwareSchema" />
 
