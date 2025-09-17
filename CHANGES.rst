@@ -5,8 +5,8 @@ Changelog
 2.30 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Require `collective.excelexport<2.0`.
+  [gbastien]
 
 2.29 (2025-06-06)
 -----------------

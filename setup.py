@@ -40,7 +40,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'Plone',
-        'collective.excelexport',
+        'collective.excelexport<2.0',
         'eea.facetednavigation<16.0',
         'imio.helpers>=1.0.1',
         'plone.api>=1.3.0',
