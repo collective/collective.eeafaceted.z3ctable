@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-2.30 (unreleased)
+2.30 (2026-01-15)
 -----------------
 
 - Require `collective.excelexport<2.0`.
   [gbastien]
+- Corrected gha
+  [sgeulette]
 
 2.29 (2025-06-06)
 -----------------
