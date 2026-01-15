@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: packages
         run: |
           sudo apt-get install -y libjpeg8-dev libbz2-dev
@@ -25,13 +25,12 @@ jobs:
         run: |
           pip install -r requirements.txt coverage==5.3.1
       - name: Cache eggs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
           key: ${{ runner.os }}-test-${{ env.cache-name }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}
       - name: buildout
         run: |
           buildout -c ci.cfg annotate
@@ -43,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: packages
         run: |
           sudo apt-get install -y libjpeg8-dev libbz2-dev
@@ -57,13 +56,12 @@ jobs:
         run: |
           pip install -r requirements.txt coverage==5.3.1
       - name: Cache eggs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
           key: ${{ runner.os }}-coverage-${{ env.cache-name }}
-          restore-keys: ${{ runner.os }}-coverage-${{ env.cache-name }}
       - name: buildout
         run: |
           buildout -c ci.cfg
