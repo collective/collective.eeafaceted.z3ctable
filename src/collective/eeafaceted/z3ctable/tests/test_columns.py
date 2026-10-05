@@ -203,6 +203,9 @@ class TestColumns(IntegrationTestCase):
             self.eea_folder.an_attribute = val
             self.assertEqual(column.getValue(brain), val)
             self.assertEqual(column.renderCell(brain), u'-')
+        # EMPTY_DATE as returned by solr
+        self.eea_folder.an_attribute = DateTime('1950-01-01T00:00:00.000Z')
+        self.assertEqual(column.renderCell(brain), u'-')
         # test the long_format parameter
         column.the_object = False
         column.attrName = 'CreationDate'
