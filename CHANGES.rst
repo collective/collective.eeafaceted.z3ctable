@@ -5,7 +5,8 @@ Changelog
 2.31 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Fixed `DateColumn` displaying `EMPTY_DATE` (01/01/1950) when the brain comes from solr.
+  [chris-adam]
 
 
 2.30 (2026-01-15)
