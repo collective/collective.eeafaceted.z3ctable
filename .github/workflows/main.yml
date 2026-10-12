@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt-get install -y libjpeg8-dev libbz2-dev
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: 2.7.18
           versions: 3.8.16
@@ -47,7 +47,7 @@ jobs:
         run: |
           sudo apt-get install -y libjpeg8-dev libbz2-dev
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: 2.7.18
           versions: 3.8.16
