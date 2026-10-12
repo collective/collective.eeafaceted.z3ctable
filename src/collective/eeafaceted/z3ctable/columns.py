@@ -5,8 +5,8 @@ from collective.excelexport.exportables.dexterityfields import get_exportable_fo
 from datetime import datetime
 from DateTime.DateTime import DateTime
 from imio.helpers import EMPTY_DATE
+from imio.helpers import EMPTY_DATE_IN_SOLR
 from imio.helpers import EMPTY_DATETIME
-from imio.helpers import EMPTY_DATETIME_SOLR
 from imio.helpers import EMPTY_STRING
 from imio.helpers.content import base_getattr
 from imio.helpers.content import get_user_fullname
@@ -285,7 +285,7 @@ class DateColumn(BaseColumn):
     """ """
     long_format = False
     time_only = False
-    ignored_values = ['None', EMPTY_DATE, EMPTY_DATETIME, EMPTY_DATETIME_SOLR]
+    ignored_values = ['None', EMPTY_DATE, EMPTY_DATETIME, EMPTY_DATE_IN_SOLR]
     # not necessary to escape, everything is generated
     escape = False
 
