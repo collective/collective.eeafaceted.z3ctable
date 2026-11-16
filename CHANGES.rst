@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.31 (unreleased)
+2.31 (2026-11-16)
 -----------------
 
 - Fixed `DateColumn` displaying `EMPTY_DATE` (01/01/1950) when the brain comes from solr.
